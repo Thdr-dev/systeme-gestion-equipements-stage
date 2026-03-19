@@ -43,17 +43,6 @@
                 <div class="toast-content">
                     {{ $message }}
                 </div>
-                <script>
-                    setTimeout(() => {
-                        const toast = document.getElementById('errorToast');
-                        if (toast) {
-                            toast.style.animation = 'fadeOut 0.5s ease forwards';
-                            setTimeout(() => {
-                                toast.remove();
-                            }, 500);
-                        }
-                    }, 3000);
-                </script>
             </div>
 
         </div>
@@ -68,22 +57,12 @@
                 <div class="toast-content">
                     {{ session("message-success") }}
                 </div>
-                <script>
-                    setTimeout(() => {
-                        const toast = document.getElementById('successToast');
-                        if (toast) {
-                            toast.style.animation = 'fadeOut 0.5s ease forwards';
-                            setTimeout(() => {
-                                toast.remove();
-                            }, 500);
-                        }
-                    }, 3000);
-                </script>
             </div>
 
         </div>
     @endif
 
+    <script src="{{ asset("js/app.js") }}">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 </body>
 </html>

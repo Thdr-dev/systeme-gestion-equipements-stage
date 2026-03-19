@@ -13,20 +13,9 @@
             <form id="search-form" method="GET" action="{{ route('users.index') }}" class="mb-3">
                 <div class="d-flex">
                     <div class="input-group mb-3">
-                        <input autofocus id="search-input" value="{{ request()->search }}" id="search-input" type="text" name="search" class="form-control" placeholder="Chercher par le nom/prenom/email..." >
+                        <input id="search-input" value="{{ request()->search }}" id="search-input" type="text" name="search" class="form-control" placeholder="Chercher par le nom/prenom/email..." >
                         <a class="btn btn-danger m-0 border-0" href="{{ route("users.index") }}">Reset</a>
                     </div>
-                    <script>
-                        let timer;
-                        document.getElementById("search-input").oninput = () => {
-                            clearTimeout(timer);
-
-
-                            timer = setTimeout( () => {
-                                document.getElementById("search-form").submit()
-                            }, 1000)
-                        }
-                    </script>
                 </div>
             </form>
 

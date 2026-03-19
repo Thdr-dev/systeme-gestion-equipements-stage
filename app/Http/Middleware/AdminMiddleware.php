@@ -14,7 +14,7 @@ class AdminMiddleware{
      */
     public function handle(Request $request, Closure $next){
         if (!$request->user()->isAdmin) {
-            return back()->withErrors(['message-error' => 'Vous n\'avez pas la permission.']);
+            return redirect("/")->withErrors(['message-error' => 'Vous n\'avez pas la permission.']);
         }
         return $next($request);
     }

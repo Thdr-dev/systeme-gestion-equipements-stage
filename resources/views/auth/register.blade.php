@@ -30,10 +30,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="text" placeholder="Email..." name="email" class="form-control" value="{{ old('email') }}" >
+                            <input id="email" type="text" placeholder="Email..." name="email" class="form-control" value="{{ old('email') }}" >
                             @error('email')
                                 <div class="form-text text-danger ps-2">{{ $message }}</div>
                             @enderror
+                            <div id="email-error" class="form-text text-danger ps-2"></div>
                         </div>
 
                         <div class="mb-3">
@@ -42,6 +43,15 @@
                             @error('password')
                                 <div class="form-text text-danger ps-2">{{ $message }}</div>
                             @enderror
+                            <div id="password-guidelines" class="mt-2 p-2 border rounded bg-light" style="font-size: 0.85rem;">
+                                <p class="mb-1">Le mot de passe doit contenir :</p>
+                                <ul class="list-unstyled mb-0 ps-2">
+                                    <li id="rule-length" class="text-danger">✖ Au moins 8 caractères</li>
+                                    <li id="rule-mixed" class="text-danger">✖ Majuscules et minuscules</li>
+                                    <li id="rule-number" class="text-danger">✖ Au moins un chiffre</li>
+                                    <li id="rule-symbol" class="text-danger">✖ Au moins un symbole (@$!%*?&...)</li>
+                                </ul>
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -69,4 +79,10 @@
     </div>
 
     
+@endsection
+
+
+
+@section('scripts')
+    <script src="{{ asset('js/auth-validation.js') }}"></script>
 @endsection

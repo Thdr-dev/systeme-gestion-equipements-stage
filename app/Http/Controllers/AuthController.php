@@ -21,10 +21,17 @@ class AuthController extends Controller{
             'password' => 'required',
         ]);
 
-        if( Auth::attempt($credentials) ) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+
+            $user = Auth::user();
+            $role = $user->isAdmin ? "Admin" : "Opérateur";
+            $userName = $user->nom;
+
+            return redirect()->intended('/')
+                ->with("message-success", "Heureux de vous revoir, $role $userName !");
         }
+
 
         return back()
         ->withErrors(['message-error' => 'Email ou Password incorrect !'])

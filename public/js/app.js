@@ -1,35 +1,15 @@
-// Error message
-
-let errorTimer;
-
-const errorToast = document.getElementById("errorToast");
-if (errorToast) {
-    clearTimeout(errorTimer);
-
-    errorTimer = setTimeout(() => {
-        errorToast.remove();
-    }, 3000);
-}
-
-// Sucess message
-
-let successTimer;
-
-const successToast = document.getElementById("successToast");
-if (successToast) {
-    clearTimeout(successTimer);
-
-    successTimer = setTimeout(() => {
-        successToast.remove();
-    }, 3000);
-}
-
-// Form Search
-let searchTimer;
-document.getElementById("search-input").oninput = () => {
-    clearTimeout(searchTimer);
-
-    searchTimer = setTimeout(() => {
-        document.getElementById("search-form").submit();
-    }, 1000);
+const autoRemoveToast = (toastId, duration = 3000) => {
+    const toast = document.getElementById(toastId);
+    if (toast) {
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.remove();
+            }
+        }, duration);
+    }
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+    autoRemoveToast("errorToast");
+    autoRemoveToast("successToast");
+});

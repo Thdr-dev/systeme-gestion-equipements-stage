@@ -17,15 +17,12 @@
 
     @error("error")
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             <strong>
             {{ $message }}</strong> 
         </div>
-        <script>
-          $(".alert").alert();
-        </script>
     @enderror
     
     <div id="content" class="{{ Route::is("users.index") ? "container-fluide mx-5" : "container" }}">
@@ -62,7 +59,17 @@
         </div>
     @endif
 
-    <script src="{{ asset("js/app.js") }}">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="{{ asset("js/app.js") }}"></script>
+
+    @yield('scripts')
+
+    <script>
+        document.addEventListener('animationend', (e) => {
+            if (e.animationName === 'fadeOut') {
+                e.target.remove();
+            }
+        });
+    </script>
 </body>
 </html>

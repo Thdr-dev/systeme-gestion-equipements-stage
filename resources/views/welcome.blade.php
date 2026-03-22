@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row align-items-center justify-content-center text-center py-3">
+    <div class="row align-items-center justify-content-center text-center">
         <div class="col-md-8">
             <div class="mb-4">
                 <img draggable="false" width="150" src="{{ asset("logo-protection-civile.png") }}" />

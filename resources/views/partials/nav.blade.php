@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-4 p-2">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold pt-2 " href="{{ url('/') }}">
+        <a class="navbar-brand fw-bold pt-2" href="{{ url('/') }}">
             <img draggable="false" width="30" src="{{ asset("logo-protection-civile.png") }}" /> <span class="d-inline-block ms-2">Accueil</span>
         </a>
         

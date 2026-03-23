@@ -201,6 +201,7 @@
     scrollbar-color: #de5312c3 #1d4e90;
 }
 
-.navbar img {
+.logo {
     aspect-ratio: 5/7;
+    filter: drop-shadow(0px 0px 10px #184279a5);
 }

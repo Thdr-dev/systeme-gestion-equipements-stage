@@ -5,61 +5,49 @@ namespace App\Http\Controllers;
 use App\Models\Famille;
 use Illuminate\Http\Request;
 
-class FamilleController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+class FamilleController extends Controller{
+    public function index(){
+        $familles = Famille::withCount('sousFamilles')->paginate(10);
+        return view('familles.index', compact('familles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function create(){
+        return view('familles.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        $validated = $request->validate([
+            'nomFam' => 'required|string|unique:familles,nomFam|max:255',
+            'description' => 'nullable|string'
+        ]);
+        
+
+        Famille::create($validated);
+
+        return redirect()->route('familles.index')->with('success', 'Nouvelle famille ajoutée.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Famille $famille)
-    {
-        //
+    public function edit(Famille $famille){
+        return view('familles.edit', compact('famille'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Famille $famille)
-    {
-        //
+    public function update(Request $request, Famille $famille){
+        $validated = $request->validate([
+            'nomFam' => 'required|string|max:255|unique:familles,nomFam,' . $famille->id,
+            'description' => 'nullable|string'
+        ]);
+
+        $famille->update($validated);
+
+        return redirect()->route('familles.index')->with('success', 'Famille mise à jour.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Famille $famille)
-    {
-        //
-    }
+    public function destroy(Famille $famille){
+        if ($famille->sousFamilles()->count() > 0) {
+            return back()->with('error', 'Impossible : cette famille contient des sous-familles actives.');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Famille $famille)
-    {
-        //
+        $famille->delete();
+        return redirect()->route('familles.index')->with('success', 'Famille supprimée.');
     }
 }

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FamilleController;
+use App\Http\Controllers\SousFamilleController;
+use App\Http\Controllers\UniteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,12 +22,20 @@ Route::middleware(["auth", "admin"])->group(function(){
         Route::get('/users/{user}', [AuthController::class, 'editUser'])->name("edit");
         Route::put('/users/{user}', [AuthController::class, 'updateUser'])->name("update");
         Route::delete('/users/{user}', [AuthController::class, 'deleteUser'])->name("delete");
-    });
-
-});
 
 
+        });
+        
+        });
+        
+        
 Route::middleware("guest")->group(function(){
     Route::get('/login', [AuthController::class, 'showLogin'])->name('users.login');
     Route::post('/login', [AuthController::class, 'login']);
 });
+
+
+
+Route::resource('familles', FamilleController::class)->middleware(["auth", "admin"]);
+Route::resource('sous-familles', SousFamilleController::class)->middleware(["auth", "admin"]);
+Route::resource('unites', UniteController::class);

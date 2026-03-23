@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-4 p-2">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold pt-2" href="{{ url('/') }}">
-            <img draggable="false" width="30" src="{{ asset("logo-protection-civile.png") }}" /> <span class="d-inline-block ms-2">Accueil</span>
+            <img draggable="false" width="30" src="{{ asset('logo-protection-civile.png') }}" /> 
+            <span class="d-inline-block ms-2">Accueil</span>
         </a>
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -12,23 +13,37 @@
             @auth
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="materiels.index">Liste Matériels</a>
+                        <a class="nav-link {{ request()->routeIs('materiels.*') ? 'active' : '' }}" href="#">
+                            Liste Matériels
+                        </a>
                     </li>
 
                     @if(Auth::user()->isAdmin)
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Suivi Entretien</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="configDrop" data-bs-toggle="dropdown">
+                                Administration
+                            </a>
+                            <ul class="dropdown-menu shadow py-0 overflow-hidden">
+                                <li class="nav-item">
+                                    <a class="dropdown-item py-2 {{ request()->routeIs('users.index') ? 'active text-secondary fw-bold' : 'text-black' }}" 
+                                    href="{{ route('users.index') }}">
+                                        Utilisateurs
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider m-0"></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('familles.index') ? 'active text-secondary fw-bold' : 'text-black' }}" href="{{ route('familles.index') }}">Familles</a></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('sous-familles.index') ? 'active text-secondary fw-bold' : 'text-black' }}" href="{{ route('sous-familles.index') }}">Sous-Familles</a></li>
+                                <li><hr class="dropdown-divider m-0"></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('unites.index') ? 'active text-secondary fw-bold' : 'text-black' }}" href="{{ route('unites.index') }}">Unités (Centres)</a></li>
+
+                            </ul>
                         </li>
+
+
                         <li class="nav-item">
                             <a class="nav-link" href="">Statistiques</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Route::is('users.index') ? 'text-secondary' : 'text-white' }}" 
-                            href="{{ Route::is('users.index') ? '#' : route('users.index') }}"
-                            style="{{ Route::is('users.index') ? 'pointer-events: none;' : '' }}">
-                                Utilisateurs
-                            </a>
-                        </li>
+                        
                     @endif
                 </ul>
 
@@ -41,7 +56,7 @@
                             <li>
                                 <form action="{{ route('users.logout') }}" method="POST">
                                     @csrf
-                                    <button class="dropdown-item text-secondary pe-0" type="submit">
+                                    <button class="dropdown-item text-danger pe-0" type="submit">
                                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                                     </button>
                                 </form>
@@ -50,7 +65,9 @@
                     </li>
                     @if(Auth::user()->isAdmin)
                         <li class="nav-item">
-                            <a class="btn btn-outline-light ms-lg-2" href="{{ route('users.register') }}">Ajouter un Operateur</a>
+                            <a class="btn btn-outline-light ms-lg-2" href="{{ route('users.register') }}">
+                                <i class="fas fa-user-plus"></i> Ajouter un Operateur
+                            </a>
                         </li>
                     @endif
                 </ul>

@@ -11,7 +11,7 @@ class Materiel extends Model{
 
     protected $table = 'materiels';
 
-    protected $fillable = ['nom', 'image', 'status', 'date_maintenance', 'sous_famille_id', 'unite_id'];
+    protected $fillable = ['nom', 'description', 'image', 'status', 'date_maintenance', 'sous_famille_id', 'unite_id'];
 
     public function sousFamille(){
         return $this->belongsTo(SousFamille::class);

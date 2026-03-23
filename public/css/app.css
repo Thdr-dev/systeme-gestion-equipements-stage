@@ -200,3 +200,7 @@
 * {
     scrollbar-color: #de5312c3 #1d4e90;
 }
+
+.navbar img {
+    aspect-ratio: 5/7;
+}

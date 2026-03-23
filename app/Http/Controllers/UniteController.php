@@ -5,61 +5,52 @@ namespace App\Http\Controllers;
 use App\Models\Unite;
 use Illuminate\Http\Request;
 
-class UniteController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+class UniteController extends Controller{
+    public function index(){
+        $unites = Unite::withCount('materiels')->paginate(10);
+        return view('unites.index', compact('unites'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('unites.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255|unique:unites,nom',
+            'ville' => 'required|string|max:255',
+            'description' => 'nullable|string'
+        ]);
+
+        Unite::create($validated);
+
+        return redirect()->route('unites.index')->with('success', 'Unité créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Unite $unite)
-    {
-        //
+    public function edit(Unite $unite){
+        return view('unites.edit', compact('unite'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Unite $unite)
-    {
-        //
+    public function update(Request $request, Unite $unite){
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255|unique:unites,nom,' . $unite->id,
+            'ville' => 'required|string|max:255',
+            'description' => 'nullable|string'
+        ]);
+
+        $unite->update($validated);
+
+        return redirect()->route('unites.index')->with('success', 'Unité mise à jour.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Unite $unite)
-    {
-        //
-    }
+    public function destroy(Unite $unite){
+        if ($unite->materiels()->count() > 0) {
+            return back()->with('error', 'Action impossible : Cette unité contient encore du matériel.');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Unite $unite)
-    {
-        //
+        $unite->delete();
+        return redirect()->route('unites.index')->with('success', 'Unité supprimée.');
     }
 }

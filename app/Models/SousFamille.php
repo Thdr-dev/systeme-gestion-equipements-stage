@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class SousFamille extends Model{
-    protected $fillable = ['nomSousFam', 'famille_id'];
+    protected $fillable = ['nomSousFam', 'description', 'famille_id'];
 
     public function famille(){
         return $this->belongsTo(Famille::class);

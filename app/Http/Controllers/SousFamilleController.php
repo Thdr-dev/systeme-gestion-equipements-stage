@@ -3,63 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\Models\SousFamille;
+use App\Models\Famille; // Importation nécessaire pour le formulaire
 use Illuminate\Http\Request;
 
-class SousFamilleController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+class SousFamilleController extends Controller{
+
+    public function index(){
+        $sousFamilles = SousFamille::with('famille')->paginate(10);
+        return view('sous_familles.index', compact('sousFamilles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+
+    
+    public function create(){
+        $familles = Famille::all();
+        return view('sous_familles.create', compact('familles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+
+    public function store(Request $request){
+        $validated = $request->validate([
+            'nomSousFam' => 'required|string|max:255',
+            'famille_id' => 'required|exists:familles,id',
+            'description' => 'nullable|string'
+        ]);
+
+        SousFamille::create($validated);
+
+        return redirect()->route('sous-familles.index')->with('success', 'Sous-famille ajoutée !');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(SousFamille $sousFamille)
-    {
-        //
+
+    public function edit(SousFamille $sousFamille){
+        $familles = Famille::all();
+        return view('sous_familles.edit', compact('sousFamille', 'familles'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SousFamille $sousFamille)
-    {
-        //
+
+    public function update(Request $request, SousFamille $sousFamille){
+        $validated = $request->validate([
+            'nomSousFam' => 'required|string|max:255',
+            'famille_id' => 'required|exists:familles,id',
+            'description' => 'nullable|string'
+        ]);
+
+        $sousFamille->update($validated);
+
+        return redirect()->route('sous-familles.index')->with('success', 'Mise à jour réussie.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, SousFamille $sousFamille)
-    {
-        //
-    }
+ 
+    public function destroy(SousFamille $sousFamille){
+        if ($sousFamille->materiels()->count() > 0) {
+            return back()->with('error', 'Action impossible : du matériel appartient encore à cette sous-famille.');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SousFamille $sousFamille)
-    {
-        //
+        $sousFamille->delete();
+        return redirect()->route('sous-familles.index')->with('success', 'Suppression effectuée.');
     }
 }

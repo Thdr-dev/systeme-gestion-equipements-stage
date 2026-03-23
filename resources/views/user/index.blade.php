@@ -10,14 +10,14 @@
             <a class="btn btn-outline-primary" href="{{ route('users.register') }}">Ajouter un Operateur</a>
         </div>
 
-            <form id="search-form" method="GET" action="{{ route('users.index') }}" class="mb-3">
-                <div class="d-flex">
-                    <div class="input-group mb-3">
-                        <input id="search-input" value="{{ request()->search }}" id="search-input" type="text" name="search" class="form-control" placeholder="Chercher par le nom, prenom ou email" >
-                        <a class="btn btn-danger m-0 border-0" href="{{ route("users.index") }}">Reset</a>
-                    </div>
+        <form id="search-form" method="GET" action="{{ route('users.index') }}" class="mb-3">
+            <div class="d-flex">
+                <div class="input-group mb-3">
+                    <input id="search-input" value="{{ request()->search }}" id="search-input" type="text" name="search" class="form-control" placeholder="Chercher par le nom, prenom ou email" >
+                    <a class="btn btn-danger m-0 border-0" href="{{ route("users.index") }}">Reset</a>
                 </div>
-            </form>
+            </div>
+        </form>
 
         <table class="table table-striped table-hover">
             <thead>
@@ -41,12 +41,12 @@
                             </span>
                         </td>
                         <td class="d-flex gap-3 align-middle">
-                            <a href="{{ route("users.edit", $user) }}" class="btn btn-primary">Update @if($user->id === auth()->user()->id) (Moi) @endif</a>
+                            <a href="{{ route("users.edit", $user) }}" class="btn btn-sm btn-primary">Update @if($user->id === auth()->user()->id) (Moi) @endif</a>
                             @if(!$user->isAdmin )
                                 <form action="{{ route("users.delete", $user) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method("DELETE")
-                                    <button class="btn btn-danger" name="isAdmin" onclick="return confirm('Confirmer la suppression !')">
+                                    <button class="btn btn-sm btn-danger" name="isAdmin" onclick="return confirm('Confirmer la suppression !')">
                                         Delete
                                     </button>
                                 </form>

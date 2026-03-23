@@ -30,7 +30,7 @@ class SousFamilleController extends Controller{
 
         SousFamille::create($validated);
 
-        return redirect()->route('sous-familles.index')->with('success', 'Sous-famille ajoutée !');
+        return redirect()->route('sous-familles.index')->with('message-success', 'Sous-famille ajoutée !');
     }
 
 
@@ -49,16 +49,16 @@ class SousFamilleController extends Controller{
 
         $sousFamille->update($validated);
 
-        return redirect()->route('sous-familles.index')->with('success', 'Mise à jour réussie.');
+        return redirect()->route('sous-familles.index')->with('message-success', 'Mise à jour réussie.');
     }
 
  
     public function destroy(SousFamille $sousFamille){
         if ($sousFamille->materiels()->count() > 0) {
-            return back()->with('error', 'Action impossible : du matériel appartient encore à cette sous-famille.');
+            return back()->withErrors(['message-error'=> 'Action impossible : du matériel appartient encore à cette sous-famille.']);
         }
 
         $sousFamille->delete();
-        return redirect()->route('sous-familles.index')->with('success', 'Suppression effectuée.');
+        return redirect()->route('sous-familles.index')->with('message-success', 'Suppression effectuée.');
     }
 }

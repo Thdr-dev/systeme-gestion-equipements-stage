@@ -20,21 +20,21 @@
 
                     @if(Auth::user()->isAdmin)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="configDrop" data-bs-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle {{ request()->routeIs('familles.*', 'sous-familles.*', 'unites.*', 'users.*') ? 'active text-secondary' : '' }}" href="#" id="configDrop" data-bs-toggle="dropdown">
                                 Administration
                             </a>
                             <ul class="dropdown-menu shadow py-0 overflow-hidden">
                                 <li class="nav-item">
-                                    <a class="dropdown-item py-2 {{ request()->routeIs('users.index') ? 'active text-secondary fw-bold' : 'text-black' }}" 
+                                    <a class="dropdown-item py-2 {{ request()->routeIs('users.index') ? 'bg-primary-subtle disabled text-secondary fw-bold' : 'text-black' }}" 
                                     href="{{ route('users.index') }}">
                                         Utilisateurs
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider m-0"></li>
-                                <li><a class="dropdown-item py-2 {{ request()->routeIs('familles.index') ? 'active text-secondary fw-bold' : 'text-black' }}" href="{{ route('familles.index') }}">Familles</a></li>
-                                <li><a class="dropdown-item py-2 {{ request()->routeIs('sous-familles.index') ? 'active text-secondary fw-bold' : 'text-black' }}" href="{{ route('sous-familles.index') }}">Sous-Familles</a></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('familles.index') ? 'bg-primary-subtle disabled text-secondary fw-bold' : 'text-black' }}" href="{{ route('familles.index') }}">Familles</a></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('sous-familles.index') ? 'bg-primary-subtle disabled text-secondary fw-bold' : 'text-black' }}" href="{{ route('sous-familles.index') }}">Sous-Familles</a></li>
                                 <li><hr class="dropdown-divider m-0"></li>
-                                <li><a class="dropdown-item py-2 {{ request()->routeIs('unites.index') ? 'active text-secondary fw-bold' : 'text-black' }}" href="{{ route('unites.index') }}">Unités (Centres)</a></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('unites.index') ? 'bg-primary-subtle disabled text-secondary fw-bold' : 'text-black' }}" href="{{ route('unites.index') }}">Unités (Centres)</a></li>
 
                             </ul>
                         </li>
@@ -63,13 +63,13 @@
                             </li>
                         </ul>
                     </li>
-                    @if(Auth::user()->isAdmin)
+                    {{-- @if(Auth::user()->isAdmin)
                         <li class="nav-item">
                             <a class="btn btn-outline-light ms-lg-2" href="{{ route('users.register') }}">
                                 <i class="fas fa-user-plus"></i> Ajouter un Operateur
                             </a>
                         </li>
-                    @endif
+                    @endif --}}
                 </ul>
             @endauth
 

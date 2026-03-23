@@ -24,7 +24,7 @@ class FamilleController extends Controller{
 
         Famille::create($validated);
 
-        return redirect()->route('familles.index')->with('success', 'Nouvelle famille ajoutée.');
+        return redirect()->route('familles.index')->with('message-success', 'Nouvelle famille ajoutée.');
     }
 
     public function edit(Famille $famille){
@@ -39,15 +39,15 @@ class FamilleController extends Controller{
 
         $famille->update($validated);
 
-        return redirect()->route('familles.index')->with('success', 'Famille mise à jour.');
+        return redirect()->route('familles.index')->with('message-success', 'Famille mise à jour.');
     }
 
     public function destroy(Famille $famille){
         if ($famille->sousFamilles()->count() > 0) {
-            return back()->with('error', 'Impossible : cette famille contient des sous-familles actives.');
+            return back()->withErrors(['message-error'=> 'Impossible : cette famille contient des sous-familles actives.']);
         }
 
         $famille->delete();
-        return redirect()->route('familles.index')->with('success', 'Famille supprimée.');
+        return redirect()->route('familles.index')->with('message-success', 'Famille supprimée.');
     }
 }

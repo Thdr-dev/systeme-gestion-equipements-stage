@@ -10,10 +10,6 @@
             <a class="btn btn-outline-success" href="{{ route('familles.create') }}">Ajouter une Famille</a>
         </div>
 
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
         <table class="table table-hover border">
             <thead class="table-light">
                 <tr>

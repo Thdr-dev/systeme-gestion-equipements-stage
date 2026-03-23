@@ -10,59 +10,67 @@
             <a class="btn btn-outline-success" href="{{ route('users.register') }}">Ajouter un Operateur</a>
         </div>
 
-        <form id="search-form" method="GET" action="{{ route('users.index') }}" class="mb-3">
-            <div class="d-flex">
-                <div class="input-group mb-3">
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="fa-solid fa-magnifying-glass text-muted"></i>
-                    </span>
-                    <input id="search-input" value="{{ request()->search }}" id="search-input" type="text" name="search" class="form-control" placeholder="Chercher par le nom, prenom ou email" >
-                    <a class="btn btn-danger m-0 border-0" href="{{ route("users.index") }}">Reset</a>
-                </div>
-            </div>
-        </form>
-
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th class="bg-primary text-secondary">Nom</th>
-                    <th class="bg-primary text-secondary">Prenom</th>
-                    <th class="bg-primary text-secondary">Email</th>
-                    <th class="bg-primary text-secondary">Role</th>
-                    <th class="bg-primary text-secondary">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($users as $user)
-                    <tr>
-                        <td class="align-middle">{{ $user->nom }}</td>
-                        <td class="align-middle">{{ $user->prenom }}</td>
-                        <td class="align-middle">{{ $user->email }}</td>
-                        <td class="align-middle">
-                            <span class="badge py-2 rounded-pill text-bg-{{ $user->isAdmin ? 'success' : 'warning' }}">
-                                {{ $user->isAdmin ? "Admin" : "Operateur" }}
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <form id="search-form" action="{{ route('users.index') }}" method="GET">
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary-subtle border-end-0">
+                                <i class="fa-solid fa-magnifying-glass text-muted"></i>
                             </span>
-                        </td>
-                        <td class="d-flex gap-3 align-middle">
-                            <a href="{{ route("users.edit", $user) }}" class="btn btn-sm btn-warning">Modifier @if($user->id === auth()->user()->id) (Moi) @endif</a>
-                            @if(!$user->isAdmin )
-                                <form action="{{ route("users.delete", $user) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method("DELETE")
-                                    <button class="btn btn-sm btn-danger" name="isAdmin" onclick="return confirm('Confirmer la suppression !')">
-                                        Supprimer
-                                    </button>
-                                </form>
-                            @endif
-                        </td>
-                    </tr>
-                    @empty
+                            <input id="search-input" value="{{ request()->search }}" id="search-input" type="text" name="search" class="form-control" placeholder="Chercher par le nom, prenom ou email" >
+                            <a class="btn btn-danger m-0 border-0" style="width:150px;" href="{{ route("users.index") }}">Reset</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle mb-0">
+                    <thead>
                         <tr>
-                            <td colspan="5" class="py-3 align-middle text-center">Aucun utilisateur</td>
+                            <th class="bg-primary text-secondary">Nom</th>
+                            <th class="bg-primary text-secondary">Prenom</th>
+                            <th class="bg-primary text-secondary">Email</th>
+                            <th class="bg-primary text-secondary">Role</th>
+                            <th class="bg-primary text-secondary">Actions</th>
                         </tr>
-                @endforelse
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @forelse($users as $user)
+                            <tr>
+                                <td>{{ $user->nom }}</td>
+                                <td>{{ $user->prenom }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    <span class="badge py-2 rounded-pill text-bg-{{ $user->isAdmin ? 'success' : 'warning' }}">
+                                        {{ $user->isAdmin ? "Admin" : "Operateur" }}
+                                    </span>
+                                </td>
+                                <td class="d-flex gap-3 align-middle">
+                                    <a href="{{ route("users.edit", $user) }}" class="btn btn-sm btn-warning">Modifier @if($user->id === auth()->user()->id) (Moi) @endif</a>
+                                    @if(!$user->isAdmin )
+                                        <form action="{{ route("users.delete", $user) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button class="btn btn-sm btn-danger" name="isAdmin" onclick="return confirm('Confirmer la suppression !')">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    @endif
+                                </td>
+                            </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="py-3 align-middle text-center">Aucun utilisateur</td>
+                                </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     {{ $users->links() }}

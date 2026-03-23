@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FamilleController;
+use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\SousFamilleController;
 use App\Http\Controllers\UniteController;
 
@@ -38,4 +39,6 @@ Route::middleware("guest")->group(function(){
 
 Route::resource('familles', FamilleController::class)->middleware(["auth", "admin"]);
 Route::resource('sous-familles', SousFamilleController::class)->middleware(["auth", "admin"]);
-Route::resource('unites', UniteController::class);
+Route::resource('unites', UniteController::class)->middleware(["auth", "admin"]);
+
+Route::resource('materiels', MaterielController::class)->middleware(["auth"]);

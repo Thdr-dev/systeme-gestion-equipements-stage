@@ -7,7 +7,7 @@
     <div class="mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="display-6 fw-normal text-secondary">List des Unités</h1>
-            <a href="{{ route('unites.create') }}" class="btn btn-outline-primary">Ajouter un Centre</a>
+            <a href="{{ route('unites.create') }}" class="btn btn-outline-primary">Ajouter une Unite</a>
         </div>
 
         <div class="table-responsive">

@@ -6,7 +6,7 @@
     <div class="row justify-content-center align-items-center">
         <div class="col-lg-8">
             <div class="card shadow">
-                <div class="card-header bg-primary text-secondary pt-3 text-white text-center">
+                <div class="card-header bg-success pt-3 text-white text-center">
                     <h4>Inscription</h4>
                 </div>
                 <div class="card-body">
@@ -69,7 +69,7 @@
 
                         <div class="d-flex gap-3">
                             <a href="{{ url("/") }}" type="submit" class="btn btn-secondary">Annuler</a>
-                            <button type="submit" class="btn btn-primary flex-grow-1">Créer le compte</button>
+                            <button type="submit" class="btn btn-success flex-grow-1">Créer le compte</button>
                         </div>
 
                     </form>

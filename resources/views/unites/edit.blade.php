@@ -1,14 +1,15 @@
 @extends('layouts.app')
 
+@section("title", "Modifier L'unite")
+
 @section('content')
 
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow">
-                    <div class="card-header bg-warning d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 text-dark">Modifier l'Unité : {{ $unite->nom }}</h5>
-                        <a href="{{ route('unites.index') }}" class="btn btn-sm btn-outline-dark">Retour</a>
+                    <div class="card-header text-dark bg-warning text-center">
+                        <h5 class="mb-0 py-2">Modifier l'Unité</h5>
                     </div>
 
                     <div class="card-body">
@@ -55,10 +56,9 @@
                                 @enderror
                             </div>
 
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-warning fw-bold">
-                                    Mettre à jour l'unité
-                                </button>
+                            <div class="d-flex justify-content-between gap-3">
+                                <a href="{{ route('unites.index') }}" class="btn btn-secondary">Annuler</a>
+                                <button type="submit" class="btn btn-warning flex-grow-1">Mettre à jour l'unité</button>
                             </div>
                         </form>
                     </div>

@@ -34,7 +34,7 @@
                     </td>
                     <td>{{ $famille->description ?? '-' }}</td>
                     <td>
-                        <a href="{{ route('familles.edit', $famille) }}" class="btn btn-sm btn-primary">Update</a>
+                        <a href="{{ route('familles.edit', $famille) }}" class="btn btn-sm btn-warning">Modifier</a>
                         <form action="{{ route('familles.destroy', $famille) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ?')">
                             @csrf
                             @method('DELETE')

@@ -41,13 +41,13 @@
                             </span>
                         </td>
                         <td class="d-flex gap-3 align-middle">
-                            <a href="{{ route("users.edit", $user) }}" class="btn btn-sm btn-primary">Update @if($user->id === auth()->user()->id) (Moi) @endif</a>
+                            <a href="{{ route("users.edit", $user) }}" class="btn btn-sm btn-warning">Modifier @if($user->id === auth()->user()->id) (Moi) @endif</a>
                             @if(!$user->isAdmin )
                                 <form action="{{ route("users.delete", $user) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method("DELETE")
                                     <button class="btn btn-sm btn-danger" name="isAdmin" onclick="return confirm('Confirmer la suppression !')">
-                                        Delete
+                                        Supprimer
                                     </button>
                                 </form>
                             @endif

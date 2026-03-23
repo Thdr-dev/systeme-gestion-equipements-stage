@@ -1,13 +1,13 @@
 @extends("layouts.app")
 
-@section("title", "List des utilisateurs")
+@section("title", "Modifier L'utilisateur")
 
 @section("content")
 
     <div class="row justify-content-center align-items-center">
         <div class="col-lg-8">
             <div class="card shadow">
-                <div class="card-header bg-primary text-secondary pt-3 text-white text-center">
+                <div class="py-2 border-0 card-header text-dark bg-warning text-center">
                     <h4>Modifier</h4>
                 </div>
                 <div class="card-body">

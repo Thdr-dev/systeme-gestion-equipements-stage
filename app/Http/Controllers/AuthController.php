@@ -88,13 +88,16 @@ class AuthController extends Controller{
         $query = User::query();
 
         if ($request->filled('search')) {
-            $query
-            ->where('nom', 'like', '%' . $request->search . '%')
-            ->orWhere('prenom', 'like', '%' . $request->search . '%')
-            ->orWhere('email', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+            
+            $query->where(function($q) use ($search) {
+                $q->where('nom', 'like', "%{$search}%")
+                ->orWhere('prenom', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            });
         }
 
-        $users = $query->paginate(10);
+        $users = $query->paginate(10)->appends(['search' => $request->search]);
 
         return view("user.index", compact("users"));
     }

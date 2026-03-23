@@ -8,11 +8,11 @@ class Mouvement extends Model{
     protected $fillable = ['type', 'commentaire', 'materiel_id', 'user_id', 'from_unite_id', 'to_unite_id'];
 
     public function materiel(){
-        return $this->belongsTo(Materiel::class);
+        return $this->belongsTo(Materiel::class)->withTrashed();
     }
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function fromUnite(){

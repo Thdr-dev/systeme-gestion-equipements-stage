@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Materiel extends Model{
+
+    use SoftDeletes;
+
     protected $table = 'materiels';
 
     protected $fillable = ['nom', 'image', 'status', 'date_maintenance', 'sous_famille_id', 'unite_id'];

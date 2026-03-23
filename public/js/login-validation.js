@@ -9,14 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     email.addEventListener("input", function () {
         clearLaravelError(this);
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         if (re.test(this.value)) {
             this.classList.remove("is-invalid");
             this.classList.add("is-valid");
-        } else {
-            this.classList.remove("is-valid");
-            if (this.value.length > 0) this.classList.add("is-invalid");
+        } else if (this.value.length > 0) this.classList.add("is-invalid");
+
+        if (this.value.length === 0) {
+            this.classList.remove("is-invalid", "is-valid");
         }
     });
 

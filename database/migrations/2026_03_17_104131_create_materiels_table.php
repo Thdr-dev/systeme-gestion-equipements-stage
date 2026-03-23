@@ -17,8 +17,9 @@ return new class extends Migration{
             $table->enum('status', ['Disponible', 'Sorti', 'En panne', 'Maintenance'])->default('Disponible');
             $table->date('date_maintenance')->nullable();
 
-            $table->foreignId('sous_famille_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('sous_famille_id')->constrained();
             $table->foreignId('unite_id')->constrained(); 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

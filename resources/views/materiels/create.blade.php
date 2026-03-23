@@ -5,10 +5,11 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card shadow border-0">
-            <div class="card-header bg-primary text-white py-3">
-                <h5 class="mb-0 fw-bold">Nouveau Matériel</h5>
+        <div class="card shadow">
+            <div class="card-header bg-success text-white text-center">
+                <h5 class="mb-0 py-2">Ajouter une Matériel</h5>
             </div>
+            
             <div class="card-body p-4">
                 <form action="{{ route('materiels.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -16,6 +17,9 @@
                         <div class="col-md-12 mb-3">
                             <label class="form-label fw-bold">Nom du matériel</label>
                             <input type="text" name="nom" class="form-control @error('nom') is-invalid @enderror" value="{{ old('nom') }}">
+                            @error('nom')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -26,6 +30,9 @@
                                     <option value="{{ $unite->id }}">{{ $unite->nom }} ({{ $unite->ville }})</option>
                                 @endforeach
                             </select>
+                            @error('unite_id')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -36,6 +43,9 @@
                                     <option value="{{ $sf->id }}">{{ $sf->famille->nomFam }} / {{ $sf->nomSousFam }}</option>
                                 @endforeach
                             </select>
+                            @error('sous_famille_id')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -45,23 +55,33 @@
                                 <option value="Maintenance">En maintenance</option>
                                 <option value="En panne">En panne</option>
                             </select>
+                            @error('status')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Image</label>
                             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
+                            @error('image')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-12 mb-3">
                             <label class="form-label fw-bold">Description</label>
-                            <textarea name="description" rows="3" class="form-control">{{ old('description') }}</textarea>
+                            <textarea name="" rows="3" class="form-control">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
-                    <div class="d-grid gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary btn-lg fw-bold">Enregistrer le matériel</button>
-                        <a href="{{ route('materiels.index') }}" class="btn btn-link text-muted">Annuler</a>
+                    <div class="d-flex justify-content-between gap-3">
+                        <a href="{{ route('materiels.index') }}" class="btn btn-secondary">Annuler</a>
+                        <button type="submit" class="btn btn-success flex-grow-1">Enregistrer le matériel</button>
                     </div>
+                    
                 </form>
             </div>
         </div>

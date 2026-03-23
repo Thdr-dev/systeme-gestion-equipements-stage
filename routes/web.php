@@ -25,9 +25,9 @@ Route::middleware(["auth", "admin"])->group(function(){
         Route::delete('/users/{user}', [AuthController::class, 'deleteUser'])->name("delete");
 
 
-        });
+    });
         
-        });
+});
         
         
 Route::middleware("guest")->group(function(){
@@ -41,4 +41,4 @@ Route::resource('familles', FamilleController::class)->middleware(["auth", "admi
 Route::resource('sous-familles', SousFamilleController::class)->middleware(["auth", "admin"]);
 Route::resource('unites', UniteController::class)->middleware(["auth", "admin"]);
 
-Route::resource('materiels', MaterielController::class)->middleware(["auth"]);
+Route::resource('materiels', MaterielController::class);

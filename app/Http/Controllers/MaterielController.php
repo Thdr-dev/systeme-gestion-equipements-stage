@@ -6,10 +6,20 @@ use App\Models\Materiel;
 use App\Models\Unite;
 use App\Models\SousFamille;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
 
-class MaterielController extends Controller{
-    
+class MaterielController implements HasMiddleware{
+
+    public static function middleware(){
+        return [
+            'auth',
+            
+            new Middleware('admin', except: ['index']),
+        ];
+    }
+
     public function index(Request $request){
         $query = Materiel::with(['unite', 'sousFamille.famille']);
 

@@ -91,9 +91,9 @@ class AuthController extends Controller{
             $search = $request->search;
             
             $query->where(function($q) use ($search) {
-                $q->where('nom', 'like', "%{$search}%")
-                ->orWhere('prenom', 'like', "%{$search}%")
-                ->orWhere('email', 'like', "%{$search}%");
+                $q->where('nom', 'like', "%$search%")
+                ->orWhere('prenom', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%");
             });
         }
 

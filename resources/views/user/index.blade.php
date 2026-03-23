@@ -7,7 +7,7 @@
     <div class="mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="display-6 fw-normal text-secondary">List des Utilisateurs</h1>
-            <a class="btn btn-outline-primary" href="{{ route('users.register') }}">Ajouter un Operateur</a>
+            <a class="btn btn-outline-success" href="{{ route('users.register') }}">Ajouter un Operateur</a>
         </div>
 
         <form id="search-form" method="GET" action="{{ route('users.index') }}" class="mb-3">

@@ -7,7 +7,7 @@
     <div class="mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="display-6 fw-normal text-secondary">List des Sous-Familles</h1>
-            <a href="{{ route('sous-familles.create') }}" class="btn btn-outline-primary">Ajouter un Sous-Famille</a>
+            <a class="btn btn-outline-success" href="{{ route('sous-familles.create') }}">Ajouter une Sous-Famille</a>
         </div>
 
         @if(session('success'))

@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card shadow-sm">
+                <div class="card shadow">
                     <div class="card-header bg-success text-white text-center">
                         <h5 class="mb-0 py-2">Ajouter une Nouvelle Famille</h5>
                     </div>

@@ -7,7 +7,7 @@
     <div class="mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="display-6 fw-normal text-secondary">List des Familles</h1>
-            <a class="btn btn-outline-primary" href="{{ route('familles.create') }}">Ajouter une Famille</a>
+            <a class="btn btn-outline-success" href="{{ route('familles.create') }}">Ajouter une Famille</a>
         </div>
 
         @if(session('success'))

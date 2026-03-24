@@ -20,7 +20,7 @@
         
                             <div class="text-center bg-light py-4">
                                 @if($materiel->image)
-                                    <img draggable="false" src="{{ asset('storage/'.$materiel->image) }}" class="rounded shadow materiel_image" width="250">
+                                    <img draggable="false" src="{{ asset('storage/'.$materiel->image) }}" class="rounded shadow" width="250">
                                     <p class="small text-muted m-0">Image actuelle</p>
                                 @endif
                             </div>

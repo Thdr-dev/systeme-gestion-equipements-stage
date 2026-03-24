@@ -79,7 +79,7 @@
                         <tr>
                             <td>
                                 @if($item->image)
-                                    <img src="{{ asset('storage/'.$item->image) }}" class="rounded shadow-sm" width="50" height="50" style="object-fit: cover; aspect-ratio: 1/1;">
+                                    <img draggable="false" src="{{ asset('storage/'.$item->image) }}" class="rounded shadow-sm" width="50" height="50" style="object-fit: cover; aspect-ratio: 1/1;">
                                 @else
                                     <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                                         <i class="fas fa-image text-muted"></i>

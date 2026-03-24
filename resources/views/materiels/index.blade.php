@@ -8,7 +8,9 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="display-6 fw-normal text-secondary">List du Matériel</h1>
-            <a class="btn btn-outline-success" href="{{ route('materiels.create') }}">Ajouter un Matériel</a>
+            @if(Auth::user()->isAdmin)
+                <a class="btn btn-outline-success" href="{{ route('materiels.create') }}">Ajouter un Matériel</a>
+            @endif
         </div>
         
         <div class="card shadow-sm mb-4">
@@ -96,8 +98,10 @@
                             </td>
                             <td>{{ $item->sousFamille->nomSousFam }}</td>
                             <td>
-                                <a href="{{ route('materiels.show', $item->id) }}" class="btn btn-sm btn-outline-primary" title="Voir"><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('materiels.edit', $item->id) }}" class="btn btn-sm btn-outline-warning" title="Modifier"><i class="fas fa-edit"></i></a>
+                                @if(Auth::user()->isAdmin)
+                                    <a href="{{ route('materiels.show', $item->id) }}" class="btn btn-sm btn-outline-primary" title="Voir"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ route('materiels.edit', $item->id) }}" class="btn btn-sm btn-outline-warning" title="Modifier"><i class="fas fa-edit"></i></a>
+                                @endif
                             </td>
                         </tr>
                         @empty

@@ -61,7 +61,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="py-3 align-middle text-center">Aucun famille trouvé.</td>
+                                <td colspan="4" class="py-3 align-middle text-center">Aucun Famille trouvé.</td>
                             </tr>
                         @endforelse
                     </tbody>

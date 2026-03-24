@@ -17,7 +17,7 @@
 
                     <div class="col-lg-5 bg-light d-flex align-items-center justify-content-center p-4 border-end">
                         @if($materiel->image)
-                            <img src="{{ asset('storage/' . $materiel->image) }}" alt="{{ $materiel->nom }}" class="img-fluid rounded shadow-sm" style="width: 80%;max-height: 400px; object-fit: contain;">
+                            <img class="materiel_image" src="{{ asset('storage/' . $materiel->image) }}" alt="{{ $materiel->nom }}" class="img-fluid rounded shadow-sm" style="width: 80%;max-height: 400px; object-fit: contain;">
                         @else
                             <div class="text-center text-muted">
                                 <i class="fas fa-camera fa-5x mb-3 opacity-25"></i>

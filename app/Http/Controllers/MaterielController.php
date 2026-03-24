@@ -101,7 +101,7 @@ class MaterielController implements HasMiddleware{
 
         $materiel->update($validated);
 
-        return redirect()->route('materiels.index')->with('message-success', 'Mise à jour réussie.');
+        return redirect()->route('materiels.show', $materiel)->with('message-success', 'Mise à jour réussie.');
     }
 
     public function destroy(Materiel $materiel){

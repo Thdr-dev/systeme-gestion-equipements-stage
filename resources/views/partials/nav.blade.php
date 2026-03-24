@@ -52,11 +52,11 @@
                         <a class="nav-link dropdown-toggle" href="#" id="userDrop" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->prenom }}
                         </a>
-                        <ul class="dropdown-menu shadow" style="left: -30px">
+                        <ul class="dropdown-menu shadow py-0 overflow-hidden" style="left: -30px">
                             <li>
                                 <form action="{{ route('users.logout') }}" method="POST">
                                     @csrf
-                                    <button class="dropdown-item text-danger pe-0" type="submit">
+                                    <button class="dropdown-item text-danger py-2" type="submit">
                                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                                     </button>
                                 </form>

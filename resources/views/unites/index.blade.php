@@ -43,8 +43,12 @@
                         <tr>
                             <td>{{ $unite->nom }}</td>
                             <td>{{ $unite->ville }}</td>
-                            <td><span class="badge bg-secondary">{{ $unite->materiels_count }} articles</span></td>
-                            <td>{{ $unite->description ?? "-" }}</td>
+                            <td>
+                                <span class="badge bg-secondary">{{ $unite->materiels_count }} articles</span>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ $unite->description ? Str::limit($unite->description, 30) : "-" }}</small>
+                            </td>
                             <td>
                                 <a href="{{ route('unites.edit', $unite) }}" title="Modifier" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
                                 <form action="{{ route('unites.destroy', $unite) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce centre ?')">

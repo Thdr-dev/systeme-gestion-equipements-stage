@@ -44,7 +44,9 @@
                             <td>
                                 <span class="badge bg-info text-dark">{{ $sf->famille->nomFam }}</span>
                             </td>
-                            <td>{{ $sf->description ?? '-' }}</td>
+                            <td>
+                                <small class="text-muted">{{ $sf->description ? Str::limit($sf->description, 30) : "-" }}</small>
+                            </td>
                             <td>
                                 <a href="{{ route('sous-familles.edit', $sf) }}" title="Modifier" class="btn btn-outline-warning btn-sm"><i class="fas fa-edit"></i></a>
                                 <form action="{{ route('sous-familles.destroy', $sf) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ?')">

@@ -47,7 +47,9 @@
                                     {{ $famille->sous_familles_count }} sous-familles
                                 </span>
                             </td>
-                            <td>{{ $famille->description ?? '-' }}</td>
+                            <td>
+                                <small class="text-muted">{{ $famille->description ? Str::limit($famille->description, 30) : "-" }}</small>
+                            </td>
                             <td>
                                 <a href="{{ route('familles.edit', $famille) }}" title="Modifier" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
                                 <form action="{{ route('familles.destroy', $famille) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ?')">

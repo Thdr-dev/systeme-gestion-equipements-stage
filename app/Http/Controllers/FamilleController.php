@@ -6,8 +6,18 @@ use App\Models\Famille;
 use Illuminate\Http\Request;
 
 class FamilleController extends Controller{
-    public function index(){
-        $familles = Famille::withCount('sousFamilles')->paginate(10);
+    
+    public function index(Request $request){
+        $query = Famille::query();
+
+        if($request->filled('search')){
+            $search = $request->search;
+            
+            $query->where('nomFam', 'like', "%$search%");
+        }
+
+        
+        $familles = $query->withCount('sousFamilles')->paginate(10)->appends(['search' => $request->search ]);
         return view('familles.index', compact('familles'));
     }
 

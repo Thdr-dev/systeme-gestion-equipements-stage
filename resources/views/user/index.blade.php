@@ -18,7 +18,7 @@
                             <span class="input-group-text bg-secondary-subtle border-end-0">
                                 <i class="fa-solid fa-magnifying-glass text-muted"></i>
                             </span>
-                            <input id="search-input" value="{{ request()->search }}" id="search-input" type="text" name="search" class="form-control" placeholder="Chercher par le nom, prenom ou email" >
+                            <input id="search-input" value="{{ request()->search }}" id="search-input" type="text" name="search" class="form-control" placeholder="Chercher par le nom, prenom ou email de l'utilisateur" >
                             <a class="btn btn-danger m-0 border-0" style="width:150px;" href="{{ route("users.index") }}">Reset</a>
                         </div>
                     </div>
@@ -50,13 +50,13 @@
                                     </span>
                                 </td>
                                 <td class="d-flex gap-3 align-middle">
-                                    <a href="{{ route("users.edit", $user) }}" class="btn btn-sm btn-warning">Modifier @if($user->id === auth()->user()->id) (Moi) @endif</a>
+                                    <a href="{{ route("users.edit", $user) }}" title="Modifier" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i> @if($user->id === auth()->user()->id) (Moi) @endif</a>
                                     @if(!$user->isAdmin )
                                         <form action="{{ route("users.delete", $user) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method("DELETE")
-                                            <button class="btn btn-sm btn-danger" name="isAdmin" onclick="return confirm('Confirmer la suppression !')">
-                                                Supprimer
+                                            <button class="btn btn-sm btn-outline-danger" title="Supprimer" onclick="return confirm('Confirmer la suppression !')">
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                     @endif
@@ -64,7 +64,7 @@
                             </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="py-3 align-middle text-center">Aucun utilisateur</td>
+                                    <td colspan="5" class="py-3 align-middle text-center">Aucun utilisateur trouvé.</td>
                                 </tr>
                         @endforelse
                     </tbody>
@@ -79,17 +79,6 @@
 
 @section("scripts")
 
-    <script>
-
-        let searchTimer;
-        document.getElementById("search-input").oninput = () => {
-            clearTimeout(searchTimer);
-            
-            searchTimer = setTimeout(() => {
-                document.getElementById("search-form").submit();
-            }, 1000);
-        };
-
-    </script>
+    <script src="{{ asset("js/search-input.js") }}"></script>
 
 @endsection

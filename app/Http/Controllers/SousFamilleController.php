@@ -8,8 +8,16 @@ use Illuminate\Http\Request;
 
 class SousFamilleController extends Controller{
 
-    public function index(){
-        $sousFamilles = SousFamille::with('famille')->paginate(10);
+    public function index(Request $request){
+        $query = SousFamille::query();
+
+        if($request->filled('search')){
+            $search = $request->search;
+
+            $query->where("nomSousFam", "like", "%$search%");
+        }
+
+        $sousFamilles = $query->with('famille')->paginate(10)->appends(['search' => $request->search]);
         return view('sous_familles.index', compact('sousFamilles'));
     }
 

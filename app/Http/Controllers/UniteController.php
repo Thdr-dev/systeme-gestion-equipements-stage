@@ -6,8 +6,21 @@ use App\Models\Unite;
 use Illuminate\Http\Request;
 
 class UniteController extends Controller{
-    public function index(){
-        $unites = Unite::withCount('materiels')->paginate(10);
+    public function index(Request $request){
+        $query = Unite::query();
+
+        if($request->filled('search')){
+            $search = $request->search;
+
+            $query->where(function($q) use ($search){
+                $q->where('nom', 'like', "%$search%")
+                ->orWhere('ville', 'like', "%$search%");
+            });
+
+        }
+        
+
+        $unites = $query->withCount('materiels')->paginate(10)->appends(['search' => $request->search]);
         return view('unites.index', compact('unites'));
     }
 
@@ -47,7 +60,7 @@ class UniteController extends Controller{
 
     public function destroy(Unite $unite){
         if ($unite->materiels()->count() > 0) {
-            return back()->with('error', 'Action impossible : Cette unité contient encore du matériel.');
+            return back()->withErrors(['message-error'=> 'Action impossible : Cette unité contient encore du matériel.']);
         }
 
         $unite->delete();

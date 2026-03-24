@@ -13,28 +13,33 @@
         
         <div class="card shadow-sm mb-4">
             <div class="card-body">
-                <form method="GET" action="{{ route('materiels.index') }}" class="row g-3">
+                <form id="search-form" method="GET" action="{{ route('materiels.index') }}" class="row g-3">
                     <div class="col-md-4">
-                        <input type="text" name="search" class="form-control" placeholder="Rechercher un nom..." value="{{ request('search') }}">
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary-subtle border-end-0">
+                                <i class="fa-solid fa-magnifying-glass text-muted"></i>
+                            </span>
+                            <input type="text" name="search" class="search-input form-control" placeholder="Rechercher par le nom..." value="{{ request('search') }}">
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <select name="status" class="form-select">
+                        <select name="status" class="search-input form-select">
                             <option value="">Tous les statuts</option>
                             @foreach(['Disponible', 'Sorti', 'En panne', 'Maintenance'] as $status)
-                                <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>{{ $status }}</option>
+                                <option value="{{ $status }}" @selected(request('status') == $status) >{{ $status }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <select name="unite_id" class="form-select">
+                        <select name="unite_id" class="search-input form-select">
                             <option value="">Toutes les Unités</option>
                             @foreach($unites as $unite)
-                                <option value="{{ $unite->id }}" {{ request('unite_id') == $unite->id ? 'selected' : '' }}>{{ $unite->nom }}</option>
+                                <option value="{{ $unite->id }}" @selected(request('unite_id') == $unite->id) >{{ $unite->nom }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-md-2 d-grid">
-                        <button type="submit" class="btn btn-dark">Filtrer</button>
+                        <a class="btn btn-danger m-0 border-0 w-100" style="width:150px;" href="{{ route("materiels.index") }}">Reset</a>
                     </div>
                 </form>
             </div>
@@ -77,8 +82,8 @@
                             </td>
                             <td>{{ $item->sousFamille->nomSousFam }}</td>
                             <td>
-                                <a href="{{ route('materiels.show', $item->id) }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('materiels.edit', $item->id) }}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('materiels.show', $item->id) }}" class="btn btn-sm btn-outline-primary" title="Voir"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('materiels.edit', $item->id) }}" class="btn btn-sm btn-outline-warning" title="Modifier"><i class="fas fa-edit"></i></a>
                             </td>
                         </tr>
                         @empty
@@ -94,5 +99,11 @@
     </div>
 
     {{ $materiels->links() }}
+
+@endsection
+
+@section("scripts")
+
+    <script src="{{ asset("js/search-materiels.js") }}"></script>
 
 @endsection

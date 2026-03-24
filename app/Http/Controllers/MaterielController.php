@@ -79,6 +79,7 @@ class MaterielController implements HasMiddleware{
     public function edit(Materiel $materiel){
         $unites = Unite::all();
         $sousFamilles = SousFamille::all();
+        
         return view('materiels.edit', compact('materiel', 'unites', 'sousFamilles'));
     }
 
@@ -87,7 +88,7 @@ class MaterielController implements HasMiddleware{
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'required|in:Disponible,Sorti,En panne,Maintenance',
-            'date_maintenance' => 'nullable|date',
+            'date_maintenance' => 'nullable|date|after_or_equal:today',
             'unite_id' => 'required|exists:unites,id',
             'sous_famille_id' => 'required|exists:sous_familles,id',
             'image' => 'nullable|image|max:2048',

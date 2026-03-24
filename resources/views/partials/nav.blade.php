@@ -13,7 +13,7 @@
             @auth
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('materiels.*') ? 'active text-secondary' : '' }}" href="{{ route('materiels.index') }}">
+                        <a class="nav-link {{ request()->routeIs('materiels.*') ? 'disabled text-secondary' : '' }}" href="{{ route('materiels.index') }}">
                             Liste Matériels
                         </a>
                     </li>

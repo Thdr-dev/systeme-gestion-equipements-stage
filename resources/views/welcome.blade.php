@@ -10,7 +10,7 @@
                 <p class="lead text-muted">Solution intelligente de gestion d'inventaire et de suivi de maintenance.</p>
             </div>
 
-            <div class="row g-3 mb-5 text-start">
+            <div class="row g-3 mb-4 text-start">
                 <div class="col-md-4">
                     <div class="card h-100 border-0 shadow-sm p-3">
                         <h6 class="fw-bold text-secondary">Mouvements</h6>

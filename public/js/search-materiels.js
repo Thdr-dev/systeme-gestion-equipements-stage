@@ -8,6 +8,6 @@ Array.from(inputs).forEach((element) => {
 
         searchTimer = setTimeout(() => {
             document.getElementById("search-form").submit();
-        }, 1000);
+        }, 1500);
     };
 });

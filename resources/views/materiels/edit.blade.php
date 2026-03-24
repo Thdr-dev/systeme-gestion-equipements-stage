@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label fw-bold">Description</label>
-                                        <textarea name="" rows="3" class="form-control">{{ old('description', $materiel->description) }}</textarea>
+                                        <textarea name="description" rows="3" class="form-control">{{ old('description', $materiel->description) }}</textarea>
                                         @error('description')
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror

@@ -64,12 +64,6 @@
 
     @yield('scripts')
 
-    <script>
-        document.addEventListener('animationend', (e) => {
-            if (e.animationName === 'fadeOut') {
-                e.target.remove();
-            }
-        });
-    </script>
+
 </body>
 </html>

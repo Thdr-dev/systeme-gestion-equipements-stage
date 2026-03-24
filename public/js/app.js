@@ -13,3 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     autoRemoveToast("errorToast");
     autoRemoveToast("successToast");
 });
+
+document.addEventListener("animationend", (e) => {
+    if (e.animationName === "fadeOut") {
+        e.target.remove();
+    }
+});

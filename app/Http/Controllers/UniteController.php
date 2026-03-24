@@ -39,7 +39,7 @@ class UniteController extends Controller{
 
         Unite::create($validated);
 
-        return redirect()->route('unites.index')->with('success', 'Unité créée avec succès.');
+        return redirect()->route('unites.index')->with('message-success', 'Unité créée avec succès.');
     }
 
     public function edit(Unite $unite){
@@ -55,7 +55,7 @@ class UniteController extends Controller{
 
         $unite->update($validated);
 
-        return redirect()->route('unites.index')->with('success', 'Unité mise à jour.');
+        return redirect()->route('unites.index')->with('message-success', 'Unité mise à jour.');
     }
 
     public function destroy(Unite $unite){
@@ -64,6 +64,6 @@ class UniteController extends Controller{
         }
 
         $unite->delete();
-        return redirect()->route('unites.index')->with('success', 'Unité supprimée.');
+        return redirect()->route('unites.index')->with('message-success', 'Unité supprimée.');
     }
 }

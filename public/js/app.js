@@ -1,4 +1,4 @@
-const autoRemoveToast = (toastId, duration = 3000) => {
+const autoRemoveToast = (toastId, duration = 3500) => {
     const toast = document.getElementById(toastId);
     if (toast) {
         setTimeout(() => {

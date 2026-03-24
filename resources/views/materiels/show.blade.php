@@ -51,15 +51,15 @@
                                     <label class="text-uppercase small fw-bold text-muted d-block">Localisation (Unité)</label>
                                     <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary"><i class="fas fa-map-marker-alt text-primary me-2"></i>{{ $materiel->unite->nom }}</span>
                                 </div>
-
+                                
                                 <div class="col-lg-6 mb-3">
-                                    <label class="text-uppercase small fw-bold text-muted d-block">Catégorie</label>
-                                    <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary">{{ $materiel->sousFamille->nomSousFam }}</span>
+                                    <label class="text-uppercase small fw-bold text-muted d-block">Famille parente</label>
+                                    <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary"><i class="fa-solid fa-table-cells-large text-primary me-2"></i>{{ $materiel->sousFamille->famille->nomFam }}</span>
                                 </div>
 
                                 <div class="col-lg-6 mb-3">
-                                    <label class="text-uppercase small fw-bold text-muted d-block">Famille parente</label>
-                                    <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary">{{ $materiel->sousFamille->famille->nomFam }}</span>
+                                    <label class="text-uppercase small fw-bold text-muted d-block">Catégorie</label>
+                                    <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary"><i class="fa-solid fa-layer-group text-primary me-2"></i>{{ $materiel->sousFamille->nomSousFam }}</span>
                                 </div>
 
                                 <div class="col-lg-6 mb-3">
@@ -95,7 +95,7 @@
                             </div>
 
                             <div class="mt-3 alert alert-info py-2">
-                                <small><i class="fas fa-info-circle"></i> La suppression de cet materiel est pas un suppression complete.</small>
+                                <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
                             </div>
 
                         </div>

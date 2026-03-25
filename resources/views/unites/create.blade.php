@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Description / Adresse</label>
+                                <label class="form-label">Description</label>
                                 <textarea name="description" class="form-control" rows="3"></textarea>
                                 @error('description')
                                     <div class="form-text text-danger ps-2">{{ $message }}</div>

@@ -117,7 +117,7 @@
                                     <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
                                 </div>
                                 @else
-                                    <a href="{{ route('mouvements.create', $item) }}" class="btn btn-sm btn-outline-primary" title="Enregistrer un mouvement"><i class="fas fa-exchange-alt"></i></a>
+                                    <a href="{{ route('mouvements.create', $item) }}" class="btn btn-sm btn-outline-info" title="Enregistrer un mouvement"><i class="fas fa-exchange-alt"></i></a>
                             @endif
                         </div>
                     </div>

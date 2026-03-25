@@ -2,64 +2,83 @@
 
 @section("content")
 
-    <form action="{{ route('mouvements.store') }}" method="POST" class="modal-content">
-        @csrf
-        <input type="hidden" name="materiel_id" value="{{ $materiel->id }}">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white text-center">
+                        <h5 class="mb-0 py-2">Enregistrer un Mouvement</h5>
+                    </div>
+                
+                    <div class="card-body">
+                        <form action="{{ route('mouvements.store') }}" method="POST" >
+                            @csrf
+                            <input type="hidden" name="materiel_id" value="{{ $materiel->id }}">
 
-        <div class="modal-header bg-light">
-            <h5 class="modal-title">
-                <i class="fas fa-exchange-alt text-primary me-2"></i>
-                Mouvement : {{ $materiel->nom }}
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
+                            
+                            @if(Auth::user()->isAdmin)
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Type de mouvement</label>
+                                    <select name="type" class="form-select">
+                                        <option value="Transfert">Transfert d'Unité</option>
+                                        <option value="Maintenance">Envoi en Maintenance</option>
+                                        <option value="Retour">Retour de Maintenance</option>
+                                        <option value="Sortie">Sortie de stock</option>
+                                    </select>
+                                    @error('type')
+                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-        <div class="modal-body">
-            @if(Auth::user()->isAdmin)
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Type de mouvement</label>
-                    <select name="type" class="form-select" required>
-                        <option value="Transfert">Transfert d'Unité</option>
-                        <option value="Maintenance">Envoi en Maintenance</option>
-                        <option value="Retour">Retour de Maintenance</option>
-                        <option value="Sortie">Sortie de stock</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Vers l'Unité</label>
-                    <select name="to_unite_id" class="form-select">
-                        @foreach($unites as $unite)
-                            <option value="{{ $unite->id }}" @selected($materiel->unite_id == $unite->id)>
-                                {{ $unite->nom }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            @else
-                <div class="alert alert-info py-2 small">
-                    <i class="fas fa-user-shield me-1"></i> Mode Opérateur : Entrée/Sortie uniquement.
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Action</label>
-                    <select name="type" class="form-select" required>
-                        <option value="Sortie">📤 Sortie (Mise en service)</option>
-                        <option value="Retour">📥 Entrée (Retour au stock)</option>
-                        <option value="Panne">🚨 Signaler une Panne</option>
-                    </select>
-                </div>
-                <input type="hidden" name="to_unite_id" value="{{ $materiel->unite_id }}">
-            @endif
+                                <div class="mb-3">
+                                    <label class="form-label">Vers l'Unité</label>
+                                    <select name="to_unite_id" class="form-select">
+                                        @foreach($unites as $unite)
+                                            <option value="{{ $unite->id }}" @selected($materiel->unite_id == $unite->id)>
+                                                {{ $unite->nom }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('to_unite_id')
+                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            @else
 
-            <div class="mb-3">
-                <label class="form-label fw-bold">Commentaire</label>
-                <textarea name="commentaire" class="form-control" rows="2" placeholder="Note facultative..."></textarea>
+                                <div class="mb-3">
+                                    <label class="form-label">Action</label>
+                                    <select name="type" class="form-select">
+                                        <option value="Sortie">📤 Sortie (Mise en service)</option>
+                                        <option value="Retour">📥 Entrée (Retour au stock)</option>
+                                        <option value="Panne">🚨 Signaler une Panne</option>
+                                    </select>
+                                    @error('type')
+                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <input type="hidden" name="to_unite_id" value="{{ $materiel->unite_id }}">
+
+                            @endif
+
+                            <div class="mb-3">
+                                <label class="form-label">Commentaire</label>
+                                <textarea name="commentaire" class="form-control" rows="2" placeholder="Note facultative..."></textarea>
+                                @error('commentaire')
+                                    <div class="form-text text-danger ps-2">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="d-flex justify-content-between gap-3">
+                                <a href="{{ route('materiels.index') }}" class="btn btn-secondary">Annuler</a>
+                                <button type="submit" class="btn btn-success flex-grow-1">Enregistrer le Mouvement</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-        </div>
-    </form>
+    </div>
 
 @endsection

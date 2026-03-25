@@ -99,7 +99,7 @@
                             <td>{{ $item->sousFamille->nomSousFam }}</td>
                             <td>
                                 <a href="{{ route('materiels.show', $item->id) }}" class="btn btn-sm btn-outline-primary" title="Voir"><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('mouvements.create', $item) }}" class="btn btn-sm btn-outline-primary" title="Enregistrer un mouvement"><i class="fas fa-exchange-alt"></i></a>
+                                <a href="{{ route('mouvements.create', $item) }}" class="btn btn-sm btn-outline-info" title="Enregistrer un mouvement"><i class="fas fa-exchange-alt"></i></a>
 
                                 @if(Auth::user()->isAdmin)
                                     <a href="{{ route('materiels.edit', $item->id) }}" class="btn btn-sm btn-outline-warning" title="Modifier"><i class="fas fa-edit"></i></a>

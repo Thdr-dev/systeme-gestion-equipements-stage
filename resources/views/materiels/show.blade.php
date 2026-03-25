@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Détails - ' . $materiel->nom)
+@section('title', 'Détails de Materiel')
 
 @section('content')
 <div class="container-fluide py-4">

@@ -5,6 +5,16 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+
+                <div class="alert alert-info d-flex align-items-center shadow-sm mb-4">
+                    <i class="fas fa-info-circle me-3 fa-2x"></i>
+                    <div>
+                        <strong>Matériel :</strong> {{ $materiel->nom }} <br/>
+                        <strong>Unité actuelle :</strong> {{ $materiel->unite->nom }} <br/>
+                        <strong>Statut actuel :</strong> {{ $materiel->status }}
+                    </div>
+                </div>
+
                 <div class="card shadow">
                     <div class="card-header bg-success text-white text-center">
                         <h5 class="mb-0 py-2">Enregistrer un Mouvement</h5>

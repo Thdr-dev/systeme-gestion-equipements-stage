@@ -19,6 +19,7 @@ class MouvementController extends Controller{
     }
 
     public function store(Request $request){
+
         $request->validate([
             'materiel_id' => 'required|exists:materiels,id',
             'type' => 'required|in:Transfert,Maintenance,Retour,Sortie,Panne',

@@ -26,6 +26,7 @@
                             </div>
                             <div class="p-4">
                                 <div class="row">
+
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label fw-bold">Nom du matériel</label>
                                         <input type="text" name="nom" class="form-control" value="{{ old('nom', $materiel->nom) }}" required>
@@ -33,6 +34,7 @@
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold">Category</label>
                                         <select name="sous_famille_id" class="form-select">
@@ -44,6 +46,7 @@
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold">Statut actuel</label>
                                         <select name="status" class="form-select">
@@ -55,6 +58,7 @@
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold">Unite</label>
                                         <select name="unite_id" class="search-input form-select">
@@ -67,6 +71,7 @@
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold">Date maintenance</label>
                                         <input id="date_maintenance" type="date" class="form-control" name="date_maintenance" value="{{ old('date_maintenance', $materiel->date_maintenance) }}">
@@ -74,6 +79,7 @@
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label fw-bold">Remplacer l'image</label>
                                         <input type="file" name="image" class="form-control">
@@ -81,6 +87,7 @@
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label fw-bold">Description</label>
                                         <textarea name="description" rows="3" class="form-control">{{ old('description', $materiel->description) }}</textarea>
@@ -88,6 +95,7 @@
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    
                                 </div>
                                 <div class="d-flex justify-content-between gap-3">
                                     <a href="{{ route('materiels.index') }}" class="btn btn-secondary">Annuler</a>

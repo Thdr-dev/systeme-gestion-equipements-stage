@@ -61,6 +61,14 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Date maintenance</label>
+                            <input id="date_maintenance" type="date" class="form-control" name="date_maintenance" value="{{ old('date_maintenance') }}">
+                            @error('date_maintenance')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Image</label>
                             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
                             @error('image')

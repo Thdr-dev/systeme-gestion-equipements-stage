@@ -68,7 +68,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label class="form-label fw-bold">Image</label>
                             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
                             @error('image')

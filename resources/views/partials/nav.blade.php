@@ -25,16 +25,16 @@
                             </a>
                             <ul class="dropdown-menu shadow py-0 overflow-hidden">
                                 <li class="nav-item">
-                                    <a class="dropdown-item py-2 {{ request()->routeIs('users.index') ? 'bg-primary-subtle disabled text-secondary fw-bold' : 'text-black' }}" 
+                                    <a class="dropdown-item py-2 {{ request()->routeIs('users.*') ? ( request()->routeIs('users.index') ? 'disabled bg-primary-subtle text-secondary fw-bold' : 'bg-primary-subtle text-secondary fw-bold' ) : 'text-black' }}" 
                                     href="{{ route('users.index') }}">
                                         Utilisateurs
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider m-0"></li>
-                                <li><a class="dropdown-item py-2 {{ request()->routeIs('familles.index') ? 'bg-primary-subtle disabled text-secondary fw-bold' : 'text-black' }}" href="{{ route('familles.index') }}">Familles</a></li>
-                                <li><a class="dropdown-item py-2 {{ request()->routeIs('sous-familles.index') ? 'bg-primary-subtle disabled text-secondary fw-bold' : 'text-black' }}" href="{{ route('sous-familles.index') }}">Sous-Familles</a></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('familles.*') ? ( request()->routeIs('familles.index') ? 'disabled bg-primary-subtle text-secondary fw-bold' : 'bg-primary-subtle text-secondary fw-bold' ) : 'text-black' }}" href="{{ route('familles.index') }}">Familles</a></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('sous-familles.*') ? ( request()->routeIs('sous-familles.index') ? 'disabled bg-primary-subtle text-secondary fw-bold' : 'bg-primary-subtle text-secondary fw-bold' ) : 'text-black' }}" href="{{ route('sous-familles.index') }}">Sous-Familles</a></li>
                                 <li><hr class="dropdown-divider m-0"></li>
-                                <li><a class="dropdown-item py-2 {{ request()->routeIs('unites.index') ? 'bg-primary-subtle disabled text-secondary fw-bold' : 'text-black' }}" href="{{ route('unites.index') }}">Unités (Centres)</a></li>
+                                <li><a class="dropdown-item py-2 {{ request()->routeIs('unites.*') ? ( request()->routeIs('unites.index') ? 'disabled bg-primary-subtle text-secondary fw-bold' : 'bg-primary-subtle text-secondary fw-bold' ) : 'text-black' }}" href="{{ route('unites.index') }}">Unités (Centres)</a></li>
 
                             </ul>
                         </li>

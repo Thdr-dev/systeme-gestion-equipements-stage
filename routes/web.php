@@ -44,4 +44,5 @@ Route::resource('unites', UniteController::class)->middleware(["auth", "admin"])
 
 Route::resource('materiels', MaterielController::class);
 
+Route::get('/mouvements/create', [MouvementController::class, 'create'])->name('mouvements.create')->middleware('auth');
 Route::post('/mouvements', [MouvementController::class, 'store'])->name('mouvements.store')->middleware('auth');

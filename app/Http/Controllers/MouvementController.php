@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Materiel;
 use App\Models\Mouvement;
+use App\Models\Unite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,11 @@ use Illuminate\Support\Facades\Route;
 
 class MouvementController extends Controller{
 
+    public function create(Materiel $materiel){
+        $unites = Unite::all();
+
+        return view("mouvement.create", compact('materiel', 'unites'));
+    }
 
     public function store(Request $request){
         $request->validate([

@@ -117,18 +117,8 @@
                                     <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
                                 </div>
                                 @else
-
-                                    <button type="button"
-                                        class="btn btn-outline-info w-100"
-                                        title="Enregistrer un mouvement"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalMouvement{{ $materiel->id }}">
-                                        <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
-                                    </button>
-
+                                    <a href="{{ route('mouvements.create', $item) }}" class="btn btn-sm btn-outline-primary" title="Enregistrer un mouvement"><i class="fas fa-exchange-alt"></i></a>
                             @endif
-
-                            @include('materiels.partials.modal-mouvement', ['materiel' => $materiel])
                         </div>
                     </div>
 

@@ -3,7 +3,7 @@
 @section('title', 'Détails - ' . $materiel->nom)
 
 @section('content')
-<div class="container py-4">
+<div class="container-fluide py-4">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="mb-3">
@@ -123,7 +123,55 @@
 
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    @if(Auth::user()->isAdmin)
+            <div class="card shadow-sm mt-4">
+                <div class="card-header text-bg-dark">
+                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Historique des Mouvements</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="responsive-table">
+                        <table class="table table-hover table-striped align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="bg-primary text-secondary">Date</th>
+                                    <th class="bg-primary text-secondary">Type</th>
+                                    <th class="bg-primary text-secondary">Source ➔ Destination</th>
+                                    <th class="bg-primary text-secondary">Par</th>
+                                    <th class="bg-primary text-secondary">Commentaire</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($materiel->mouvements->sortByDesc('created_at') as $mvt)
+                                    <tr>
+                                        <td class="small">{{ $mvt->created_at->format('d/m/Y H:i') }}</td>
+                                        <td>
+                                            <span class="badge @if($mvt->type == 'Panne') bg-danger @elseif($mvt->type == 'Transfert') bg-info @else bg-secondary @endif">
+                                                {{ $mvt->type }}
+                                            </span>
+                                        </td>
+                                        <td class="small">
+                                            {{ $mvt->fromUnite->nom ?? 'N/A' }}
+                                            <i class="fas fa-long-arrow-alt-right mx-2 text-muted"></i>
+                                            {{ $mvt->toUnite->nom ?? 'N/A' }}
+                                        </td>
+                                        <td>{{ $mvt->user->nom }}</td>
+                                        <td class="text-muted italic small">{{ $mvt->commentaire ?: '-' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center py-3 text-muted">Aucun mouvement enregistré pour ce matériel.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        
+    @endif
+
 </div>
 @endsection

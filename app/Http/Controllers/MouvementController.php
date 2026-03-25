@@ -60,6 +60,6 @@ class MouvementController extends Controller{
             ]);
         });
 
-        return back()->with('message-success', 'Mouvement enregistré et statut mis à jour.');
+        return redirect()->route('materiels.show', $materiel)->with('message-success', 'Mouvement enregistré et statut mis à jour.');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Mouvement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class MouvementController extends Controller{
 
@@ -52,6 +53,10 @@ class MouvementController extends Controller{
             ]);
         });
 
-        return back()->with('message-success', 'Mouvement enregistré et statut mis à jour.');
+        if(Route::is('materiels.show')){
+            return redirect()->route('materiels.show')->with('message-success', 'Mouvement enregistré et statut mis à jour.');
+        }
+
+        return redirect()->route('materiels.index')->with('message-success', 'Mouvement enregistré et statut mis à jour.');
     }
 }

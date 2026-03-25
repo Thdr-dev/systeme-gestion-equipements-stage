@@ -100,13 +100,10 @@
                                             </div>
                                             
                                             <div class="col-12">
-                                                <button type="button"
-                                                    class="btn btn-outline-info w-100"
-                                                    title="Enregistrer un mouvement"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalMouvement{{ $materiel->id }}">
+                                                <a href="{{ route('mouvements.create', $materiel) }}" class="btn btn-outline-info w-100"
+                                                    title="Enregistrer un mouvement">
                                                     <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -117,7 +114,9 @@
                                     <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
                                 </div>
                                 @else
-                                    <a href="{{ route('mouvements.create', $item) }}" class="btn btn-sm btn-outline-info" title="Enregistrer un mouvement"><i class="fas fa-exchange-alt"></i></a>
+                                    <a href="{{ route('mouvements.create', $materiel) }}" class="btn btn-outline-info w-100" title="Enregistrer un mouvement">
+                                        <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
+                                    </a>
                             @endif
                         </div>
                     </div>

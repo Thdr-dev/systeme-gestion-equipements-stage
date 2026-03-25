@@ -64,13 +64,20 @@
                             </tr>
                         @endforelse
                     </tbody>
+                    @if($sousFamilles->hasPages())
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="px-3 pt-3 pb-0">
+                                    {{ $sousFamilles->links() }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
             </div>
         </div>
     </div>
-
-    {{ $sousFamilles->links() }}
-
+    
 @endsection
 
 @section("scripts")

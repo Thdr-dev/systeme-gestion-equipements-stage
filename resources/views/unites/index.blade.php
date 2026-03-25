@@ -65,13 +65,20 @@
                             </tr>
                         @endforelse
                     </tbody>
+                    @if($unites->hasPages())
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="px-3 pt-3 pb-0">
+                                    {{ $unites->links() }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
             </div>
         </div>
 
     </div>
-
-    {{ $unites->links() }}
 
 @endsection
 

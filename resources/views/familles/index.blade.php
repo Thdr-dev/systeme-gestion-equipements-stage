@@ -67,13 +67,20 @@
                             </tr>
                         @endforelse
                     </tbody>
+                    @if($familles->hasPages())
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="px-3 pt-3 pb-0">
+                                    {{ $familles->links() }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
             </div>
         </div>
 
     </div>
-
-    {{ $familles->links() }}
 
 @endsection
 

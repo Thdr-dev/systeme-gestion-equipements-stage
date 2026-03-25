@@ -68,13 +68,20 @@
                                 </tr>
                         @endforelse
                     </tbody>
+                    @if($users->hasPages())
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="px-3 pt-3 pb-0">
+                                    {{ $users->links() }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
             </div>
         </div>
     </div>
-
-    {{ $users->links() }}
-
+    
 @endsection
 
 @section("scripts")

@@ -79,25 +79,56 @@
                             </div>
 
                             @if(Auth::user()->isAdmin)
+                                
                                 <div class="d-flex align-items-center gap-2 pt-3 border-top">
-                                    <a href="{{ route('materiels.edit', $materiel->id) }}" class="flex-grow-1 btn btn-outline-warning px-4 fw-bold">
-                                        <i class="fas fa-edit me-1"></i> Modifier le materiel
-                                    </a>
-                                    
-                                    <form class="flex-grow-1" action="{{ route('materiels.destroy', $materiel->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="w-100 btn btn-outline-danger px-4">
-                                            <i class="fas fa-trash-alt me-1"></i> Supprimer
-                                        </button>
-                                    </form>
+                                    <div class="container-fluide">
+                                        <div class="row g-3">
+                                            <div class="col-md-6 col-12">
+                                                <a href="{{ route('materiels.edit', $materiel->id) }}" class="w-100 btn btn-outline-warning px-4 fw-bold">
+                                                    <i class="fas fa-edit me-1"></i> Modifier le materiel
+                                                </a>
+                                            </div>
+                                            
+                                            <div class="col-md-6 col-12">
+                                                <form class="w-100" action="{{ route('materiels.destroy', $materiel->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="w-100 btn btn-outline-danger px-4">
+                                                        <i class="fas fa-trash-alt me-1"></i> Supprimer
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            
+                                            <div class="col-12">
+                                                <button type="button"
+                                                    class="btn btn-outline-info w-100"
+                                                    title="Enregistrer un mouvement"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalMouvement{{ $materiel->id }}">
+                                                    <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 
                                 <div class="mt-3 alert alert-info py-2">
                                     <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
                                 </div>
+                                @else
+
+                                    <button type="button"
+                                        class="btn btn-outline-info w-100"
+                                        title="Enregistrer un mouvement"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalMouvement{{ $materiel->id }}">
+                                        <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
+                                    </button>
+
                             @endif
 
+                            @include('materiels.partials.modal-mouvement', ['materiel' => $materiel])
                         </div>
                     </div>
 

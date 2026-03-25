@@ -69,11 +69,11 @@ class MaterielController implements HasMiddleware{
         return redirect()->route('materiels.index')->with('message-success', 'Matériel ajouté.');
     }
 
-
     public function show(Materiel $materiel){
         $materiel->load(['unite', 'sousFamille.famille']);
+        $unites = Unite::all();
         
-        return view('materiels.show', compact('materiel'));
+        return view('materiels.show', compact('materiel', 'unites'));
     }
 
     public function edit(Materiel $materiel){

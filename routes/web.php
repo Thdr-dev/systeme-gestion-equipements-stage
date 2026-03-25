@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FamilleController;
 use App\Http\Controllers\MaterielController;
+use App\Http\Controllers\MouvementController;
 use App\Http\Controllers\SousFamilleController;
 use App\Http\Controllers\UniteController;
 
@@ -42,3 +43,5 @@ Route::resource('sous-familles', SousFamilleController::class)->middleware(["aut
 Route::resource('unites', UniteController::class)->middleware(["auth", "admin"]);
 
 Route::resource('materiels', MaterielController::class);
+
+Route::post('/mouvements', [MouvementController::class, 'store'])->name('mouvements.store')->middleware('auth');

@@ -71,9 +71,8 @@ class MaterielController implements HasMiddleware{
 
     public function show(Materiel $materiel){
         $materiel->load(['unite', 'sousFamille.famille']);
-        $unites = Unite::all();
         
-        return view('materiels.show', compact('materiel', 'unites'));
+        return view('materiels.show', compact('materiel'));
     }
 
     public function edit(Materiel $materiel){

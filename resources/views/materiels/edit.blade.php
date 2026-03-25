@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Modifier : ' . $materiel->nom)
+@section('title', 'Modifier le materiel')
 
 @section('content')
 
@@ -22,6 +22,11 @@
                                 @if($materiel->image)
                                     <img draggable="false" src="{{ asset('storage/'.$materiel->image) }}" class="rounded shadow" width="350">
                                     <p class="small text-muted m-0">Image actuelle</p>
+                                @else
+                                    <div class="text-center text-muted">
+                                        <i class="fas fa-camera fa-5x mb-3 opacity-25"></i>
+                                        <p>Aucune image disponible</p>
+                                    </div>
                                 @endif
                             </div>
                             <div class="p-4">

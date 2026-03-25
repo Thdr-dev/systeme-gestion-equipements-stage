@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="card shadow">
-                    <div class="card-header bg-success text-white text-center">
+                    <div class="card-header bg-info text-center">
                         <h5 class="mb-0 py-2">Enregistrer un Mouvement</h5>
                     </div>
                 
@@ -81,7 +81,7 @@
 
                             <div class="d-flex justify-content-between gap-3">
                                 <a href="{{ route('materiels.index') }}" class="btn btn-secondary">Annuler</a>
-                                <button type="submit" class="btn btn-success flex-grow-1">Enregistrer le Mouvement</button>
+                                <button type="submit" class="btn btn-info flex-grow-1">Enregistrer le Mouvement</button>
                             </div>
 
                         </form>

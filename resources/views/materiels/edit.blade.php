@@ -48,31 +48,6 @@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Statut actuel</label>
-                                        <select name="status" class="form-select">
-                                            @foreach(['Disponible', 'Sorti', 'En panne', 'Maintenance'] as $st)
-                                                <option value="{{ $st }}" @selected($materiel->status == $st) >{{ $st }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('status')
-                                            <div class="form-text text-danger ps-2">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Unite</label>
-                                        <select name="unite_id" class="search-input form-select">
-                                            <option value="">Toutes les Unités</option>
-                                            @foreach($unites as $unite)
-                                                <option value="{{ $unite->id }}" @selected( $materiel->unite_id == $unite->id) >{{ $unite->nom }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('unite_id')
-                                            <div class="form-text text-danger ps-2">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold">Date maintenance</label>
                                         <input id="date_maintenance" type="date" class="form-control" name="date_maintenance" value="{{ old('date_maintenance', $materiel->date_maintenance) }}">
                                         @error('date_maintenance')

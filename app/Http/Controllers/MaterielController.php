@@ -87,9 +87,7 @@ class MaterielController implements HasMiddleware{
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => 'required|in:Disponible,Sorti,En panne,Maintenance',
             'date_maintenance' => 'nullable|date|after:today',
-            'unite_id' => 'required|exists:unites,id',
             'sous_famille_id' => 'required|exists:sous_familles,id',
             'image' => 'nullable|image|max:2048',
         ]);

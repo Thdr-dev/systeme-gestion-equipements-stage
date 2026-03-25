@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="d-flex gap-3">
-                            <a href="{{ url("/") }}" type="submit" class="btn btn-secondary">Annuler</a>
+                            <a href="{{ route('users.index') }}" type="submit" class="btn btn-secondary">Annuler</a>
                             <button type="submit" class="btn btn-success flex-grow-1">Créer le compte</button>
                         </div>
 

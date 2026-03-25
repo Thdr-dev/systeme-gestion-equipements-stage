@@ -80,7 +80,7 @@
                             </div>
 
                             <div class="d-flex justify-content-between gap-3">
-                                <a href="{{ route('materiels.index') }}" class="btn btn-secondary">Annuler</a>
+                                <a href="{{ url()->previous("/") }}" class="btn btn-secondary">Annuler</a>
                                 <button type="submit" class="btn btn-info flex-grow-1">Enregistrer le Mouvement</button>
                             </div>
 

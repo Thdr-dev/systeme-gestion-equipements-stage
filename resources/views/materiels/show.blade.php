@@ -157,7 +157,7 @@
                                             <i class="fas fa-long-arrow-alt-right mx-2 text-muted"></i>
                                             {{ $mvt->toUnite->nom ?? 'N/A' }}
                                         </td>
-                                        <td>{{ $mvt->user->nom }}</td>
+                                        <td>{{ $mvt->user->prenom . " " . $mvt->user->nom }}</td>
                                         <td class="text-muted italic small">{{ $mvt->commentaire ?: '-' }}</td>
                                     </tr>
                                 @empty

@@ -78,25 +78,25 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center gap-2 pt-3 border-top">
-                                <a href="{{ route('materiels.edit', $materiel->id) }}" class="flex-grow-1 btn btn-outline-warning px-4 fw-bold">
-                                    <i class="fas fa-edit me-1"></i> Modifier le materiel
-                                </a>
+                            @if(Auth::user()->isAdmin)
+                                <div class="d-flex align-items-center gap-2 pt-3 border-top">
+                                    <a href="{{ route('materiels.edit', $materiel->id) }}" class="flex-grow-1 btn btn-outline-warning px-4 fw-bold">
+                                        <i class="fas fa-edit me-1"></i> Modifier le materiel
+                                    </a>
+                                    
+                                    <form class="flex-grow-1" action="{{ route('materiels.destroy', $materiel->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-100 btn btn-outline-danger px-4">
+                                            <i class="fas fa-trash-alt me-1"></i> Supprimer
+                                        </button>
+                                    </form>
+                                </div>
                                 
-                                @if(Auth::user()->isAdmin)
-                                <form class="flex-grow-1" action="{{ route('materiels.destroy', $materiel->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="w-100 btn btn-outline-danger px-4">
-                                        <i class="fas fa-trash-alt me-1"></i> Supprimer
-                                    </button>
-                                </form>
-                                @endif
-                            </div>
-
-                            <div class="mt-3 alert alert-info py-2">
-                                <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
-                            </div>
+                                <div class="mt-3 alert alert-info py-2">
+                                    <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
+                                </div>
+                            @endif
 
                         </div>
                     </div>

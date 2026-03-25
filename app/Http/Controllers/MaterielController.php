@@ -16,7 +16,7 @@ class MaterielController implements HasMiddleware{
         return [
             'auth',
             
-            new Middleware('admin', except: ['index']),
+            new Middleware('admin', except: ['index', 'show']),
         ];
     }
 

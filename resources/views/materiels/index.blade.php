@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="col-lg-2 d-grid">
-                        <a class="btn btn-danger m-0 border-0 w-100" style="width:150px;" href="{{ route("materiels.index") }}">Reset</a>
+                        <a class="btn btn-danger m-0 border-0 w-100" href="{{ route("materiels.index") }}">Reset</a>
                     </div>
 
                 </form>

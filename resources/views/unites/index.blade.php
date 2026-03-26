@@ -6,7 +6,7 @@
 
     <div class="mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="display-6 fw-normal text-secondary">List des Unités</h1>
+            <h1 class="display-6 fw-normal text-secondary">Liste des Unités</h1>
             <a class="btn btn-outline-success" href="{{ route('unites.create') }}">Ajouter une Unite</a>
         </div>
         
@@ -31,7 +31,9 @@
                 <table class="table table-hover table-striped align-middle mb-0">
                     <thead>
                         <tr>
-                            <th class="bg-primary text-secondary">Nom du Centre</th>
+                            <th class="bg-primary text-secondary">Nom d'unite</th>
+                            <th class="bg-primary text-secondary">Type</th>
+                            <th class="bg-primary text-secondary">Rattaché à</th>
                             <th class="bg-primary text-secondary">Ville</th>
                             <th class="bg-primary text-secondary">Matériels</th>
                             <th class="bg-primary text-secondary">Description</th>
@@ -41,7 +43,17 @@
                     <tbody>
                         @forelse($unites as $unite)
                         <tr>
-                            <td>{{ $unite->nom }}</td>
+                            <td><span class="fw-bold">{{ $unite->nom }}</span></td>
+                            <td>
+                                <span class="badge border text-dark bg-light">{{ $unite->type }}</span>
+                            </td>
+                            <td>
+                                @if($unite->parent)
+                                    <small class="text-primary">{{ $unite->parent->nom }}</small>
+                                @else
+                                    <small class="text-muted italic">Racine</small>
+                                @endif
+                            </td>
                             <td>{{ $unite->ville }}</td>
                             <td>
                                 <span class="badge bg-secondary">{{ $unite->materiels_count }} articles</span>
@@ -61,14 +73,14 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="py-3 align-middle text-center">Aucun Unite trouvé.</td>
+                                <td colspan="7" class="py-3 align-middle text-center">Aucun Unite trouvé.</td>
                             </tr>
                         @endforelse
                     </tbody>
                     @if($unites->hasPages())
                         <tfoot>
                             <tr>
-                                <td colspan="6" class="px-3 pt-3 pb-0">
+                                <td colspan="7" class="px-3 pt-3 pb-0">
                                     {{ $unites->links() }}
                                 </td>
                             </tr>
@@ -83,7 +95,5 @@
 @endsection
 
 @section("scripts")
-
     <script src="{{ asset("js/search-input.js") }}"></script>
-
 @endsection

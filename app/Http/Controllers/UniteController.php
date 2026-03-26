@@ -25,47 +25,47 @@ class UniteController extends Controller{
         return view('unites.index', compact('unites'));
     }
 
-    public function create(){
-        return view('unites.create');
+    public function create() {
+        $unites = Unite::all(); 
+        return view('unites.create', compact('unites'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request) {
         $validated = $request->validate([
             'nom' => 'required|string|max:255|unique:unites,nom',
+            'type' => 'required|string',
             'ville' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:unites,id',
             'description' => 'nullable|string'
         ]);
 
-        try{
+        try {
             Unite::create($validated);
-
             return redirect()->route('unites.index')->with('message-success', 'Unité créée avec succès.');
-        } catch(Exception $e){
-            return back()
-            ->withInput()
-            ->withErrors(['error' => 'Une erreur est survenue lors de la création d\'Unite. Veuillez réessayer.']);
+        } catch(Exception $e) {
+            return back()->withInput()->withErrors(['error' => 'Erreur technique : ' . $e->getMessage()]);
         }
     }
 
-    public function edit(Unite $unite){
-        return view('unites.edit', compact('unite'));
+    public function edit(Unite $unite) {
+        $unites = Unite::where('id', '!=', $unite->id)->get();
+        return view('unites.edit', compact('unite', 'unites'));
     }
 
-    public function update(Request $request, Unite $unite){
+    public function update(Request $request, Unite $unite) {
         $validated = $request->validate([
             'nom' => 'required|string|max:255|unique:unites,nom,' . $unite->id,
+            'type' => 'required|string',
             'ville' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:unites,id',
             'description' => 'nullable|string'
         ]);
 
-        try{
+        try {
             $unite->update($validated);
-
             return redirect()->route('unites.index')->with('message-success', 'Unité mise à jour.');
         } catch (Exception $e) {
-            return back()
-                ->withInput()
-                ->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour.']);
+            return back()->withInput()->withErrors(['error' => 'Erreur lors de la mise à jour.']);
         }
     }
 

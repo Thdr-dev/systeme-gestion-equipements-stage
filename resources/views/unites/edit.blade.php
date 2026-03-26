@@ -32,6 +32,22 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
+                                    <label for="type" class="form-label">Type d'unité</label>
+                                    <select name="type" id="type" class="form-control @error('type') is-invalid @enderror" required>
+                                        @foreach(['Direction', 'Service', 'Bureau', 'Caserne'] as $type)
+                                            <option value="{{ $type }}" {{ old('type', $unite->type) == $type ? 'selected' : '' }}>
+                                                {{ $type }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('type')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
                                     <label for="ville" class="form-label">Ville</label>
                                     <input type="text" 
                                         name="ville" 
@@ -40,6 +56,21 @@
                                         value="{{ old('ville', $unite->ville) }}" 
                                         required>
                                     @error('ville')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="parent_id" class="form-label">Unité Parente (Rattachement)</label>
+                                    <select name="parent_id" id="parent_id" class="form-control @error('parent_id') is-invalid @enderror">
+                                        <option value="">-- Aucune (Unité Racine) --</option>
+                                        @foreach($unites as $p)
+                                            <option value="{{ $p->id }}" {{ old('parent_id', $unite->parent_id) == $p->id ? 'selected' : '' }}>
+                                                {{ $p->nom }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('parent_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

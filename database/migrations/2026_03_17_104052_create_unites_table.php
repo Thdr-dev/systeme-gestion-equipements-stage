@@ -8,12 +8,19 @@ return new class extends Migration{
     /**
      * Run the migrations.
      */
-    public function up(){
+    public function up() {
         Schema::create('unites', function (Blueprint $table) {
             $table->id();
             $table->string("nom");
-            $table->string("ville");
-            $table->string("description")->nullable();
+            $table->string("type");
+            $table->string("ville")->nullable();
+            $table->text("description")->nullable();
+
+            $table->foreignId("parent_id")
+                ->nullable()
+                ->constrained("unites")
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unite;
+use Exception;
 use Illuminate\Http\Request;
 
 class UniteController extends Controller{
@@ -24,22 +25,26 @@ class UniteController extends Controller{
         return view('unites.index', compact('unites'));
     }
 
-    public function create()
-    {
+    public function create(){
         return view('unites.create');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validated = $request->validate([
             'nom' => 'required|string|max:255|unique:unites,nom',
             'ville' => 'required|string|max:255',
             'description' => 'nullable|string'
         ]);
 
-        Unite::create($validated);
+        try{
+            Unite::create($validated);
 
-        return redirect()->route('unites.index')->with('message-success', 'Unité créée avec succès.');
+            return redirect()->route('unites.index')->with('message-success', 'Unité créée avec succès.');
+        } catch(Exception $e){
+            return back()
+            ->withInput()
+            ->withErrors(['error' => 'Une erreur est survenue lors de la création d\'Unite. Veuillez réessayer.']);
+        }
     }
 
     public function edit(Unite $unite){
@@ -53,17 +58,27 @@ class UniteController extends Controller{
             'description' => 'nullable|string'
         ]);
 
-        $unite->update($validated);
+        try{
+            $unite->update($validated);
 
-        return redirect()->route('unites.index')->with('message-success', 'Unité mise à jour.');
+            return redirect()->route('unites.index')->with('message-success', 'Unité mise à jour.');
+        } catch (Exception $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour.']);
+        }
     }
 
     public function destroy(Unite $unite){
-        if ($unite->materiels()->count() > 0) {
-            return back()->withErrors(['message-error'=> 'Action impossible : Cette unité contient encore du matériel.']);
-        }
+        try{
+            if ($unite->materiels()->count() > 0) {
+                return back()->withErrors(['message-error'=> 'Action impossible : Cette unité contient encore du matériel.']);
+            }
 
-        $unite->delete();
-        return redirect()->route('unites.index')->with('message-success', 'Unité supprimée.');
+            $unite->delete();
+            return redirect()->route('unites.index')->with('message-success', 'Unité supprimée.');
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Erreur lors de la suppression.']);
+        }
     }
 }

@@ -68,8 +68,7 @@ class AuthController extends Controller{
             ]);
 
             return redirect()->route("users.index")->with("message-success", "Le compte est créé !");
-        }
-        catch(Exception $e){
+        } catch(Exception $e){
             return back()
             ->withInput()
             ->withErrors(['error' => 'Une erreur est survenue lors de la création du compte. Veuillez réessayer.']);

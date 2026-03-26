@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SousFamille;
 use App\Models\Famille;
+use Exception;
 use Illuminate\Http\Request;
 
 class SousFamilleController extends Controller{
@@ -35,10 +36,16 @@ class SousFamilleController extends Controller{
             'famille_id' => 'required|exists:familles,id',
             'description' => 'nullable|string'
         ]);
+        
+        try{
+            SousFamille::create($validated);
 
-        SousFamille::create($validated);
-
-        return redirect()->route('sous-familles.index')->with('message-success', 'Sous-famille ajoutée !');
+            return redirect()->route('sous-familles.index')->with('message-success', 'Sous-famille ajoutée !');
+            } catch(Exception $e){
+            return back()
+            ->withInput()
+            ->withErrors(['error' => 'Une erreur est survenue lors de la création du SousFamille. Veuillez réessayer.']);
+        }
     }
 
 
@@ -49,24 +56,34 @@ class SousFamilleController extends Controller{
 
 
     public function update(Request $request, SousFamille $sousFamille){
-        $validated = $request->validate([
-            'nomSousFam' => 'required|string|max:255',
-            'famille_id' => 'required|exists:familles,id',
-            'description' => 'nullable|string'
-        ]);
+        try{
+            $validated = $request->validate([
+                'nomSousFam' => 'required|string|max:255',
+                'famille_id' => 'required|exists:familles,id',
+                'description' => 'nullable|string'
+            ]);
 
-        $sousFamille->update($validated);
+            $sousFamille->update($validated);
 
-        return redirect()->route('sous-familles.index')->with('message-success', 'Mise à jour réussie.');
+            return redirect()->route('sous-familles.index')->with('message-success', 'Mise à jour réussie.');
+        } catch (Exception $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour.']);
+        }
     }
 
  
     public function destroy(SousFamille $sousFamille){
-        if ($sousFamille->materiels()->count() > 0) {
-            return back()->withErrors(['message-error'=> 'Action impossible : du matériel appartient encore à cette sous-famille.']);
-        }
+        try{
+            if ($sousFamille->materiels()->count() > 0) {
+                return back()->withErrors(['message-error'=> 'Action impossible : du matériel appartient encore à cette sous-famille.']);
+            }
 
-        $sousFamille->delete();
-        return redirect()->route('sous-familles.index')->with('message-success', 'Suppression effectuée.');
+            $sousFamille->delete();
+            return redirect()->route('sous-familles.index')->with('message-success', 'Suppression effectuée.');
+        } catch(Exception $e){
+            return back()->withErrors(['error' => 'Erreur lors de la suppression.']);
+        }
     }
 }

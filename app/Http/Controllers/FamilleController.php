@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Famille;
+use Exception;
 use Illuminate\Http\Request;
 
 class FamilleController extends Controller{
@@ -32,9 +33,15 @@ class FamilleController extends Controller{
         ]);
         
 
-        Famille::create($validated);
+        try{
+            Famille::create($validated);
 
-        return redirect()->route('familles.index')->with('message-success', 'Nouvelle famille ajoutée.');
+            return redirect()->route('familles.index')->with('message-success', 'Nouvelle famille ajoutée.');
+        } catch(Exception $e){
+            return back()
+            ->withInput()
+            ->withErrors(['error' => 'Une erreur est survenue lors de la création du Famille. Veuillez réessayer.']);
+        }
     }
 
     public function edit(Famille $famille){
@@ -42,22 +49,33 @@ class FamilleController extends Controller{
     }
 
     public function update(Request $request, Famille $famille){
-        $validated = $request->validate([
-            'nomFam' => 'required|string|max:255|unique:familles,nomFam,' . $famille->id,
-            'description' => 'nullable|string'
-        ]);
+        try{
+            $validated = $request->validate([
+                'nomFam' => 'required|string|max:255|unique:familles,nomFam,' . $famille->id,
+                'description' => 'nullable|string'
+            ]);
 
-        $famille->update($validated);
+            $famille->update($validated);
 
-        return redirect()->route('familles.index')->with('message-success', 'Famille mise à jour.');
+            return redirect()->route('familles.index')->with('message-success', 'Famille mise à jour.');
+        } catch (Exception $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour.']);
+        }
     }
 
     public function destroy(Famille $famille){
-        if ($famille->sousFamilles()->count() > 0) {
-            return back()->withErrors(['message-error'=> 'Impossible : cette famille contient des sous-familles actives.']);
-        }
+        try{
 
-        $famille->delete();
-        return redirect()->route('familles.index')->with('message-success', 'Famille supprimée.');
+            if ($famille->sousFamilles()->count() > 0) {
+                return back()->withErrors(['message-error'=> 'Impossible : cette famille contient des sous-familles actives.']);
+            }
+                
+            $famille->delete();
+            return redirect()->route('familles.index')->with('message-success', 'Famille supprimée.');
+        } catch(Exception $e){
+            return back()->withErrors(['error' => 'Erreur lors de la suppression.']);
+        }
     }
 }

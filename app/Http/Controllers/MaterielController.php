@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Materiel;
 use App\Models\Unite;
 use App\Models\SousFamille;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -60,13 +61,19 @@ class MaterielController implements HasMiddleware{
             'image' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('materiels', 'public');
+        try{
+            if ($request->hasFile('image')) {
+                $validated['image'] = $request->file('image')->store('materiels', 'public');
+            }
+
+            Materiel::create($validated);
+
+            return redirect()->route('materiels.index')->with('message-success', 'Matériel ajouté.');
+        } catch(Exception $e){
+            return back()
+            ->withInput()
+            ->withErrors(['error' => 'Une erreur est survenue lors de la création du Materiel. Veuillez réessayer.']);
         }
-
-        Materiel::create($validated);
-
-        return redirect()->route('materiels.index')->with('message-success', 'Matériel ajouté.');
     }
 
     public function show(Materiel $materiel){
@@ -91,18 +98,28 @@ class MaterielController implements HasMiddleware{
             'image' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            if ($materiel->image) Storage::disk('public')->delete($materiel->image);
-            $validated['image'] = $request->file('image')->store('materiels', 'public');
+        try{
+            if ($request->hasFile('image')) {
+                if ($materiel->image) Storage::disk('public')->delete($materiel->image);
+                $validated['image'] = $request->file('image')->store('materiels', 'public');
+            }
+
+            $materiel->update($validated);
+
+            return redirect()->route('materiels.show', $materiel)->with('message-success', 'Mise à jour réussie.');
+        } catch (Exception $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour.']);
         }
-
-        $materiel->update($validated);
-
-        return redirect()->route('materiels.show', $materiel)->with('message-success', 'Mise à jour réussie.');
     }
 
     public function destroy(Materiel $materiel){
-        $materiel->delete(); 
-        return redirect()->route('materiels.index')->with('message-success', 'Matériel archivé.');
+        try{
+            $materiel->delete(); 
+            return redirect()->route('materiels.index')->with('message-success', 'Matériel archivé.');
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Erreur lors de la suppression.']);
+        }
     }
 }

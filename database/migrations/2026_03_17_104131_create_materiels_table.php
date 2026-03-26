@@ -12,7 +12,7 @@ return new class extends Migration{
         Schema::create('materiels', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->enum('status', ['Disponible', 'Sorti', 'En panne', 'Maintenance'])->default('Disponible');
             $table->date('date_maintenance')->nullable();

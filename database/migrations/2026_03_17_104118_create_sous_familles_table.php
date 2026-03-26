@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('sous_familles', function (Blueprint $table) {
             $table->id();
             $table->string("nomSousFam");
-            $table->string("description")->nullable();
+            $table->text("description")->nullable();
             $table->foreignId("famille_id")->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

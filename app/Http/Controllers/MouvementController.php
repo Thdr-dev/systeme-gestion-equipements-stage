@@ -24,7 +24,7 @@ class MouvementController extends Controller{
         $request->validate([
             'materiel_id' => 'required|exists:materiels,id',
             'type' => 'required|in:Transfert,Maintenance,Retour,Sortie,Panne',
-            'to_unite_id' => 'nullable|exists:unites,id',
+            'to_unite_id' => 'required_if:type,Transfert|nullable|exists:unites,id', 
             'commentaire' => 'nullable|string|max:255',
         ]);
 

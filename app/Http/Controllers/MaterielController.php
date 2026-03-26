@@ -25,7 +25,15 @@ class MaterielController implements HasMiddleware{
         $query = Materiel::with(['unite', 'sousFamille.famille']);
 
         if ($request->filled('search')) {
-            $query->where('nom', 'like', "%{$request->search}%");
+            $search = "%{$request->search}%";
+            
+            $query->where(function($q) use ($search) {
+                $q->where('nom', 'like', $search)
+                ->orWhereHas('unite', function($qu) use ($search) {
+                    $qu->where('nom', 'like', $search)
+                        ->orWhere('ville', 'like', $search);
+                });
+            });
         }
 
         if ($request->filled('status')) {
@@ -38,13 +46,13 @@ class MaterielController implements HasMiddleware{
         $materiels = $query->latest()->paginate(10)->appends($request->all());
         
         $unites = Unite::all();
-        $sousFamilles = SousFamille::all();
-
+        $sousFamilles = SousFamille::with('famille')->get();
+        
         return view('materiels.index', compact('materiels', 'unites', 'sousFamilles'));
     }
 
     public function create(){
-        $unites = Unite::all();
+        $unites = Unite::orderBy('nom')->get();
         $sousFamilles = SousFamille::with('famille')->get();
 
         return view('materiels.create', compact('unites', 'sousFamilles'));

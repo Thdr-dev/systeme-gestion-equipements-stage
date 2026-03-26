@@ -12,15 +12,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             @auth
                 <ul class="navbar-nav me-auto">
+
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('materiels.*', 'mouvements.*') ? (request()->routeIs('materiels.index') ? 'disabled text-secondary' : 'text-secondary' ) : '' }}" href="{{ route('materiels.index') }}">
+                        <a class="text-white nav-link {{ request()->routeIs('materiels.*', 'mouvements.*') ? (request()->routeIs('materiels.index') ? 'disabled text-secondary' : 'text-secondary' ) : '' }}" href="{{ route('materiels.index') }}">
                             Liste Matériels
                         </a>
                     </li>
 
                     @if(Auth::user()->isAdmin)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ request()->routeIs('familles.*', 'sous-familles.*', 'unites.*', 'users.*') ? 'active text-secondary' : '' }}" href="#" id="configDrop" data-bs-toggle="dropdown">
+                            <a class="text-white nav-link dropdown-toggle {{ request()->routeIs('familles.*', 'sous-familles.*', 'unites.*', 'users.*') ? 'active text-secondary' : '' }}" href="#" id="configDrop" data-bs-toggle="dropdown">
                                 Administration
                             </a>
                             <ul class="dropdown-menu shadow py-0 overflow-hidden">
@@ -41,7 +42,7 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link" href="">Statistiques</a>
+                            <a class="text-white nav-link" href="">Statistiques</a>
                         </li>
                         
                     @endif
@@ -49,7 +50,7 @@
 
                 <ul class="navbar-nav ms-auto pe-0 pe-lg-5">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDrop" data-bs-toggle="dropdown">
+                        <a class="text-white nav-link dropdown-toggle" href="#" id="userDrop" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->prenom }}
                         </a>
                         <ul class="dropdown-menu shadow py-0 overflow-hidden" style="left: -30px">

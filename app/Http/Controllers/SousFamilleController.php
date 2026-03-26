@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SousFamille;
-use App\Models\Famille; // Importation nécessaire pour le formulaire
+use App\Models\Famille;
 use Illuminate\Http\Request;
 
 class SousFamilleController extends Controller{

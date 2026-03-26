@@ -25,15 +25,7 @@ class MaterielController implements HasMiddleware{
         $query = Materiel::with(['unite', 'sousFamille.famille']);
 
         if ($request->filled('search')) {
-            $search = "%{$request->search}%";
-            
-            $query->where(function($q) use ($search) {
-                $q->where('nom', 'like', $search)
-                ->orWhereHas('unite', function($qu) use ($search) {
-                    $qu->where('nom', 'like', $search)
-                        ->orWhere('ville', 'like', $search);
-                });
-            });
+            $query->where('nom', 'like', "%{$request->search}%");
         }
 
         if ($request->filled('status')) {

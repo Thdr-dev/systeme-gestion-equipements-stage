@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Type d'unité</label>
-                                    <select name="type" class="form-control">
+                                    <select name="type" class="form-select">
                                         <option value="Direction">Direction</option>
                                         <option value="Service">Service</option>
                                         <option value="Bureau">Bureau</option>
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Unité Parente (Rattachement)</label>
-                                    <select name="parent_id" class="form-control">
+                                    <select name="parent_id" class="form-select">
                                         <option value="">-- Aucune --</option>
                                         @foreach($unites as $unite)
                                             <option value="{{ $unite->id }}">{{ $unite->nom }}</option>

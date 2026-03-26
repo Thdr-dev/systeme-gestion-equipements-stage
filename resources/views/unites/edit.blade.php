@@ -33,7 +33,7 @@
 
                                 <div class="col-md-6 mb-3">
                                     <label for="type" class="form-label">Type d'unité</label>
-                                    <select name="type" id="type" class="form-control @error('type') is-invalid @enderror" required>
+                                    <select name="type" id="type" class="form-select" required>
                                         @foreach(['Direction', 'Service', 'Bureau', 'Caserne'] as $type)
                                             <option value="{{ $type }}" {{ old('type', $unite->type) == $type ? 'selected' : '' }}>
                                                 {{ $type }}
@@ -62,7 +62,7 @@
 
                                 <div class="col-md-6 mb-3">
                                     <label for="parent_id" class="form-label">Unité Parente (Rattachement)</label>
-                                    <select name="parent_id" id="parent_id" class="form-control @error('parent_id') is-invalid @enderror">
+                                    <select name="parent_id" id="parent_id" class="form-select">
                                         <option value="">-- Aucune (Unité Racine) --</option>
                                         @foreach($unites as $p)
                                             <option value="{{ $p->id }}" {{ old('parent_id', $unite->parent_id) == $p->id ? 'selected' : '' }}>

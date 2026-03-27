@@ -37,8 +37,8 @@ class MaterielController implements HasMiddleware{
 
         $materiels = $query->latest()->paginate(10)->appends($request->all());
         
-        $unites = Unite::all();
-        $sousFamilles = SousFamille::with('famille')->get();
+        $unites = Unite::orderBy("nom")->get();
+        $sousFamilles = SousFamille::with('famille')->orderBy("nomSousFam")->get();
         
         return view('materiels.index', compact('materiels', 'unites', 'sousFamilles'));
     }

@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // --- USERS (Inchangés comme demandé) ---
         User::create([
             'nom' => 'Admin',
             'prenom' => 'System',
@@ -31,7 +30,6 @@ class DatabaseSeeder extends Seeder
             'isAdmin' => false,
         ]);
 
-        // --- UNITÉS (Hiérarchie étendue) ---
         $direction = Unite::create([
             'nom' => 'Direction Générale', 
             'ville' => 'Rabat', 
@@ -39,7 +37,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Siège principal'
         ]);
 
-        // Bureaux rattachés à Rabat
         $u1 = Unite::create([
             'nom' => 'Bureau Informatique', 
             'ville' => 'Rabat', 
@@ -55,7 +52,6 @@ class DatabaseSeeder extends Seeder
             'parent_id' => $direction->id,
         ]);
 
-        // Zones Régionales
         $u2 = Unite::create([
             'nom' => 'Caserne Centrale Nord', 
             'ville' => 'Tanger', 
@@ -68,29 +64,23 @@ class DatabaseSeeder extends Seeder
             'nom' => 'Centre de Formation', 
             'ville' => 'Kenitra', 
             'type' => 'Centre',
-            'parent_id' => $u1->id, // Rattaché au bureau info pour la tech
+            'parent_id' => $u1->id,
         ]);
 
-        // --- FAMILLES & SOUS-FAMILLES ---
 
-        // IT
         $f1 = Famille::create(['nomFam' => 'Informatique']);
         $sfPc = SousFamille::create(['nomSousFam' => 'PC Portables', 'famille_id' => $f1->id]);
         $sfEcran = SousFamille::create(['nomSousFam' => 'Écrans', 'famille_id' => $f1->id]);
         $sfImp = SousFamille::create(['nomSousFam' => 'Imprimantes', 'famille_id' => $f1->id]);
 
-        // MOBILIER
         $f2 = Famille::create(['nomFam' => 'Mobilier']);
         $sfChaise = SousFamille::create(['nomSousFam' => 'Chaises Ergonomiques', 'famille_id' => $f2->id]);
         $sfBureau = SousFamille::create(['nomSousFam' => 'Bureaux', 'famille_id' => $f2->id]);
 
-        // VÉHICULES (Pour varier)
         $f3 = Famille::create(['nomFam' => 'Transport']);
         $sfAuto = SousFamille::create(['nomSousFam' => 'Véhicules Légers', 'famille_id' => $f3->id]);
 
-        // --- MATÉRIELS (Le "Gros" du seeder) ---
 
-        // Matériel informatique à Rabat
         Materiel::create([
             'nom' => 'MacBook Pro M2 - IT01',
             'description' => 'Poste développeur principal',
@@ -107,7 +97,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'Sorti'
         ]);
 
-        // Matériel en panne à Tanger
         Materiel::create([
             'nom' => 'HP Laserjet Pro 400',
             'description' => 'Bourrage papier fréquent',
@@ -116,7 +105,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'En panne'
         ]);
 
-        // Mobilier au siège
         Materiel::create([
             'nom' => 'Table de réunion Oval',
             'description' => 'Salle de conférence A',
@@ -125,7 +113,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'Disponible'
         ]);
 
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 6; $i++) {
             Materiel::create([
                 'nom' => "Chaise Herman Miller #0$i",
                 'description' => "Lot de chaises confort luxe",
@@ -135,7 +123,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Véhicule en maintenance
         Materiel::create([
             'nom' => 'Dacia Duster - Service',
             'description' => 'Révision des 50.000 km',

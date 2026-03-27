@@ -127,13 +127,20 @@ class AuthController extends Controller{
         ]);
 
         try {
+            $currrentUser = Auth::user();
+            
+            if($currrentUser->isAdmin && $currrentUser->id === $user->id){
+                $inputFields['isAdmin'] = true;
+            }else{
+                $inputFields['isAdmin'] = ($request->status === 'admin');
+            }
+
             if (!empty($inputFields['password'])) {
                 $inputFields['password'] = Hash::make($inputFields['password']);
             } else {
                 unset($inputFields['password']);
             }
 
-            $inputFields['isAdmin'] = ($request->status === 'admin');
 
             unset($inputFields['status']);
             

@@ -42,7 +42,7 @@
 
 
                         <li class="nav-item">
-                            <a class="text-white nav-link" href="">Statistiques</a>
+                            <a class="text-white nav-link {{ request()->routeIs('dashboard.index') ? 'disabled text-secondary' : '' }}" href="{{ route("dashboard.index") }}">Dashboard</a>
                         </li>
                         
                     @endif

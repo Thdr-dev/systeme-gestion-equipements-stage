@@ -82,55 +82,56 @@
     </div>
 </nav>
 
+@auth
+    @if(Auth::user()->isAdmin)
 
-@if(Auth::user()->isAdmin)
+        @section("notification-script")
+            <script>
+                let lastCount = {{ auth()->user()->unreadNotifications->count() }};
 
-    @section("notification-script")
-        <script>
-            let lastCount = {{ auth()->user()->unreadNotifications->count() }};
+                function fetchNotifications() {
+                    fetch('/api/notifications/data')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.count !== lastCount) {
 
-            function fetchNotifications() {
-                fetch('/api/notifications/data')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.count !== lastCount) {
+                                
+                                const bellContainer = document.getElementById('bell');
+                                const listContainer = document.getElementById('notificationList');
 
-                            
-                            const bellContainer = document.getElementById('bell');
-                            const listContainer = document.getElementById('notificationList');
-
-                            if (bellContainer) {
-                                let badge = bellContainer.querySelector('.badge');
-                                if (data.count > 0) {
-                                    if (badge) {
-                                        badge.innerText = data.count;
-                                    } else {
-                                        bellContainer.insertAdjacentHTML('beforeend', `<span class="badge position-absolute top-0 start-100 translate-middle rounded-pill bg-danger" style="font-size: 0.6rem;">${data.count}</span>`);
+                                if (bellContainer) {
+                                    let badge = bellContainer.querySelector('.badge');
+                                    if (data.count > 0) {
+                                        if (badge) {
+                                            badge.innerText = data.count;
+                                        } else {
+                                            bellContainer.insertAdjacentHTML('beforeend', `<span class="badge position-absolute top-0 start-100 translate-middle rounded-pill bg-danger" style="font-size: 0.6rem;">${data.count}</span>`);
+                                        }
+                                    } else if (badge) {
+                                        badge.remove();
                                     }
-                                } else if (badge) {
-                                    badge.remove();
                                 }
+
+                                if (listContainer) {
+                                    listContainer.innerHTML = data.html;
+                                }
+
+                                lastCount = data.count;
+
+                                const bellIcon = document.getElementById('bell').firstElementChild;
+                                bellIcon.classList.add('fa-shake', 'text-warning');
+                                setTimeout(() => {
+                                    bellIcon.classList.remove('fa-shake', 'text-warning');
+                                }, 2000);
+
                             }
+                        })
+                        .catch(err => console.error("Erreur de rafraîchissement:", err));
+                }
+                setInterval(fetchNotifications, 15000);
+                
+            </script>
+        @endsection
 
-                            if (listContainer) {
-                                listContainer.innerHTML = data.html;
-                            }
-
-                            lastCount = data.count;
-
-                            const bellIcon = document.getElementById('bell').firstElementChild;
-                            bellIcon.classList.add('fa-shake', 'text-warning');
-                            setTimeout(() => {
-                                bellIcon.classList.remove('fa-shake', 'text-warning');
-                            }, 2000);
-
-                        }
-                    })
-                    .catch(err => console.error("Erreur de rafraîchissement:", err));
-            }
-            setInterval(fetchNotifications, 15000);
-            
-        </script>
-    @endsection
-
-@endif
+    @endif
+@endauth

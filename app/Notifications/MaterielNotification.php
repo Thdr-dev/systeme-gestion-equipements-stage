@@ -13,7 +13,7 @@ class MaterielNotification extends Notification{
     /**
      * Create a new notification instance.
      */
-    public function __construct(protected $data){
+    public function __construct(public $data){
         $this->data = $data;
     }
 

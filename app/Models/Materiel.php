@@ -24,4 +24,7 @@ class Materiel extends Model{
     public function mouvements(){
         return $this->hasMany(Mouvement::class)->latest();
     }
+    protected $casts = [
+        'date_maintenance' => 'date',
+    ];
 }

@@ -16,28 +16,28 @@
             @forelse(auth()->user()->unreadNotifications as $notification)
                 @php
                     $msg = strtoupper($notification->data['message']); 
-                    $style = 'border-left: 4px solid #dee2e6;'; // Par défaut
+                    $style = 'border-left: 4px solid #dee2e6;';
 
                     if (Str::contains($msg, 'PANNE')) {
-                        $style = 'background-color: #fff5f5; border-left: 4px solid #dc3545;'; // Rouge
+                        $style = 'background-color: #fff5f5; border-left: 4px solid #dc3545;';
                     } 
                     elseif (Str::contains($msg, 'ENTREE') || Str::contains($msg, 'RETOUR')) {
-                        $style = 'background-color: #f6fff6; border-left: 4px solid #198754;'; // Vert
+                        $style = 'background-color: #f6fff6; border-left: 4px solid #198754;';
                     } 
                     elseif (Str::contains($msg, 'SORTIE')) {
-                        $style = 'background-color: #fffdf0; border-left: 4px solid #ffc107;'; // Jaune/Orange
+                        $style = 'background-color: #fffdf0; border-left: 4px solid #ffc107;';
                     } 
                     elseif (Str::contains($msg, 'MAINTENANCE')) {
-                        $style = 'background-color: #f0f7ff; border-left: 4px solid #0d6efd;'; // Bleu
+                        $style = 'background-color: #f0f7ff; border-left: 4px solid #0d6efd;';
                     } 
                     elseif (Str::contains($msg, 'TRANSFÉRÉ') || Str::contains($msg, 'TRANSFERT')) {
-                        $style = 'background-color: #f8f5ff; border-left: 4px solid #6610f2;'; // Violet
+                        $style = 'background-color: #f8f5ff; border-left: 4px solid #6610f2;';
                     }
                 @endphp
 
                 <li>
                     <a class="dropdown-item py-2 border-bottom small text-wrap d-flex flex-column" 
-                    href="{{ route('notifications.markAsRead', $notification->id) }}"
+                    href="{{ route('notifications.markAsRead', $notification) }}"
                     style="{{ $style }}">
                         
                         <span class="text-dark">

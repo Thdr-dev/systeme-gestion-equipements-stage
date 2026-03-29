@@ -36,13 +36,23 @@
     <script>
 
         const ctxStatus = document.getElementById('statusChart').getContext('2d');
+        const statusLabels = {!! json_encode($statusDistribution->keys()) !!};
+        const statusColors = {
+            'En panne': '#dc3545',
+            'Disponible': '#28a745',
+            'Sorti': '#ffc107',
+            'Maintenance': '#17a2b8'
+        };
+
+        const dynamicColors = statusLabels.map(label => statusColors[label] || '#dee2e6');
+
         new Chart(ctxStatus, {
             type: 'pie',
             data: {
-                labels: {!! json_encode($statusDistribution->keys()) !!},
+                labels: statusLabels,
                 datasets: [{
                     data: {!! json_encode($statusDistribution->values()) !!},
-                    backgroundColor: ['#28a745', '#dc3545', '#ffc107', '#17a2b8']
+                    backgroundColor: dynamicColors
                 }]
             },
             options: {

@@ -48,7 +48,11 @@
                     @endif
                 </ul>
 
-                <ul class="navbar-nav ms-auto pe-0 pe-lg-5">
+                <ul id="notificationList" class="navbar-nav">
+                    @include('partials.notifications_list')
+                </ul>
+                
+                <ul class="navbar-nav pe-0 pe-lg-5">
                     <li class="nav-item dropdown">
                         <a class="text-white nav-link dropdown-toggle" href="#" id="userDrop" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->prenom }}
@@ -64,13 +68,6 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- @if(Auth::user()->isAdmin)
-                        <li class="nav-item">
-                            <a class="btn btn-outline-light ms-lg-2" href="{{ route('users.register') }}">
-                                <i class="fas fa-user-plus"></i> Ajouter un Operateur
-                            </a>
-                        </li>
-                    @endif --}}
                 </ul>
             @endauth
 
@@ -84,3 +81,56 @@
         </div>
     </div>
 </nav>
+
+
+@if(Auth::user()->isAdmin)
+
+    @section("notification-script")
+        <script>
+            let lastCount = {{ auth()->user()->unreadNotifications->count() }};
+
+            function fetchNotifications() {
+                fetch('/api/notifications/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.count !== lastCount) {
+
+                            
+                            const bellContainer = document.getElementById('bell');
+                            const listContainer = document.getElementById('notificationList');
+
+                            if (bellContainer) {
+                                let badge = bellContainer.querySelector('.badge');
+                                if (data.count > 0) {
+                                    if (badge) {
+                                        badge.innerText = data.count;
+                                    } else {
+                                        bellContainer.insertAdjacentHTML('beforeend', `<span class="badge position-absolute top-0 start-100 translate-middle rounded-pill bg-danger" style="font-size: 0.6rem;">${data.count}</span>`);
+                                    }
+                                } else if (badge) {
+                                    badge.remove();
+                                }
+                            }
+
+                            if (listContainer) {
+                                listContainer.innerHTML = data.html;
+                            }
+
+                            lastCount = data.count;
+
+                            const bellIcon = document.getElementById('bell').firstElementChild;
+                            bellIcon.classList.add('fa-shake', 'text-warning');
+                            setTimeout(() => {
+                                bellIcon.classList.remove('fa-shake', 'text-warning');
+                            }, 2000);
+
+                        }
+                    })
+                    .catch(err => console.error("Erreur de rafraîchissement:", err));
+            }
+            setInterval(fetchNotifications, 15000);
+            
+        </script>
+    @endsection
+
+@endif

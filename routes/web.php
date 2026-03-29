@@ -8,6 +8,7 @@ use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\MouvementController;
 use App\Http\Controllers\SousFamilleController;
 use App\Http\Controllers\UniteController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +30,26 @@ Route::middleware(["auth", "admin"])->group(function(){
 
     });
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    
+    Route::get('/notifications/read-all', function() {
+        Auth::user()->unreadNotifications->markAsRead();
+        return back();
+    })->name('notifications.readAll');
+
+    Route::get('/api/notifications/data', function() {
+        $user = Auth::user();
+        return response()->json([
+            'count' => $user->unreadNotifications->count(),
+            'html'  => view('partials.notifications_list')->render() 
+        ]);
+    });
+    
+    Route::get('/notifications/{id}/read', function($id) {
+        $notification = Auth::user()->notifications()->findOrFail($id);
+        $notification->markAsRead(); // Elle disparaitra de 'unreadNotifications'
+        
+        return redirect($notification->data['link']); 
+    })->name('notifications.markAsRead');
 });
         
         

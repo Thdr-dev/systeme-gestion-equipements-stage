@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Materiel;
 use App\Models\Mouvement;
 use App\Models\Unite;
+use App\Models\User;
+use App\Notifications\MaterielNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,10 +34,9 @@ class MouvementController extends Controller{
             $materiel = Materiel::findOrFail($request->materiel_id);
             $user = Auth::user();
 
-            DB::transaction(function () use ($request, $materiel, $user) {
-                
+           DB::transaction(function () use ($request, $materiel, $user) {
+    
                 $destinationId = ($user->isAdmin) ? $request->to_unite_id : $materiel->unite_id;
-
 
                 Mouvement::create([
                     'type' => $request->type,
@@ -47,19 +48,57 @@ class MouvementController extends Controller{
                 ]);
 
                 $newStatus = $materiel->status;
-                
+                $actionText = "";
+
                 switch($request->type) {
-                    case 'Sortie':      $newStatus = 'Sorti'; break;
-                    case 'Panne':       $newStatus = 'En panne'; break;
-                    case 'Maintenance': $newStatus = 'Maintenance'; break;
-                    case 'Retour':      $newStatus = 'Disponible'; break;
-                    case 'Transfert':   $newStatus = 'Disponible'; break;
-                }
+    case 'Sortie':      
+        $newStatus = 'Sorti'; 
+        // Jaune/Ambre pour la Sortie
+        $actionText = "a effectué une <strong style='color: #d97706;'>SORTIE</strong> pour"; 
+        break;
+
+    case 'Panne':       
+        $newStatus = 'En panne'; 
+        // Rouge vif pour la Panne
+        $actionText = "a signalé une <strong style='color: #dc3545;'>PANNE</strong> sur"; 
+        break;
+
+    case 'Maintenance': 
+        $newStatus = 'Maintenance'; 
+        // Bleu pour la Maintenance
+        $actionText = "a envoyé en <strong style='color: #0d6efd;'>MAINTENANCE</strong>"; 
+        break;
+
+    case 'Retour':      
+        $newStatus = 'Disponible'; 
+        // Vert pour le Retour (Entrée)
+        $actionText = "a enregistré le <strong style='color: #198754;'>RETOUR</strong> de"; 
+        break;
+
+    case 'Transfert':   
+        $newStatus = 'Disponible'; 
+        // Violet/Gris foncé pour le Transfert
+        $actionText = "a <strong style='color: #6610f2;'>TRANSFÉRÉ</strong>"; 
+        break;
+}
 
                 $materiel->update([
                     'unite_id' => $destinationId,
                     'status'   => $newStatus
                 ]);
+                
+                $admins = User::where('isAdmin', true)->get();
+                $newUniteNom = Unite::findOrFail($destinationId)->nom;
+
+                $data = [
+                    'message' => "{$user->prenom} {$actionText} [{$materiel->nom}] (Unité: {$newUniteNom})",
+                    'link' => route('materiels.show', $materiel),
+                    'type' => 'mouvement'
+                ];
+
+                foreach ($admins as $admin) {
+                    $admin->notify(new MaterielNotification($data));
+                }
             });
 
             return redirect()->route('materiels.show', $materiel)->with('message-success', 'Mouvement enregistré et statut mis à jour.');

@@ -188,17 +188,22 @@
 ::-webkit-scrollbar-track {
     background: #1d4e90;
 }
-
 ::-webkit-scrollbar-thumb {
     background: #de5312;
+    border-radius: 5px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
     background: #de5412;
 }
 
 * {
+    scrollbar-width: thin;
     scrollbar-color: #de5312c3 #1d4e90;
+}
+
+.navbar * {
+    scrollbar-color: #c1c1c1 #f1f1f1 !important;
+    scrollbar-width: thin !important;
 }
 
 .logo {
@@ -208,4 +213,8 @@
 
 .nav-link:hover {
     color: #ccc !important;
+}
+
+.fa-shake {
+    scale: 1.4;
 }

@@ -37,10 +37,14 @@
 
                     <div class="col-lg-2 col-md-6">
                         <select name="status" class="search-input form-select">
-                            <option value="">Tous les statuts</option>
-                            @foreach(['Disponible', 'Sorti', 'En panne', 'Maintenance'] as $status)
-                                <option value="{{ $status }}" @selected(request('status') == $status) >{{ $status }}</option>
-                            @endforeach
+                            @if(Auth::user()->isAdmin)
+                                <option value="">Tous les statuts</option>
+                                @foreach(['Disponible', 'Sorti', 'En panne', 'Maintenance'] as $status)
+                                    <option value="{{ $status }}" @selected(request('status') == $status)>{{ $status }}</option>
+                                @endforeach
+                            @else
+                                <option value="Disponible" selected>Disponible</option>
+                            @endif
                         </select>
                     </div>
 

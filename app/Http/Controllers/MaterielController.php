@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class MaterielController implements HasMiddleware{
@@ -21,19 +22,28 @@ class MaterielController implements HasMiddleware{
         ];
     }
 
-    public function index(Request $request){
+    public function index(Request $request) {
         $query = Materiel::with(['unite', 'sousFamille.famille']);
+
+        if (!Auth::user()->isAdmin) {
+            $query->where('status', 'Disponible');
+        } else {
+            if ($request->filled('status')) {
+                $query->where('status', $request->status);
+            }
+        }
 
         if ($request->filled('search')) {
             $query->where('nom', 'like', "%{$request->search}%");
         }
 
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
+        if ($request->filled('unite_id')) {
+            $query->where('unite_id', $request->unite_id);
         }
 
-        if ($request->filled('unite_id')) $query->where('unite_id', $request->unite_id);
-        if ($request->filled('sous_famille_id')) $query->where('sous_famille_id', $request->sous_famille_id);
+        if ($request->filled('sous_famille_id')) {
+            $query->where('sous_famille_id', $request->sous_famille_id);
+        }
 
         $materiels = $query->latest()->paginate(10)->appends($request->all());
         

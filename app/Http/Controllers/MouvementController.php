@@ -15,9 +15,30 @@ use Illuminate\Support\Facades\Route;
 
 class MouvementController extends Controller{
 
-    public function create(Materiel $materiel){
-        $unites = Unite::all();
+    public function create(Materiel $materiel) {
+        $user = Auth::user();
 
+        if (!$user->isAdmin) {
+            
+            if (in_array($materiel->status, ['En panne', 'Maintenance'])) {
+                return redirect()->route('materiels.index')
+                    ->withErrors(['message-error'=> "Ce matériel est en {$materiel->status}. Seul un administrateur peut modifier son état."]);
+            }
+
+            if ($materiel->status === 'Sorti') {
+                $dernierMouvement = $materiel->mouvements()
+                    ->where('type', 'Sortie')
+                    ->latest()
+                    ->first();
+
+                if ($dernierMouvement && $dernierMouvement->user_id !== $user->id) {
+                    return redirect()->route('materiels.index')
+                        ->withErrors(['message-error'=> "Ce matériel est déjà utilisé par un autre opérateur."]);
+                }
+            }
+        }
+
+        $unites = Unite::all();
         return view("mouvement.create", compact('materiel', 'unites'));
     }
 
@@ -51,36 +72,31 @@ class MouvementController extends Controller{
                 $actionText = "";
 
                 switch($request->type) {
-    case 'Sortie':      
-        $newStatus = 'Sorti'; 
-        // Jaune/Ambre pour la Sortie
-        $actionText = "a effectué une <strong style='color: #d97706;'>SORTIE</strong> pour"; 
-        break;
+                    case 'Sortie':      
+                        $newStatus = 'Sorti'; 
+                        $actionText = "a effectué une <strong style='color: #d97706;'>SORTIE</strong> pour"; 
+                        break;
 
-    case 'Panne':       
-        $newStatus = 'En panne'; 
-        // Rouge vif pour la Panne
-        $actionText = "a signalé une <strong style='color: #dc3545;'>PANNE</strong> sur"; 
-        break;
+                    case 'Panne':       
+                        $newStatus = 'En panne'; 
+                        $actionText = "a signalé une <strong style='color: #dc3545;'>PANNE</strong> sur"; 
+                        break;
 
-    case 'Maintenance': 
-        $newStatus = 'Maintenance'; 
-        // Bleu pour la Maintenance
-        $actionText = "a envoyé en <strong style='color: #0d6efd;'>MAINTENANCE</strong>"; 
-        break;
+                    case 'Maintenance': 
+                        $newStatus = 'Maintenance'; 
+                        $actionText = "a envoyé en <strong style='color: #0d6efd;'>MAINTENANCE</strong>"; 
+                        break;
 
-    case 'Retour':      
-        $newStatus = 'Disponible'; 
-        // Vert pour le Retour (Entrée)
-        $actionText = "a enregistré le <strong style='color: #198754;'>RETOUR</strong> de"; 
-        break;
+                    case 'Retour':      
+                        $newStatus = 'Disponible'; 
+                        $actionText = "a enregistré le <strong style='color: #198754;'>RETOUR</strong> de"; 
+                        break;
 
-    case 'Transfert':   
-        $newStatus = 'Disponible'; 
-        // Violet/Gris foncé pour le Transfert
-        $actionText = "a <strong style='color: #6610f2;'>TRANSFÉRÉ</strong>"; 
-        break;
-}
+                    case 'Transfert':   
+                        $newStatus = 'Disponible'; 
+                        $actionText = "a <strong style='color: #6610f2;'>TRANSFÉRÉ</strong>"; 
+                        break;
+                }
 
                 $materiel->update([
                     'unite_id' => $destinationId,

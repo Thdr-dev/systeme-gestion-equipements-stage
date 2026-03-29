@@ -43,11 +43,12 @@
                                     <option value="{{ $status }}" @selected(request('status') == $status)>{{ $status }}</option>
                                 @endforeach
                             @else
-                                <option value="Disponible" selected>Disponible</option>
+                                <option value="">Tous mes accès</option>
+                                <option value="Disponible" @selected(request('status') == 'Disponible')>Disponible (Stock)</option>
+                                <option value="Sorti" @selected(request('status') == 'Sorti')>Mes Sorties (En main)</option>
                             @endif
                         </select>
                     </div>
-
                     <div class="col-lg-2 col-md-6">
                         <select name="sous_famille_id" class="search-input form-select">
                             <option value="">Toutes les categories</option>

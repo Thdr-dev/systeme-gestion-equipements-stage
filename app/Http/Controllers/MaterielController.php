@@ -24,9 +24,23 @@ class MaterielController implements HasMiddleware{
 
     public function index(Request $request) {
         $query = Materiel::with(['unite', 'sousFamille.famille']);
+        $user = Auth::user();
 
-        if (!Auth::user()->isAdmin) {
-            $query->where('status', 'Disponible');
+        if (!$user->isAdmin) {
+            $query->where(function($q) use ($user) {
+                $q->where('status', 'Disponible')
+                ->orWhere(function($sub) use ($user) {
+                    $sub->where('status', 'Sorti')
+                        ->whereHas('mouvements', function($m) use ($user) {
+                            $m->where('user_id', $user->id)
+                                ->where('type', 'Sortie');
+                        });
+                });
+            });
+            if ($request->filled('status')) {
+                $query->where('status', $request->status);
+            }
+
         } else {
             if ($request->filled('status')) {
                 $query->where('status', $request->status);
@@ -37,13 +51,9 @@ class MaterielController implements HasMiddleware{
             $query->where('nom', 'like', "%{$request->search}%");
         }
 
-        if ($request->filled('unite_id')) {
-            $query->where('unite_id', $request->unite_id);
-        }
+        if ($request->filled('unite_id')) $query->where('unite_id', $request->unite_id);
 
-        if ($request->filled('sous_famille_id')) {
-            $query->where('sous_famille_id', $request->sous_famille_id);
-        }
+        if ($request->filled('sous_famille_id')) $query->where('sous_famille_id', $request->sous_famille_id);
 
         $materiels = $query->latest()->paginate(10)->appends($request->all());
         
@@ -53,6 +63,7 @@ class MaterielController implements HasMiddleware{
         return view('materiels.index', compact('materiels', 'unites', 'sousFamilles'));
     }
 
+    
     public function create(){
         $unites = Unite::orderBy('nom')->get();
         $sousFamilles = SousFamille::with('famille')->get();

@@ -27,18 +27,14 @@
 
                             
                             @if(Auth::user()->isAdmin)
-                                
                                 <div class="mb-3">
                                     <label class="form-label">Type de mouvement</label>
                                     <select name="type" class="form-select">
                                         <option value="Transfert">Transfert d'Unité</option>
                                         <option value="Maintenance">Envoi en Maintenance</option>
-                                        <option value="Retour">Retour de Maintenance</option>
+                                        <option value="Retour">Retour de stock</option>
                                         <option value="Sortie">Sortie de stock</option>
                                     </select>
-                                    @error('type')
-                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
-                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
@@ -50,25 +46,23 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('to_unite_id')
-                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             @else
-
                                 <div class="mb-3">
-                                    <label class="form-label">Action</label>
+                                    <label class="form-label">Action disponible</label>
                                     <select name="type" class="form-select">
-                                        <option value="Sortie">📤 Sortie (Mise en service)</option>
-                                        <option value="Retour">📥 Entrée (Retour au stock)</option>
-                                        <option value="Panne">🚨 Signaler une Panne</option>
+                                        @if($materiel->status === 'Disponible')
+                                            <option value="Sortie">📤 Sortie (Prendre le matériel)</option>
+                                            <option value="Panne">🚨 Signaler une Panne</option>
+                                        @endif
+
+                                        @if($materiel->status === 'Sorti')
+                                            <option value="Retour">📥 Retour (Remettre au stock)</option>
+                                            <option value="Panne">🚨 Signaler une Panne</option>
+                                        @endif
                                     </select>
-                                    @error('type')
-                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
-                                    @enderror
                                 </div>
                                 <input type="hidden" name="to_unite_id" value="{{ $materiel->unite_id }}">
-
                             @endif
 
                             <div class="mb-3">

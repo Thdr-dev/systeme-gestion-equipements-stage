@@ -10,7 +10,7 @@
                 @endif
             </span>
         </a>
-        <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-0 position-fixed" style="width: 400px; max-width: 400px; max-height: 450px; overflow-y: auto; top: 60px; right: 10px">
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-0 position-fixed" style="width: 400px; max-width: 90%; max-height: 450px; overflow-y: auto; top: 60px; right: 20px">
             <li class="bg-light p-2 border-bottom small fw-bold text-uppercase sticky-top">Notifications</li>
             
             @forelse(auth()->user()->unreadNotifications as $notification)

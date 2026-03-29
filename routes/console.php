@@ -15,19 +15,17 @@ Artisan::command('inspire', function () {
 
 
 Schedule::call(function () {
-    // 1. Récupérer les matériels qui expirent dans exactement 7 jours
     $proches = Materiel::whereDate('date_maintenance', now()->addDays(7))->get();
 
     foreach ($proches as $m) {
-        // 2. Récupérer les admins (vérifie si ta colonne est 'role' ou 'isAdmin')
-        $admins = User::where('role', 'admin')->get(); 
+        $admins = User::where('isAdmin', true)->get(); 
         
         foreach ($admins as $admin) {
             $admin->notify(new MaterielNotification([
                 'message' => "Maintenance proche (7j) : " . $m->nom,
-                'link' => route('materiels.index'), // On a dit qu'on utilisait l'index
+                'link' => route('materiels.index'), 
                 'type' => 'maintenance'
             ]));
         }
     }
-})->daily(); // Exécuté une fois par jour
+})->daily();

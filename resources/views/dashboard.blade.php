@@ -32,7 +32,7 @@
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover table-striped align-middle mb-0">
-                        <thead class="bg-light">
+                        <thead>
                             <tr>
                                 <th class="text-secondary bg-primary">Équipement</th>
                                 <th class="text-secondary bg-primary">Échéance</th>

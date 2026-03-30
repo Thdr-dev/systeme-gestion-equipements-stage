@@ -26,7 +26,7 @@ class DashboardController extends Controller{
             ->get();
 
         $maintenancesUrgent = Materiel::whereDate('date_maintenance', '<=', now()->addDays(7))
-                                    ->whereNotIn('status', ['Maintenance', 'Disponible'])
+                                    ->where('status', '!=', 'Maintenance')
                                     ->orderBy('date_maintenance')
                                     ->get();
 

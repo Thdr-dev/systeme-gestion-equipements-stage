@@ -128,7 +128,7 @@
                         })
                         .catch(err => console.error("Erreur de rafraîchissement:", err));
                 }
-                setInterval(fetchNotifications, 5000);
+                setInterval(fetchNotifications, 15000);
                 
             </script>
         @endsection

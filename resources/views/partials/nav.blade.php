@@ -74,7 +74,7 @@
             @guest
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.login') }}">Se connecter</a>
+                        <a class="text-white nav-link {{ request()->routeIs('familles.*', 'sous-familles.*', 'unites.*', 'users.*') ? 'active text-secondary' : '' }}" href="{{ route('users.login') }}">Se connecter</a>
                     </li>
                 </ul>
             @endguest
@@ -86,6 +86,7 @@
     @if(Auth::user()->isAdmin)
 
         @section("notification-script")
+
             <script>
                 let lastCount = {{ auth()->user()->unreadNotifications->count() }};
 
@@ -131,6 +132,7 @@
                 setInterval(fetchNotifications, 15000);
                 
             </script>
+        
         @endsection
 
     @endif

@@ -44,14 +44,14 @@ Schedule::call(function () {
             ];
 
             foreach ($admins as $admin) {
-                $dejaNotifie = $admin->unreadNotifications()
-                                     ->where('data->message', 'like', "%".$m->nom."%")
-                                     ->exists();
+                // $dejaNotifie = $admin->unreadNotifications()
+                //                      ->where('data->message', 'like', "%".$m->nom."%")
+                //                      ->exists();
                                      
-                $admin->notify(new MaterielNotification($data));
                 // if (!$dejaNotifie) {
+                    $admin->notify(new MaterielNotification($data));
                 // }
             }
         }
     }
-})->everyMinute();
+})->dailyAt('10:00')->timezone("Africa/Casablanca");

@@ -27,6 +27,11 @@ class AuthController extends Controller{
             $user = Auth::user();
             $role = $user->isAdmin ? "Admin" : "Opérateur";
             $userName = $user->nom;
+            
+            if($user->isAdmin){
+                return redirect()->intended('/dashboard')
+                ->with("message-success", "Heureux de vous revoir, $role $userName !");
+            }
 
             return redirect()->intended('/')
                 ->with("message-success", "Heureux de vous revoir, $role $userName !");

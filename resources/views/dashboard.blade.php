@@ -9,12 +9,11 @@
             </div>
         </div>
 
-        <div class="card shadow-sm border-0 pb-4">
+        <div class="card shadow-sm border-0 pb-lg-4 pb-5 pt-3">
             <div class="card-body row gy-4">
-
                 <div class="col-lg-6" style="position: relative; height: 350px;">
                     <h2 class="h2 fw-normal text-center text-muted">{{ $totalMateriels }} équipements au total</h2>
-                    <canvas id="statusChart" class="mb-5"></canvas>
+                    <canvas id="statusChart" class="mb-4 mb-lg-5"></canvas>
                 </div>
                 <div class="col-lg-6" style="position: relative; height: 350px;">
                     <hr class="d-lg-none">
@@ -32,7 +31,7 @@
         <div class="card shadow-sm border-0">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
+                    <table class="table table-hover table-striped align-middle mb-0">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-secondary bg-primary">Équipement</th>
@@ -74,7 +73,7 @@
                             @empty
                                 <tr>
                                     <td colspan="4" class="text-center py-4 text-muted">
-                                        ✅ Aucune maintenance urgente à prévoir.
+                                        Aucune maintenance urgente à prévoir.
                                     </td>
                                 </tr>
                             @endforelse
@@ -84,7 +83,7 @@
             </div>
 
             @if($maintenancesUrgent->count() > 0)
-                <div class="card-footer bg-white border-0 text-center py-3">
+                <div class="card-footer table-secondary border-0 text-center py-3">
                     <a href="{{ route('materiels.index') }}" class="text-decoration-none small fw-bold">Voir tout les Materiels</a>
                 </div>
             @endif

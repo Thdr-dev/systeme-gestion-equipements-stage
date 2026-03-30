@@ -50,7 +50,7 @@
                     </a>
                 </li>
             @empty
-                <li class="p-3 text-center text-muted small">Aucune alerte</li>
+                <li class="p-3 text-center text-muted small">Aucune notification pour le moment</li>
             @endforelse
 
             @if(auth()->user()->unreadNotifications->count() > 0)

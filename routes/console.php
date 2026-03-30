@@ -47,10 +47,10 @@ Schedule::call(function () {
                 $dejaNotifie = $admin->unreadNotifications()
                                      ->where('data->message', 'like', "%".$m->nom."%")
                                      ->exists();
-
-                if (!$dejaNotifie) {
-                    $admin->notify(new MaterielNotification($data));
-                }
+                                     
+                $admin->notify(new MaterielNotification($data));
+                // if (!$dejaNotifie) {
+                // }
             }
         }
     }

@@ -25,13 +25,19 @@ class DashboardController extends Controller{
             ->take(5)
             ->get();
 
+        $maintenancesUrgent = Materiel::whereDate('date_maintenance', '<=', now()->addDays(7))
+                                    ->where('status', '!=', 'Maintenance')
+                                    ->orderBy('date_maintenance')
+                                    ->get();
+
         return view('dashboard', compact(
             'totalMateriels',
             'totalUnites',
             'enPanne', 
             'enMaintenance', 
             'statusDistribution', 
-            'topUnites'
+            'topUnites',
+            'maintenancesUrgent'
         ));
 
     }

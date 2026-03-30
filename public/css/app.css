@@ -218,3 +218,37 @@
 .fa-shake {
     scale: 1.4;
 }
+
+.notFound {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notFound::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(hsla(0, 0%, 0%, 0.5), hsla(0, 0%, 0%, 0.5)),
+        url("../error404.png");
+    background-size: cover;
+    background-position: center right;
+    filter: blur(3px) brightness(50%);
+    transform: scale(1.1);
+    z-index: -1;
+}
+
+.notFound > .card-body {
+    padding: 2rem;
+    border-radius: 15px;
+}

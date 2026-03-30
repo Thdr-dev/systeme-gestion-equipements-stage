@@ -26,6 +26,71 @@
         </div>
     </div>
 
+    <div class="mt-5">
+        <h2 class="display-6 fw-normal text-secondary mb-4">Interventions Prioritaires</h2>
+        
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="text-secondary bg-primary">Équipement</th>
+                                <th class="text-secondary bg-primary">Échéance</th>
+                                <th class="text-secondary bg-primary">État</th>
+                                <th class="text-secondary bg-primary">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($maintenancesUrgent as $m)
+                                @php
+                                    $isPast = $m->date_maintenance->isPast() && !$m->date_maintenance->isToday();
+                                    $isToday = $m->date_maintenance->isToday();
+                                @endphp
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="fw-bold">{{ $m->nom }}</div>
+                                    </td>
+                                    <td>
+                                        <span class="{{ $isPast ? 'text-danger fw-bold' : ( $isToday ? 'text-warning' : 'text-dark' ) }}">
+                                            {{ $m->date_maintenance->format('d/m/Y') }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if($isPast)
+                                            <span class="badge rounded-pill bg-danger">RETARD</span>
+                                        @elseif($isToday)
+                                            <span class="badge rounded-pill bg-warning">AUJOURD'HUI</span>
+                                        @else
+                                            <span class="badge rounded-pill bg-primary">PROCHE</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <a href="{{ route('materiels.show', $m) }}" class="btn btn-outline-primary btn-sm">
+                                            Détails
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-muted">
+                                        ✅ Aucune maintenance urgente à prévoir.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            @if($maintenancesUrgent->count() > 0)
+                <div class="card-footer bg-white border-0 text-center py-3">
+                    <a href="{{ route('materiels.index') }}" class="text-decoration-none small fw-bold">Voir tout les Materiels</a>
+                </div>
+            @endif
+        </div>
+    </div>
+
 @endsection
 
 

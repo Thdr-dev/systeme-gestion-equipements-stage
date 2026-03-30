@@ -11,7 +11,8 @@
             </div>
 
             <div class="row g-3 mb-3 text-start">
-                <div class="col-md-4">
+                
+                <div class="col-lg-4">
                     <div class="card h-100 border-0 shadow-sm p-3">
                         <div class="d-flex align-items-center mb-2">
                             <div class="bg-primary bg-opacity-10 rounded-circle me-3 text-secondary" style="padding: 0.5rem 0.8rem;">
@@ -23,7 +24,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <div class="card h-100 border-0 shadow-sm p-3">
                         <div class="d-flex align-items-center mb-2">
                             <div class="bg-warning bg-opacity-10 rounded-circle me-3 text-warning" style="padding: 0.5rem 0.8rem;">
@@ -35,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <div class="card h-100 border-0 shadow-sm p-3">
                         <div class="d-flex align-items-center mb-2">
                             <div class="bg-success bg-opacity-10 rounded-circle me-3 text-success" style="padding: 0.5rem 0.8rem;">
@@ -46,6 +47,7 @@
                         <small class="text-muted">Visualisez l'état global de votre parc matériel.</small>
                     </div>
                 </div>
+
             </div>
 
         </div>

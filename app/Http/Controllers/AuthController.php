@@ -19,7 +19,6 @@ class AuthController extends Controller{
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'remember' => 'boolean'
         ]);
 
         $remember = $request->has('remember');

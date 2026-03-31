@@ -163,15 +163,18 @@
                                         <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
                                     </div>
                                     @else
-                                        <a href="{{ route('mouvements.create', $materiel) }}" class="btn btn-outline-info w-100 mb-2" title="Enregistrer un mouvement">
-                                            <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
-                                        </a>
 
-                                        <a href="{{ route('mouvements.declarePanne', $materiel) }}" class="btn btn-outline-danger w-100"
-                                            title="Declarer une Panne">
-                                            <i class="fa-solid fa-triangle-exclamation"></i> Declare une Panne
-                                        </a>
-                                    
+                                        @if($materiel->status !== "En panne")
+                                            <a href="{{ route('mouvements.create', $materiel) }}" class="btn btn-outline-info w-100 mb-2" title="Enregistrer un mouvement">
+                                                <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
+                                            </a>
+
+                                            <a href="{{ route('mouvements.declarePanne', $materiel) }}" class="btn btn-outline-danger w-100"
+                                                title="Declarer une Panne">
+                                                <i class="fa-solid fa-triangle-exclamation"></i> Declare une Panne
+                                            </a>
+                                        @endif
+
                                 @endif
                             </div>
                         </div>

@@ -19,9 +19,12 @@ class AuthController extends Controller{
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'remember' => 'boolean'
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
             $user = Auth::user();

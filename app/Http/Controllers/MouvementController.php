@@ -91,8 +91,10 @@ class MouvementController extends Controller{
 
            DB::transaction(function () use ($request, $materiel, $user) {
     
-                $destinationId = ($user->isAdmin) ? $request->to_unite_id : $materiel->unite_id;
-
+                $destinationId = ($request->type === 'Transfert') 
+                                ? $request->to_unite_id 
+                                : $materiel->unite_id;
+                                
                 $commentaireFinal = $request->commentaire;
 
                 if ($request->type === 'Maintenance' && $request->delai_maintenance) {

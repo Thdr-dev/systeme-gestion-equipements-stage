@@ -24,14 +24,22 @@
                         <form action="{{ route('mouvements.store') }}" method="POST" >
                             @csrf
                             <input type="hidden" name="materiel_id" value="{{ $materiel->id }}">
+                            <input type="hidden" name="to_unite_id" value="{{ $materiel->unite_id }}">
 
                             
                             @if(Auth::user()->isAdmin)
                                 <div class="mb-3">
+
                                     <label class="form-label">Type de mouvement</label>
+                                    
                                     <select name="type" class="form-select">
+                                        
                                         <option @selected( old("type") === "Transfert" ) value="Transfert">Transfert d'Unité</option>
-                                        <option @selected( old("type") === "Maintenance" ) value="Maintenance">Envoi en Maintenance</option>
+                                        
+                                        @if($materiel->status !== "Maintenance")
+                                            <option @selected( old("type") === "Maintenance" ) value="Maintenance">Envoi en Maintenance</option>
+                                        @endif
+                                        
                                         <option @selected( old("type") === "Retour" ) value="Retour">Retour de stock</option>
                                         <option @selected( old("type") === "sortie" ) value="Sortie">Sortie de stock</option>
                                     </select>

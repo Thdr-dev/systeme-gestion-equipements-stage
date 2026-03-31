@@ -92,8 +92,7 @@ class MouvementController extends Controller{
                         $actionText = "a enregistré le <strong style='color: #198754;'>RETOUR</strong> de"; 
                         break;
 
-                    case 'Transfert':   
-                        $newStatus = 'Disponible'; 
+                    case 'Transfert':
                         $actionText = "a <strong style='color: #6610f2;'>TRANSFÉRÉ</strong>"; 
                         break;
                 }

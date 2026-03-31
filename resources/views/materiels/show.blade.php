@@ -151,7 +151,7 @@
                                     <tr>
                                         <td class="small">{{ $mvt->created_at->format('d/m/Y H:i') }}</td>
                                         <td>
-                                            <span class="badge @if($mvt->type == 'Panne') bg-danger @elseif($mvt->type == 'Transfert') bg-info @else bg-secondary @endif">
+                                            <span class="badge @if($mvt->type == 'Panne') bg-danger @elseif($mvt->type == 'Transfert') bg-info @elseif($mvt->type == 'Retour') bg-success @else bg-secondary @endif">
                                                 {{ $mvt->type }}
                                             </span>
                                         </td>

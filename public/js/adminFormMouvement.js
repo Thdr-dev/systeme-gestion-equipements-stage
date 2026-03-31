@@ -4,11 +4,21 @@ const uniteDiv = document.querySelector(
     'select[name="to_unite_id"]',
 ).parentElement;
 
+const delaiDiv = document.querySelector(
+    'input[name="delai_maintenance"]',
+).parentElement;
+
 typeSelect.addEventListener("change", function () {
     if (this.value === "Transfert") {
-        uniteDiv.style.display = "block";
+        uniteDiv.classList.remove("d-none");
     } else {
-        uniteDiv.style.display = "none";
+        uniteDiv.classList.add("d-none");
+    }
+
+    if (this.value === "Maintenance") {
+        delaiDiv.classList.remove("d-none");
+    } else {
+        delaiDiv.classList.add("d-none");
     }
 });
 

@@ -37,7 +37,7 @@
                                     </select>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-3 d-none">
                                     <label class="form-label">Vers l'Unité</label>
                                     <select name="to_unite_id" class="form-select">
                                         @foreach($unites as $unite)
@@ -46,6 +46,11 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+
+                                <div class="mb-3 d-none">
+                                    <label class="form-label">Delai de maintenance</label>
+                                    <input type="date" name="delai_maintenance" class="form-control" />
                                 </div>
                             @else
                                 <div class="mb-3">
@@ -89,7 +94,7 @@
 
     @section("scripts")
 
-        <script src="{{ asset("js/adminSelectInput.js") }}"></script>
+        <script src="{{ asset("js/adminFormMouvement.js") }}"></script>
 
     @endsection
 

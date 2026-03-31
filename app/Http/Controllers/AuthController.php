@@ -27,13 +27,16 @@ class AuthController extends Controller{
             $user = Auth::user();
             $role = $user->isAdmin ? "Admin" : "Opérateur";
             $userName = $user->nom;
+
+            $intendedUrl = session()->get('url.intended');
             
-            if($user->isAdmin){
-                return redirect()->intended('/dashboard')
-                ->with("message-success", "Heureux de vous revoir, $role $userName !");
+            if ($intendedUrl && str_contains($intendedUrl, 'api')) {
+                session()->forget('url.intended');
             }
 
-            return redirect()->intended('/')
+            $redirectPath = $user->isAdmin ? '/dashboard' : '/';
+
+            return redirect()->intended($redirectPath)
                 ->with("message-success", "Heureux de vous revoir, $role $userName !");
         }
 
@@ -162,6 +165,9 @@ class AuthController extends Controller{
     }
     public function deleteUser(User $user) {
         try {
+            if (Auth::id() === $user->id) {
+                return back()->withErrors(['message-error' => 'Vous ne pouvez pas supprimer votre propre compte !']);
+            }
             $user->delete();
             return back()->with("message-success", "L'utilisateur a été supprimé !");
 

@@ -14,44 +14,41 @@ Artisan::command('inspire', function () {
 
 
 Schedule::call(function () {
-    // On prend tout ce qui est <= J+7 (Retards inclus)
+    $admins = User::where('isAdmin', true)->get();
+    $today = now()->startOfDay();
+
     $proches = Materiel::whereDate('date_maintenance', '<=', now()->addDays(7)->toDateString())
                         ->where('status', '!=', 'Maintenance')
                         ->get();
 
-    if ($proches->isNotEmpty()) {
-        $admins = User::where('isAdmin', true)->get(); 
-        
-        foreach ($proches as $m) {
-            $dateMaint = $m->date_maintenance;
-            $today = now()->startOfDay();
-            
-            $label = "PROCHE";
-            $color = "blue";
-            if ($dateMaint->lt($today)) {
-                $label = "RETARD";
-                $color = "red";
-            } elseif ($dateMaint->equalTo($today)) {
-                $label = "AUJOURD'HUI";
-                $color = "orange";
-            } 
-            
-            $data = [
-                'message' => "<span class='fw-bold' style='color: $color'>[$label] Maintenance : " . $m->nom . " (Échéance : " . $dateMaint->format('d/m/Y') . ")</span>",
-                'link' => route('materiels.show', $m), 
-                'type' => 'maintenance',
-                'color' => $color
-            ];
+    foreach ($proches as $m) {
+        $label = "PROCHE"; $color = "blue";
+        if ($m->date_maintenance->lt($today)) { $label = "RETARD"; $color = "red"; }
+        elseif ($m->date_maintenance->equalTo($today)) { $label = "AUJOURD'HUI"; $color = "orange"; }
 
-            foreach ($admins as $admin) {
-                // $dejaNotifie = $admin->unreadNotifications()
-                //                      ->where('data->message', 'like', "%".$m->nom."%")
-                //                      ->exists();
-                                     
-                // if (!$dejaNotifie) {
-                    $admin->notify(new MaterielNotification($data));
-                // }
-            }
-        }
+        $data = [
+            'message' => "<span class='fw-bold' style='color: $color'>[$label] Maintenance : " . $m->nom . " (Échéance : " . $m->date_maintenance->format('d/m/Y') . ")</span>",
+            'link' => route('materiels.show', $m),
+            'type' => 'maintenance'
+        ];
+
+        foreach ($admins as $admin) { $admin->notify(new MaterielNotification($data)); }
     }
-})->dailyAt('10:00')->timezone("Africa/Casablanca");
+
+    $retardsRetour = Materiel::where('status', 'Maintenance')
+                                ->whereDate('delai_maintenance', '<', $today)
+                                ->get();
+                                
+    foreach ($retardsRetour as $m) {
+        $data = [
+            'message' => "<span class='fw-bold' style='color: #dc3545;'>⚠️ RETARD RETOUR : " . $m->nom . " (Prévu le : " . $m->delai_maintenance->format('d/m/Y') . ")</span>",
+            'link' => route('materiels.show', $m),
+            'type' => 'retard_maintenance'
+        ];
+
+        foreach ($admins as $admin) { $admin->notify(new MaterielNotification($data)); }
+    }
+
+})->everyMinute();
+
+// ->dailyAt('10:00')->timezone("Africa/Casablanca");

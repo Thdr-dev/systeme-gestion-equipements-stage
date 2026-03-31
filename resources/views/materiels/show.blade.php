@@ -71,11 +71,23 @@
                                     </div>
 
                                     <div class="col-lg-6 mb-3">
-                                        <label class="text-uppercase small fw-bold text-muted d-block">Date de Maintenance</label>
-                                        <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary {{ $materiel->date_maintenance < now() ? 'text-danger fw-bold' : '' }}">
-                                            <i class="fas fa-tools text-primary me-2"></i>{{ $materiel->date_maintenance ? \Carbon\Carbon::parse($materiel->date_maintenance)->format('d/m/Y') : 'Non définie' }}
+                                        <label class="text-uppercase small fw-bold text-muted d-block">Maintenance Préventive</label>
+                                        <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary {{ ($materiel->date_maintenance && $materiel->date_maintenance < now()) ? 'text-danger fw-bold' : '' }}">
+                                            <i class="fas fa-tools text-primary me-2"></i>{{ $materiel->date_maintenance ? $materiel->date_maintenance->format('d/m/Y') : 'Non définie' }}
                                         </span>
                                     </div>
+
+                                    @if($materiel->status === 'Maintenance' && $materiel->delai_maintenance)
+                                        <div class="col-lg-6 mb-3">
+                                            <label class="text-uppercase small fw-bold text-muted d-block">Retour de réparation prévu</label>
+                                            <span class="ms-2 mt-2 fs-6 badge {{ $materiel->delai_maintenance->isPast() ? 'bg-danger text-white' : 'bg-primary text-white' }} shadow-sm">
+                                                <i class="fas fa-calendar-check me-2"></i>{{ $materiel->delai_maintenance->format('d/m/Y') }}
+                                                @if($materiel->delai_maintenance->isPast())
+                                                    <small class="ms-1">(EN RETARD)</small>
+                                                @endif
+                                            </span>
+                                        </div>
+                                    @endif
 
                                 </div>
 
@@ -85,6 +97,25 @@
                                         {{ $materiel->description ?: 'Aucune description détaillée pour ce matériel.' }}
                                     </div>
                                 </div>
+
+                                @if($materiel->status === 'Maintenance' && $materiel->delai_maintenance)
+                                    @php
+                                        $enRetard = $materiel->delai_maintenance->isPast();
+                                        $temps = $materiel->delai_maintenance->diffForHumans(null, true);
+                                    @endphp
+
+                                    <div class="alert {{ $enRetard ? 'alert-danger' : 'alert-primary' }} d-flex align-items-center shadow-sm">
+                                        <i class="fas {{ $enRetard ? 'fa-exclamation-triangle' : 'fa-info-circle' }} me-3 fa-2x"></i>
+                                        <div>
+                                            <strong>Attention :</strong> Cet équipement est en maintenance. 
+                                            @if($enRetard)
+                                                Le retour était prévu pour le {{ $materiel->delai_maintenance->format('d/m/Y') }} (Retard de {{ $temps }}).
+                                            @else
+                                                Retour attendu dans {{ $temps }}.
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
 
                                 @if(Auth::user()->isAdmin)
                                     

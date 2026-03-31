@@ -49,11 +49,12 @@
                             @endif
                         </select>
                     </div>
+                    
                     <div class="col-lg-2 col-md-6">
                         <select name="sous_famille_id" class="search-input form-select">
-                            <option value="">Toutes les categories</option>
-                            @foreach($sousFamilles as $category)
-                                <option value="{{ $category->id }}" @selected(request('sous_famille_id') == $category->id) >{{ $category->nomSousFam }}</option>
+                            <option value="">Sous Familles</option>
+                            @foreach($sousFamilles as $sousFam)
+                                <option value="{{ $sousFam->id }}" @selected(request('sous_famille_id') == $sousFam->id) >{{ $sousFam->nomSousFam }}</option>
                             @endforeach
                         </select>
                     </div>

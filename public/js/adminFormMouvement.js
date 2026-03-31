@@ -4,9 +4,8 @@ const uniteDiv = document.querySelector(
     'select[name="to_unite_id"]',
 ).parentElement;
 
-const delaiDiv = document.querySelector(
-    'input[name="delai_maintenance"]',
-).parentElement;
+const delaiInput = document.querySelector('input[name="delai_maintenance"]');
+const delaiDiv = delaiInput.parentElement;
 
 typeSelect.addEventListener("change", function () {
     if (this.value === "Transfert") {
@@ -23,3 +22,6 @@ typeSelect.addEventListener("change", function () {
 });
 
 window.onload = () => typeSelect.dispatchEvent(new Event("change"));
+
+const today = new Date().toISOString().split("T")[0];
+delaiInput.setAttribute("min", today);

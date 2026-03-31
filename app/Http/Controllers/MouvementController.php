@@ -72,7 +72,8 @@ class MouvementController extends Controller{
         $request->validate([
             'materiel_id' => 'required|exists:materiels,id',
             'type' => 'required|in:Transfert,Maintenance,Retour,Sortie,Panne',
-            'to_unite_id' => 'required_if:type,Transfert|nullable|exists:unites,id', 
+            'to_unite_id' => 'required_if:type,Transfert|nullable|exists:unites,id',
+            'delai_maintenance' => 'required_if:type,Maintenance|nullable|date|after:today',
             'commentaire' => 'nullable|string|max:255',
         ]);
 
@@ -84,9 +85,16 @@ class MouvementController extends Controller{
     
                 $destinationId = ($user->isAdmin) ? $request->to_unite_id : $materiel->unite_id;
 
+                $commentaireFinal = $request->commentaire;
+
+                if ($request->type === 'Maintenance' && $request->delai_maintenance) {
+                    $dateFmt = date('d/m/Y', strtotime($request->delai_maintenance));
+                    $commentaireFinal .= " [Retour prévu le : $dateFmt]";
+                }
+
                 Mouvement::create([
                     'type' => $request->type,
-                    'commentaire' => $request->commentaire,
+                    'commentaire' => $commentaireFinal,
                     'materiel_id' => $materiel->id,
                     'user_id' => $user->id,
                     'from_unite_id' => $materiel->unite_id,
@@ -95,6 +103,7 @@ class MouvementController extends Controller{
 
                 $newStatus = $materiel->status;
                 $actionText = "";
+                $delaiMaint = null;
 
                 switch($request->type) {
                     case 'Sortie':      
@@ -109,11 +118,13 @@ class MouvementController extends Controller{
 
                     case 'Maintenance': 
                         $newStatus = 'Maintenance'; 
-                        $actionText = "a envoyé en <strong style='color: #0d6efd;'>MAINTENANCE</strong>"; 
+                        $delaiMaint = $request->delai_maintenance; 
+                        $actionText = "a envoyé en <strong style='color: #0d6efd;'>MAINTENANCE</strong> (Prévu jusqu'au : " . date('d/m/Y', strtotime($delaiMaint)) . ")"; 
                         break;
 
                     case 'Retour':      
                         $newStatus = 'Disponible'; 
+                        $delaiMaint = null;
                         $actionText = "a enregistré le <strong style='color: #198754;'>RETOUR</strong> de"; 
                         break;
 
@@ -124,7 +135,8 @@ class MouvementController extends Controller{
 
                 $materiel->update([
                     'unite_id' => $destinationId,
-                    'status'   => $newStatus
+                    'status'   => $newStatus,
+                    'delai_maintenance' => $delaiMaint ? $delaiMaint : $materiel->delai_maintenance,
                 ]);
                 
                 $admins = User::where('isAdmin', true)->get();

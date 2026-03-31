@@ -30,11 +30,14 @@
                                 <div class="mb-3">
                                     <label class="form-label">Type de mouvement</label>
                                     <select name="type" class="form-select">
-                                        <option value="Transfert">Transfert d'Unité</option>
-                                        <option value="Maintenance">Envoi en Maintenance</option>
-                                        <option value="Retour">Retour de stock</option>
-                                        <option value="Sortie">Sortie de stock</option>
+                                        <option @selected( old("type") === "Transfert" ) value="Transfert">Transfert d'Unité</option>
+                                        <option @selected( old("type") === "Maintenance" ) value="Maintenance">Envoi en Maintenance</option>
+                                        <option @selected( old("type") === "Retour" ) value="Retour">Retour de stock</option>
+                                        <option @selected( old("type") === "sortie" ) value="Sortie">Sortie de stock</option>
                                     </select>
+                                    @error('type')
+                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3 d-none">
@@ -46,11 +49,17 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('to_unite_id')
+                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3 d-none">
                                     <label class="form-label">Delai de maintenance</label>
                                     <input type="date" name="delai_maintenance" class="form-control" />
+                                    @error('delai_maintenance')
+                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             @else
                                 <div class="mb-3">
@@ -64,13 +73,16 @@
                                             <option value="Retour">📥 Retour (Remettre au stock)</option>
                                         @endif
                                     </select>
+                                    @error('type')
+                                        <div class="form-text text-danger ps-2">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <input type="hidden" name="to_unite_id" value="{{ $materiel->unite_id }}">
                             @endif
 
                             <div class="mb-3">
                                 <label class="form-label">Commentaire</label>
-                                <textarea name="commentaire" class="form-control" rows="2" placeholder="Note facultative..."></textarea>
+                                <textarea name="commentaire" class="form-control" rows="2" placeholder="Note facultative...">{{ old("commentaire") }}</textarea>
                                 @error('commentaire')
                                     <div class="form-text text-danger ps-2">{{ $message }}</div>
                                 @enderror

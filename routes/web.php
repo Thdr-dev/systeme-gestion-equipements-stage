@@ -18,7 +18,6 @@ Route::middleware(["auth", "admin"])->group(function(){
     Route::post('/register', [AuthController::class, 'register']);
     
     Route::name("users.")->group(function(){
-        
         Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->withoutMiddleware("admin");
 
@@ -26,10 +25,19 @@ Route::middleware(["auth", "admin"])->group(function(){
         Route::get('/users/{user}', [AuthController::class, 'editUser'])->name("edit");
         Route::put('/users/{user}', [AuthController::class, 'updateUser'])->name("update");
         Route::delete('/users/{user}', [AuthController::class, 'deleteUser'])->name("delete");
-
-
     });
+
+    Route::resource('familles', FamilleController::class);
+    Route::resource('sous-familles', SousFamilleController::class);
+    Route::resource('unites', UniteController::class);
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+  
+    
+    Route::get('/mouvements/create/{materiel}', [MouvementController::class, 'create'])->name('mouvements.create')->withoutMiddleware("admin");
+    Route::get('/mouvements/declarePanne/{materiel}', [MouvementController::class, 'declarePanne'])->name('mouvements.declarePanne')->withoutMiddleware("admin");
+    Route::post('/mouvements', [MouvementController::class, 'store'])->name('mouvements.store')->withoutMiddleware("admin");
+
     
     Route::get('/notifications/read-all', function() {
         Auth::user()->unreadNotifications->markAsRead();
@@ -50,6 +58,9 @@ Route::middleware(["auth", "admin"])->group(function(){
         
         return redirect($notification->data['link']); 
     })->name('notifications.markAsRead');
+
+
+
 });
         
         
@@ -60,13 +71,4 @@ Route::middleware("guest")->group(function(){
 
 
 
-Route::resource('familles', FamilleController::class)->middleware(["auth", "admin"]);
-Route::resource('sous-familles', SousFamilleController::class)->middleware(["auth", "admin"]);
-Route::resource('unites', UniteController::class)->middleware(["auth", "admin"]);
-
-Route::resource('materiels', MaterielController::class);
-
-Route::get('/mouvements/create/{materiel}', [MouvementController::class, 'create'])->name('mouvements.create')->middleware('auth');
-Route::get('/mouvements/declarePanne/{materiel}', [MouvementController::class, 'declarePanne'])->name('mouvements.declarePanne')->middleware('auth');
-
-Route::post('/mouvements', [MouvementController::class, 'store'])->name('mouvements.store')->middleware('auth');
+Route::resource('materiels', MaterielController::class); // deja contient les middlewares dans le controlleur

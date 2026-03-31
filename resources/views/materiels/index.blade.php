@@ -110,7 +110,7 @@
                                 <a href="{{ route('materiels.edit', $item->id) }}" class="mb-1 mb-lg-0 btn btn-sm btn-outline-warning" title="Modifier"><i class="fas fa-edit"></i></a>
                                 @endif
 
-                                @if($item->status !== "En panne")
+                                @if( !in_array($item->status, ["En panne", "Maintenance"]) )
                                     <a href="{{ route('mouvements.declarePanne', $item->id) }}" class="btn btn-sm btn-outline-danger" title="Declarer une panne"><i class="fa-solid fa-triangle-exclamation"></i></a>
                                 @endif
                                 

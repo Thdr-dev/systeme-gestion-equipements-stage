@@ -23,5 +23,8 @@ typeSelect.addEventListener("change", function () {
 
 window.onload = () => typeSelect.dispatchEvent(new Event("change"));
 
-const today = new Date().toISOString().split("T")[0];
-delaiInput.setAttribute("min", today);
+const date = new Date();
+date.setDate(date.getDate() + 1);
+const tomorrow = date.toISOString().split("T")[0];
+
+delaiInput.setAttribute("min", tomorrow);

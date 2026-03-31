@@ -81,6 +81,14 @@ class MouvementController extends Controller{
             $materiel = Materiel::findOrFail($request->materiel_id);
             $user = Auth::user();
 
+            if($user->isAdmin){
+                if ($materiel->status === 'Maintenance') {
+                        return redirect()->route('materiels.index')
+                            ->withErrors(['message-error'=> "Ce matériel est deja en {$materiel->status}."]);
+                }
+            }
+
+
            DB::transaction(function () use ($request, $materiel, $user) {
     
                 $destinationId = ($user->isAdmin) ? $request->to_unite_id : $materiel->unite_id;

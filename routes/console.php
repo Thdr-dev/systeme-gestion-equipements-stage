@@ -49,6 +49,4 @@ Schedule::call(function () {
         foreach ($admins as $admin) { $admin->notify(new MaterielNotification($data)); }
     }
 
-})->everyMinute();
-
-// ->dailyAt('10:00')->timezone("Africa/Casablanca");
+})->dailyAt('10:00')->timezone("Africa/Casablanca");

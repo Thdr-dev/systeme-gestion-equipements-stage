@@ -53,12 +53,10 @@
                                     <select name="type" class="form-select">
                                         @if($materiel->status === 'Disponible')
                                             <option value="Sortie">📤 Sortie (Prendre le matériel)</option>
-                                            <option value="Panne">🚨 Signaler une Panne</option>
                                         @endif
 
                                         @if($materiel->status === 'Sorti')
                                             <option value="Retour">📥 Retour (Remettre au stock)</option>
-                                            <option value="Panne">🚨 Signaler une Panne</option>
                                         @endif
                                     </select>
                                 </div>
@@ -91,20 +89,7 @@
 
     @section("scripts")
 
-        <script>
-            const typeSelect = document.querySelector('select[name="type"]');
-            const uniteDiv = document.querySelector('select[name="to_unite_id"]').parentElement;
-
-            typeSelect.addEventListener('change', function() {
-                if (this.value === 'Transfert') {
-                    uniteDiv.style.display = 'block';
-                } else {
-                    uniteDiv.style.display = 'none';
-                }
-            });
-
-            window.onload = () => typeSelect.dispatchEvent(new Event('change'));
-        </script>
+        <script src="{{ asset("js/adminSelectInput.js") }}"></script>
 
     @endsection
 

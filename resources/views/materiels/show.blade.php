@@ -36,13 +36,19 @@
                                         <h2 class="fw-bold mb-1">{{ $materiel->nom }}</h2>
                                         <p class="text-muted"><i class="fas fa-tag me-1"></i> ID Matériel : #{{ $materiel->id }}</p>
                                     </div>
-                                    <span class="badge px-3 py-2 fs-6 {{ 
-                                        $materiel->status == 'Disponible' ? 'bg-success' : 
-                                        ($materiel->status == 'En panne' ? 'bg-danger' : 
-                                        ($materiel->status == 'Maintenance' ? 'bg-warning text-dark' : 'bg-secondary')) 
-                                    }}">
-                                        <i class="fas fa-circle me-1 small"></i> {{ $materiel->status }}
-                                    </span>
+                                    
+                                    <div class="badge px-3 py-2 fs-6 {{ 
+                                            $materiel->status == 'Disponible' ? 'bg-success' : 
+                                            ($materiel->status == 'En panne' ? 'bg-danger' : 
+                                            ($materiel->status == 'Maintenance' ? 'bg-warning text-dark' : 'bg-secondary')) 
+                                        }}">
+                                        <span>
+                                            <i class="fas fa-circle me-1 small"></i> {{ $materiel->status }}
+                                        </span>
+                                        <p class="m-0 form-text text-light">{{ $materiel->status === "Sorti" ? ( ($materiel->mouvements()->latest()->first()?->user_id == auth()->user()->id ) ? "( Par moi )" : "( Par autre operateur )" ): '' }}</p> 
+                                    </div>
+                                    
+                                    
                                 </div>
 
                                 <hr>
@@ -107,6 +113,16 @@
                                                         <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
                                                     </a>
                                                 </div>
+                                                
+                                                @if($materiel->status !== "En panne")
+                                                    <div class="col-12">
+                                                        <a href="{{ route('mouvements.declarePanne', $materiel) }}" class="btn btn-outline-danger w-100"
+                                                            title="Declarer une Panne">
+                                                            <i class="fa-solid fa-triangle-exclamation"></i> Declare une Panne
+                                                        </a>
+                                                    </div>
+                                                @endif
+
                                             </div>
                                         </div>
 
@@ -116,9 +132,15 @@
                                         <small><i class="fas fa-info-circle"></i> &nbsp; La suppression de cet materiel est pas un suppression complete.</small>
                                     </div>
                                     @else
-                                        <a href="{{ route('mouvements.create', $materiel) }}" class="btn btn-outline-info w-100" title="Enregistrer un mouvement">
+                                        <a href="{{ route('mouvements.create', $materiel) }}" class="btn btn-outline-info w-100 mb-2" title="Enregistrer un mouvement">
                                             <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
                                         </a>
+
+                                        <a href="{{ route('mouvements.declarePanne', $materiel) }}" class="btn btn-outline-danger w-100"
+                                            title="Declarer une Panne">
+                                            <i class="fa-solid fa-triangle-exclamation"></i> Declare une Panne
+                                        </a>
+                                    
                                 @endif
                             </div>
                         </div>

@@ -44,8 +44,8 @@
                                 @endforeach
                             @else
                                 <option value="">Tous mes accès</option>
-                                <option value="Disponible" @selected(request('status') == 'Disponible')>Disponible (Stock)</option>
-                                <option value="Sorti" @selected(request('status') == 'Sorti')>Mes Sorties (En main)</option>
+                                <option value="Disponible" @selected(request('status') == 'Disponible')>Disponible</option>
+                                <option value="Sorti" @selected(request('status') == 'Sorti')>Sorties</option>
                             @endif
                         </select>
                     </div>
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="col-lg-2 d-grid">
-                        <a class="btn btn-danger m-0 border-0 w-100" href="{{ route("materiels.index") }}">Reset</a>
+                        <a class="btn btn-secondary m-0 border-0 w-100" href="{{ route("materiels.index") }}">Reset</a>
                     </div>
 
                 </form>
@@ -99,7 +99,7 @@
                             <td>
                                 <span class="badge {{ $item->status == 'Disponible' ? 'bg-success' : ($item->status == 'En panne' ? 'bg-danger' : 'bg-warning text-dark') }}">
                                     {{ $item->status }}
-                                </span>
+                                </span>   {{ $item->status === "Sorti" ? ( ($item->mouvements()->latest()->first()?->user_id == auth()->user()->id ) ? "( Par moi )" : "( Par autre operateur )" ): '' }} 
                             </td>
                             <td>{{ $item->sousFamille->nomSousFam }}</td>
                             <td>
@@ -107,6 +107,10 @@
                                 
                                 @if(Auth::user()->isAdmin)
                                 <a href="{{ route('materiels.edit', $item->id) }}" class="mb-1 mb-lg-0 btn btn-sm btn-outline-warning" title="Modifier"><i class="fas fa-edit"></i></a>
+                                @endif
+
+                                @if($item->status !== "En panne")
+                                    <a href="{{ route('mouvements.declarePanne', $item->id) }}" class="btn btn-sm btn-outline-danger" title="Declarer une panne"><i class="fa-solid fa-triangle-exclamation"></i></a>
                                 @endif
                                 
                                 <a href="{{ route('mouvements.create', $item->id) }}" class="btn btn-sm btn-outline-info" title="Enregistrer un mouvement"><i class="fas fa-exchange-alt"></i></a>

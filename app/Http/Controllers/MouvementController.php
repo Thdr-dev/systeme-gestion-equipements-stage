@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 class MouvementController extends Controller{
 
-    public function create(Materiel $materiel) {
-        $user = Auth::user();
 
+    protected function checkUserPermission(Materiel $materiel){
+        $user = Auth::user();
         if (!$user->isAdmin) {
             
             if (in_array($materiel->status, ['En panne', 'Maintenance'])) {
@@ -32,14 +32,39 @@ class MouvementController extends Controller{
                     ->first();
 
                 if ($dernierMouvement && $dernierMouvement->user_id !== $user->id) {
-                    return redirect()->route('materiels.index')
+                    return redirect()->back()
                         ->withErrors(['message-error'=> "Ce matériel est déjà utilisé par un autre opérateur."]);
                 }
             }
         }
+        return true;
+    }
 
-        $unites = Unite::all();
-        return view("mouvement.create", compact('materiel', 'unites'));
+    public function create(Materiel $materiel) {
+        $allowedOrRedirect = $this->checkUserPermission( $materiel );
+
+        if($allowedOrRedirect === true){
+            $unites = Unite::all();
+            return view("mouvement.create", compact('materiel', 'unites'));
+        }
+        return $allowedOrRedirect;
+    }
+
+    public function declarePanne(Materiel $materiel){
+        $allowedOrRedirect = $this->checkUserPermission( $materiel );
+        
+        if(Auth::user()->isAdmin){
+            if ($materiel->status === 'En panne') {
+                    return redirect()->route('materiels.index')
+                        ->withErrors(['message-error'=> "Ce matériel est deja {$materiel->status}."]);
+            }
+        }
+
+        if($allowedOrRedirect === true){
+            $unites = Unite::all();
+            return view("mouvement.declarePanne", compact('materiel', 'unites'));
+        }
+        return $allowedOrRedirect;
     }
 
     public function store(Request $request){

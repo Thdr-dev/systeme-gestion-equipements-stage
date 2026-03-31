@@ -14,7 +14,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::middleware(["auth", "admin"])->group(function(){
+    
     Route::post('/register', [AuthController::class, 'register']);
     
     Route::name("users.")->group(function(){
@@ -60,15 +62,13 @@ Route::middleware(["auth", "admin"])->group(function(){
     })->name('notifications.markAsRead');
 
 
-
 });
-        
-        
+
+
 Route::middleware("guest")->group(function(){
     Route::get('/login', [AuthController::class, 'showLogin'])->name('users.login');
     Route::post('/login', [AuthController::class, 'login']);
 });
-
 
 
 Route::resource('materiels', MaterielController::class); // deja contient les middlewares dans le controlleur

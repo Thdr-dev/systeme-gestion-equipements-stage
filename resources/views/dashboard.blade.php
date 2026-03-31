@@ -64,7 +64,7 @@
                                             <span class="badge rounded-pill bg-primary">PROCHE</span>
                                         @endif
                                     </td>
-                                    <td class="text-end pe-4">
+                                    <td>
                                         <a href="{{ route('materiels.show', $m) }}" class="btn btn-outline-primary btn-sm">
                                             Détails
                                         </a>

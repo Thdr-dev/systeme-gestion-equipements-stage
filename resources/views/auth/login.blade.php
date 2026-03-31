@@ -29,8 +29,11 @@
                         </div>
 
                         <div class="mb-3 form-check">
-                            <input type="checkbox" name="remember" class="form-check-input" id="remember">
+                            <input type="checkbox" name="remember" value="1" class="form-check-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
                             <label class="form-check-label" for="remember">Se souvenir de moi</label>
+                            @error("remember")
+                                <p class="text-danger form-text ps-2 m-0">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <button id="submit-button" type="submit" class="btn btn-primary w-100">Se connecter</button>

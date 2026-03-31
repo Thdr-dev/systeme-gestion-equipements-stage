@@ -92,7 +92,12 @@
 
                 function fetchNotifications() {
                     fetch('/api/notifications/data')
-                        .then(response => response.json())
+                        .then(response => {
+                            if (!response.ok || response.headers.get("content-type")?.indexOf("application/json") === -1) {
+                                throw new Error("Session expirée ou erreur serveur");
+                            }
+                            return response.json();
+                        })
                         .then(data => {
                             if (data.count !== lastCount) {
 
@@ -127,9 +132,12 @@
 
                             }
                         })
-                        .catch(err => console.error("Erreur de rafraîchissement:", err));
+                        .catch(err => {
+                            console.warn("Polling arrêté :", err.message);
+                        });
                 }
-                setInterval(fetchNotifications, 15000);
+                fetchNotifications();
+                setInterval(fetchNotifications, 10000);
                 
             </script>
         

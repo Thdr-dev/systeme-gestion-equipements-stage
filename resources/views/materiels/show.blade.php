@@ -147,7 +147,7 @@
                                                     </a>
                                                 </div>
                                                 
-                                                @if($materiel->status !== "En panne")
+                                                @if(!in_array($materiel->status, ["En panne", "Maintenance"]))
                                                     <div class="col-12">
                                                         <a href="{{ route('mouvements.declarePanne', $materiel) }}" class="btn btn-outline-danger w-100"
                                                             title="Declarer une Panne">

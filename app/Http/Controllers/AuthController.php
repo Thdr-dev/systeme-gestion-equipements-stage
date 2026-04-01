@@ -16,13 +16,18 @@ class AuthController extends Controller{
     }
 
     public function login(Request $request) {
-        $credentials = $request->validate([
+        $validated = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
             'remember' => 'nullable|boolean'
         ]);
 
-        $remember = $request->has('remember');
+        $credentials = [
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+        ];
+
+        $remember = (bool) $request->has('remember');
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();

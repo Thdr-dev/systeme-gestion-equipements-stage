@@ -20,10 +20,13 @@
 
                     if (Str::contains($msg, 'PANNE')) {
                         $style = 'background-color: #fff5f5; border-left: 4px solid #dc3545;';
-                    } 
+                    }
+                    elseif (Str::contains($msg, 'RETARD RETOUR')) {
+                        $style = 'background-color: #f6fff6; border-left: 4px solid #dc3545;';
+                    }  
                     elseif (Str::contains($msg, 'ENTREE') || Str::contains($msg, 'RETOUR')) {
                         $style = 'background-color: #f6fff6; border-left: 4px solid #198754;';
-                    } 
+                    }
                     elseif (Str::contains($msg, 'SORTIE')) {
                         $style = 'background-color: #fffdf0; border-left: 4px solid #ffc107;';
                     } 

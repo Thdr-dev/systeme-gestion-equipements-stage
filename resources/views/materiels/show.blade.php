@@ -98,26 +98,28 @@
                                     </div>
                                 </div>
 
-                                @if($materiel->status === 'Maintenance' && $materiel->delai_maintenance)
-                                    @php
-                                        $enRetard = $materiel->delai_maintenance->isPast();
-                                        $temps = $materiel->delai_maintenance->diffForHumans(null, true);
-                                    @endphp
-
-                                    <div class="alert {{ $enRetard ? 'alert-danger' : 'alert-primary' }} d-flex align-items-center shadow-sm">
-                                        <i class="fas {{ $enRetard ? 'fa-exclamation-triangle' : 'fa-info-circle' }} me-3 fa-2x"></i>
-                                        <div>
-                                            <strong>Attention :</strong> Cet équipement est en maintenance. 
-                                            @if($enRetard)
-                                                Le retour était prévu pour le {{ $materiel->delai_maintenance->format('d/m/Y') }} (Retard de {{ $temps }}).
-                                            @else
-                                                Retour attendu dans {{ $temps }}.
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endif
-
                                 @if(Auth::user()->isAdmin)
+
+
+                                    @if($materiel->status === 'Maintenance' && $materiel->delai_maintenance)
+                                        @php
+                                            $enRetard = $materiel->delai_maintenance->isPast();
+                                            $temps = $materiel->delai_maintenance->diffForHumans(null, true);
+                                        @endphp
+
+                                        <div class="alert {{ $enRetard ? 'alert-danger' : 'alert-primary' }} d-flex align-items-center shadow-sm">
+                                            <i class="fas {{ $enRetard ? 'fa-exclamation-triangle' : 'fa-info-circle' }} me-3 fa-2x"></i>
+                                            <div>
+                                                <strong>Attention :</strong> Cet équipement est en maintenance. 
+                                                @if($enRetard)
+                                                    Le retour était prévu pour le {{ $materiel->delai_maintenance->format('d/m/Y') }} (Retard de {{ $temps }}).
+                                                @else
+                                                    Retour attendu dans {{ $temps }}.
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     
                                     <div class="d-flex align-items-center gap-2 pt-3 border-top">
                                         <div class="container-fluide">
@@ -164,7 +166,7 @@
                                     </div>
                                     @else
 
-                                        @if($materiel->status !== "En panne")
+                                        @if( !in_array($materiel->status, ["En panne", "Maintenance"]) )
                                             <a href="{{ route('mouvements.create', $materiel) }}" class="btn btn-outline-info w-100 mb-2" title="Enregistrer un mouvement">
                                                 <i class="fas fa-exchange-alt"></i> Enregistrer un mouvement
                                             </a>

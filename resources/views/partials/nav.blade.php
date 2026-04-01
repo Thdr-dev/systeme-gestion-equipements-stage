@@ -74,7 +74,7 @@
             @guest
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="text-white nav-link {{ request()->routeIs('familles.*', 'sous-familles.*', 'unites.*', 'users.*') ? 'active text-secondary' : '' }}" href="{{ route('users.login') }}">Se connecter</a>
+                        <a class="text-white nav-link {{ request()->routeIs('users.login') ? 'disabled text-secondary' : '' }}" href="{{ route('users.login') }}">Se connecter</a>
                     </li>
                 </ul>
             @endguest

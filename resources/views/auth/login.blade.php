@@ -4,46 +4,50 @@
 @section('content')
 
 
-    <div class="row justify-content-center align-items-center" style="height: 72.7vh">
-        <div class="col-lg-8">
-            <div class="card shadow">
-                <div class="card-header pt-3 bg-primary text-white text-center">
-                    <h4>Connexion</h4>
+<div class="row justify-content-center align-items-center" style="height: 74.6vh">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-lg rounded-4">
+            <div class="card-body py-4 px-5">
+                <div class="text-center mb-4">
+                    <img src="logo-protection-civile.png" alt="Logo" class="mb-2 logo" style="width: 80px; filter: drop-shadow(0px 0px 15px #2e7d3290)">
+                    <h3 class="fw-bold" style="color: #2e7d32;">Login</h3>
                 </div>
-                <div class="card-body">
-                    <form action="{{ route('users.login') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label>Email</label>
-                            <input type="text" name="email" class="form-control" value="{{ @old("email") }}">
-                            @error("email")
-                                <p class="text-danger form-text ps-2 m-0">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label>Mot de passe</label>
-                            <input type="password" name="password" class="form-control">
-                            @error("password")
-                                <p class="text-danger form-text ps-2 m-0">{{ $message }}</p>
-                            @enderror
-                        </div>
 
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" name="remember" value="1" class="form-check-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="remember">Se souvenir de moi</label>
-                            @error("remember")
-                                <p class="text-danger form-text ps-2 m-0">{{ $message }}</p>
-                            @enderror
-                        </div>
+                <form action="{{ route('users.login') }}" method="POST">
+                    @csrf
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted text-uppercase">Adresse Email</label>
+                        <input type="text" name="email" class="form-control bg-light border-0" 
+                               value="{{ old('email') }}" style="border-radius: 10px;">
+                        @error("email")
+                            <p class="text-danger small ps-2 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                        <button id="submit-button" type="submit" class="btn btn-primary w-100">Se connecter</button>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted text-uppercase">Mot de passe</label>
+                        <input type="password" name="password" class="form-control bg-light border-0" 
+                               style="border-radius: 10px;">
+                        @error("password")
+                            <p class="text-danger small ps-2 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                    </form>
-                </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" name="remember" value="1" class="form-check-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <label class="form-check-label text-muted" for="remember">Se souvenir de moi</label>
+                    </div>
+
+                    <button id="submit-button" type="submit" class="btn btn-success w-100 py-2 fw-bold text-uppercase rounded-3">
+                        Connexion
+                    </button>
+
+                </form>
             </div>
         </div>
     </div>
-
+</div>
 
 @endsection
 

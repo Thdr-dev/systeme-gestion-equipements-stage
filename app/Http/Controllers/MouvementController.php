@@ -81,7 +81,7 @@ class MouvementController extends Controller{
             $materiel = Materiel::findOrFail($request->materiel_id);
             $user = Auth::user();
 
-            if($user->isAdmin){
+            if($user->isAdmin && $request->type !== "Retour"){
                 if ($materiel->status === 'Maintenance') {
                         return redirect()->route('materiels.index')
                             ->withErrors(['message-error'=> "Ce matériel est deja en {$materiel->status}."]);

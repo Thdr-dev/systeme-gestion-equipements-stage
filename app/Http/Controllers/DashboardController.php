@@ -30,6 +30,39 @@ class DashboardController extends Controller{
                                     ->orderBy('date_maintenance')
                                     ->get();
 
+        $pannesFrequentes = DB::table('mouvements')
+                            ->select('materiel_id', DB::raw('COUNT(*) as total_pannes'))
+                            ->where('type', 'Panne')
+                            ->groupBy('materiel_id')
+                            ->orderByDesc('total_pannes')
+                            ->limit(5)
+                            ->get();
+
+        $pannesFrequentes = $pannesFrequentes->map(function ($item) {
+                                $materiel = Materiel::find($item->materiel_id);
+                                return [
+                                    'nom' => $materiel ? $materiel->nom : 'N/A',
+                                    'total' => $item->total_pannes
+                                ];
+                            });
+
+
+        $frequenceUsage = DB::table('mouvements')
+                        ->select('materiel_id', DB::raw('COUNT(*) as total_usage'))
+                        ->where('type', 'Sortie')
+                        ->groupBy('materiel_id')
+                        ->orderByDesc('total_usage')
+                        ->limit(5)
+                        ->get();
+
+        $frequenceUsage = $frequenceUsage->map(function ($item) {
+                            $materiel = Materiel::find($item->materiel_id);
+                            return [
+                                'nom' => $materiel ? $materiel->nom : 'N/A',
+                                'total' => $item->total_usage
+                            ];
+                        });                                    
+
         return view('dashboard', compact(
             'totalMateriels',
             'totalUnites',
@@ -37,7 +70,9 @@ class DashboardController extends Controller{
             'enMaintenance', 
             'statusDistribution', 
             'topUnites',
-            'maintenancesUrgent'
+            'maintenancesUrgent',
+            'pannesFrequentes',
+            'frequenceUsage'
         ));
 
     }

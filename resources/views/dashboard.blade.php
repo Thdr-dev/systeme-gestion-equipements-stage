@@ -23,6 +23,23 @@
 
             </div>
         </div>
+
+        <div class="card shadow-sm border-0 pb-lg-4 pb-5">
+            <div class="card-body row gy-4">
+                <div class="col-lg-6" style="position: relative; height: 350px;">
+                    <hr class="d-lg-none">
+                    <h2 class="h2 fw-normal text-center text-muted">fréquence d’usage</h2>
+                    <canvas id="usageChart" class="mb-4 mb-lg-5"></canvas>
+                </div>
+                <div class="col-lg-6" style="position: relative; height: 350px;">
+                    <hr class="d-lg-none">
+                    <h2 class="h2 fw-normal text-center text-muted">Pannes fréquentes</h2>
+                    <canvas id="pannesChart" class="mb-5"></canvas>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
     <div class="mt-5">
@@ -128,6 +145,7 @@
             }
         });
 
+
         const ctxUnites = document.getElementById('unitesChart').getContext('2d');
         new Chart(ctxUnites, {
             type: 'bar',
@@ -146,11 +164,10 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            // Force des nombres entiers (pas de 1.5, 2.5...)
                             precision: 0, 
-                            // Cette fonction gère l'espacement automatique intelligemment
+
                             callback: function(value) {
-                                if (value >= 100) return value; // Garde tel quel si > 100
+                                if (value >= 100) return value; 
                                 return value;
                             }
                         }
@@ -158,6 +175,74 @@
                 },
                 plugins: { 
                     title: { display: true, text: 'Top 5 Unités les plus équipées' } 
+                }
+            }
+        });
+
+
+        const ctxPannes = document.getElementById('pannesChart').getContext('2d');
+        new Chart(ctxPannes, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode(collect($pannesFrequentes)->pluck('nom')) !!},
+                datasets: [{
+                    label: 'Nombre de pannes',
+                    data: {!! json_encode(collect($pannesFrequentes)->pluck('total')) !!},
+                    backgroundColor: '#dc3545'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0, 
+
+                            callback: function(value) {
+                                if (value >= 100) return value; 
+                                return value;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    title: { display: true, text: 'Top 5 Matériels en panne' }
+                }
+            }
+        });
+
+
+        const ctxUsage = document.getElementById('usageChart').getContext('2d');
+        new Chart(ctxUsage, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode(collect($frequenceUsage)->pluck('nom')) !!},
+                datasets: [{
+                    label: 'Fréquence d’usage',
+                    data: {!! json_encode(collect($frequenceUsage)->pluck('total')) !!},
+                    backgroundColor: '#28a745'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0, 
+
+                            callback: function(value) {
+                                if (value >= 100) return value; 
+                                return value;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    title: { display: true, text: 'Top 5 Matériels les plus utilisés' }
                 }
             }
         });

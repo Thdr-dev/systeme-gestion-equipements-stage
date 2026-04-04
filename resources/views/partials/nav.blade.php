@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-4 p-2">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-4 p-2 position-fixed top-0 left-0 w-100 z-3">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold pt-2 nav-link {{ request()->is('/') ? 'disabled text-secondary' : '' }}" href="{{ url('/') }}">
             <img class="logo" draggable="false" width="30" src="{{ asset('logo-protection-civile-low.png') }}" /> 

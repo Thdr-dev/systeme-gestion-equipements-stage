@@ -52,7 +52,7 @@
                     
                     <div class="col-lg-2 col-md-6">
                         <select name="sous_famille_id" class="search-input form-select">
-                            <option value="">Sous Familles</option>
+                            <option value="">Tous les Categories</option>
                             @foreach($sousFamilles as $sousFam)
                                 <option value="{{ $sousFam->id }}" @selected(request('sous_famille_id') == $sousFam->id) >{{ $sousFam->nomSousFam }}</option>
                             @endforeach

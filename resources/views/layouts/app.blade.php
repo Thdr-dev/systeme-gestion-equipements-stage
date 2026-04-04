@@ -25,7 +25,7 @@
         </div>
     @enderror
     
-    <div id="content" class="{{ Route::is("*.index") ? "pt-5 container-fluide mx-5" : "pt-5 container" }}">
+    <div id="content" class="{{ Route::is("*.index") ? "container-fluide mx-5" : "container" }}">
         @yield('content')
     </div>
     

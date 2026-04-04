@@ -30,110 +30,90 @@ class DatabaseSeeder extends Seeder{
             'isAdmin' => false,
         ]);
 
+
         $direction = Unite::create([
-            'nom' => 'Direction Générale',
+            'nom' => 'Direction Générale de la Protection Civile',
             'ville' => 'Rabat',
             'type' => 'Direction',
-            'description' => 'Siège principal'
+            'description' => 'Siège central de la Protection Civile du Maroc'
         ]);
 
-        $u1 = Unite::create([
-            'nom' => 'Bureau Informatique',
+        $etatMajor = Unite::create([
+            'nom' => 'Etat-Major Opérationnel',
             'ville' => 'Rabat',
-            'type' => 'Bureau',
+            'type' => 'Commandement',
             'parent_id' => $direction->id,
-            'description' => 'Gestion du parc IT'
+            'description' => 'Coordination nationale des interventions'
         ]);
 
-        $uLogistique = Unite::create([
-            'nom' => 'Service Logistique',
-            'ville' => 'Rabat',
-            'type' => 'Bureau',
+        $logistique = Unite::create([
+            'nom' => 'Service Logistique et Matériel',
+            'ville' => 'Salé',
+            'type' => 'Service',
             'parent_id' => $direction->id,
+            'description' => 'Gestion du matériel et des équipements'
         ]);
 
-        $u2 = Unite::create([
-            'nom' => 'Caserne Centrale Nord',
-            'ville' => 'Tanger',
+        $caserneCasa = Unite::create([
+            'nom' => 'Caserne Régionale Casablanca',
+            'ville' => 'Casablanca',
             'type' => 'Caserne',
             'parent_id' => $direction->id,
-            'description' => 'Dépôt principal du Nord'
+            'description' => 'Intervention régionale Grand Casablanca'
         ]);
 
-        $u3 = Unite::create([
-            'nom' => 'Centre de Formation',
-            'ville' => 'Kenitra',
+        $centreFormation = Unite::create([
+            'nom' => 'Centre de Formation de la Protection Civile',
+            'ville' => 'Kénitra',
             'type' => 'Centre',
-            'parent_id' => $u1->id,
+            'parent_id' => $etatMajor->id,
+            'description' => 'Formation des agents et officiers'
         ]);
 
 
-        $f1 = Famille::create(['nomFam' => 'Informatique']);
-        $sfPc = SousFamille::create(['nomSousFam' => 'PC Portables', 'famille_id' => $f1->id]);
-        $sfEcran = SousFamille::create(['nomSousFam' => 'Écrans', 'famille_id' => $f1->id]);
-        $sfImp = SousFamille::create(['nomSousFam' => 'Imprimantes', 'famille_id' => $f1->id]);
 
-        $f2 = Famille::create(['nomFam' => 'Mobilier']);
-        $sfChaise = SousFamille::create(['nomSousFam' => 'Chaises Ergonomiques', 'famille_id' => $f2->id]);
-        $sfBureau = SousFamille::create(['nomSousFam' => 'Bureaux', 'famille_id' => $f2->id]);
+        $data = json_decode(file_get_contents(database_path('data/materiels.json')), true);
 
-        $f3 = Famille::create(['nomFam' => 'Transport']);
-        $sfAuto = SousFamille::create(['nomSousFam' => 'Véhicules Légers', 'famille_id' => $f3->id]);
+        $familles = [];
+        $sousFamilles = [];
+
+        foreach ($data as $item) {
 
 
-        Materiel::create([
-            'nom' => 'MacBook Pro M2 - IT01',
-            'description' => 'Poste développeur principal',
-            'unite_id' => $u1->id,
-            'sous_famille_id' => $sfPc->id,
-            'status' => 'Disponible',
-            'date_maintenance' => now()->addDays(7)->toDateString()
-        ]);
+            $famName = trim($item['Famille']);
 
-        Materiel::create([
-            'nom' => 'Dell Latitude 5430',
-            'description' => 'Ordinateur de gestion',
-            'unite_id' => $u1->id,
-            'sous_famille_id' => $sfPc->id,
-            'status' => 'Sorti',
-            'date_maintenance' => now()->addMonths(6)->toDateString()
-        ]);
+            if (!isset($familles[$famName])) {
+                $familles[$famName] = Famille::create([
+                    'nomFam' => $famName
+                ]);
+            }
 
-        Materiel::create([
-            'nom' => 'HP Laserjet Pro 400',
-            'description' => 'Bourrage papier fréquent',
-            'unite_id' => $u2->id,
-            'sous_famille_id' => $sfImp->id,
-            'status' => 'En panne',
-            'date_maintenance' => now()->subDays(5)->toDateString()
-        ]);
+            $famille = $familles[$famName];
 
-        Materiel::create([
-            'nom' => 'Table de réunion Oval',
-            'description' => 'Salle de conférence A',
-            'unite_id' => $direction->id,
-            'sous_famille_id' => $sfBureau->id,
-            'status' => 'Disponible'
-        ]);
 
-        for ($i = 1; $i <= 6; $i++) {
+            $sfName = trim($item['Sous famille']);
+            $key = $famName . '|' . $sfName;
+
+            if (!isset($sousFamilles[$key])) {
+                $sousFamilles[$key] = SousFamille::create([
+                    'nomSousFam' => $sfName,
+                    'famille_id' => $famille->id
+                ]);
+            }
+
+            $sousFamille = $sousFamilles[$key];
+
+
+            $unite = collect([$direction, $logistique, $etatMajor, $caserneCasa, $centreFormation])->random();
+
             Materiel::create([
-                'nom' => "Chaise Herman Miller #0$i",
-                'description' => "Lot de chaises confort luxe",
-                'unite_id' => $direction->id,
-                'sous_famille_id' => $sfChaise->id,
+                'nom' => trim($item['Article']),
+                'description' => 'Matériel opérationnel',
+                'unite_id' => $unite->id,
+                'sous_famille_id' => $sousFamille->id,
                 'status' => 'Disponible'
             ]);
         }
-
-        Materiel::create([
-            'nom' => 'Dacia Duster - Service',
-            'description' => 'Révision des 50.000 km',
-            'unite_id' => $uLogistique->id,
-            'sous_famille_id' => $sfAuto->id,
-            'status' => 'Maintenance',
-            'date_maintenance' => now()->addDays(7)->toDateString()
-        ]);
     }
 
 }

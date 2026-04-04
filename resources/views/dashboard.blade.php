@@ -1,40 +1,49 @@
 @extends('layouts.app')
 
+@section('title', 'Tableau de Bord')
+
 @section('content')
 
     <div class="mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h1 class="display-6 fw-normal text-secondary d-inline">Statistiques</h1>
+
+        <div class="d-flex mb-4">
+            <h1 class="display-6 fw-normal text-secondary">Statistiques</h1>
+        </div>
+
+        <div class="card shadow-sm pb-lg-4 pb-5 pt-3">
+            <div class="card-body">
+
+                <div class="row gy-4">
+                    <div class="col-lg-6" style="position: relative; height: 350px;">
+                        <h2 class="h2 fw-normal text-center text-muted">{{ $totalMateriels }} équipements au total</h2>
+                        <canvas id="statusChart" class="mb-4 mb-lg-5"></canvas>
+                    </div>
+                    <div class="col-lg-6" style="position: relative; height: 350px;">
+                        <hr class="d-lg-none">
+                        <h2 class="h2 fw-normal text-center text-muted">{{ $totalUnites }} unites au total</h2>
+                        <canvas id="unitesChart" class="mb-5"></canvas>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <div class="card shadow-sm border-0 pb-lg-4 pb-5 pt-3">
-            <div class="card-body row gy-4">
-                <div class="col-lg-6" style="position: relative; height: 350px;">
-                    <h2 class="h2 fw-normal text-center text-muted">{{ $totalMateriels }} équipements au total</h2>
-                    <canvas id="statusChart" class="mb-4 mb-lg-5"></canvas>
-                </div>
-                <div class="col-lg-6" style="position: relative; height: 350px;">
-                    <hr class="d-lg-none">
-                    <h2 class="h2 fw-normal text-center text-muted">{{ $totalUnites }} unites au total</h2>
-                    <canvas id="unitesChart" class="mb-5"></canvas>
-                </div>
+        <br>
 
-            </div>
-        </div>
+        <div class="card shadow-sm pb-lg-4 pb-5 pt-3">
 
-        <div class="card shadow-sm border-0 pb-lg-4 pb-5">
-            <div class="card-body row gy-4">
-                <div class="col-lg-6" style="position: relative; height: 350px;">
-                    <hr class="d-lg-none">
-                    <h2 class="h2 fw-normal text-center text-muted">fréquence d’usage</h2>
-                    <canvas id="usageChart" class="mb-4 mb-lg-5"></canvas>
-                </div>
-                <div class="col-lg-6" style="position: relative; height: 350px;">
-                    <hr class="d-lg-none">
-                    <h2 class="h2 fw-normal text-center text-muted">Pannes fréquentes</h2>
-                    <canvas id="pannesChart" class="mb-5"></canvas>
+            <div class="card-body">
+
+                <div class="row gy-4">
+                    <div class="col-lg-6" style="position: relative; height: 350px;">
+                        <h2 class="h2 fw-normal text-center text-muted">fréquence d’usage</h2>
+                        <canvas id="usageChart" class="mb-4 mb-lg-5"></canvas>
+                    </div>
+                    <div class="col-lg-6" style="position: relative; height: 350px;">
+                        <hr class="d-lg-none">
+                        <h2 class="h2 fw-normal text-center text-muted">Pannes fréquentes</h2>
+                        <canvas id="pannesChart" class="mb-5"></canvas>
+                    </div>
                 </div>
 
             </div>

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Ajouter une Famille')
+
 @section('content')
 
     <div class="container">

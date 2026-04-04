@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Ajouter une Unite')
+
 @section('content')
 
     <div class="container">

@@ -1,5 +1,7 @@
 @extends("layouts.app")
 
+@section('title', 'Enregistrer un Mouvement')
+
 @section("content")
 
     <div class="container">

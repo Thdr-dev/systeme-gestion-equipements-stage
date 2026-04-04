@@ -37,12 +37,28 @@
                 <div class="row gy-4">
                     <div class="col-lg-6" style="position: relative; height: 350px;">
                         <h2 class="h2 fw-normal text-center text-muted">fréquence d’usage</h2>
-                        <canvas id="usageChart" class="mb-4 mb-lg-5"></canvas>
+                        @if(count($frequenceUsage) > 0)
+                            <canvas id="usageChart" class="mb-4 mb-lg-5"></canvas>
+                        @else
+                            <div class="h-100 d-flex align-items-center justify-content-center">
+                                <p class="display-6 fs-2 text-secondary">
+                                    Aucune donnée disponible pour le moment
+                                </p>
+                            </div>
+                        @endif
                     </div>
                     <div class="col-lg-6" style="position: relative; height: 350px;">
                         <hr class="d-lg-none">
                         <h2 class="h2 fw-normal text-center text-muted">Pannes fréquentes</h2>
-                        <canvas id="pannesChart" class="mb-5"></canvas>
+                        @if(count($pannesFrequentes) > 0)
+                            <canvas id="pannesChart" class="mb-5"></canvas>
+                        @else
+                            <div class="h-100 d-flex align-items-center justify-content-center">
+                                <p class="display-6 fs-2 text-secondary">
+                                    Aucune panne enregistrée pour le moment
+                                </p>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

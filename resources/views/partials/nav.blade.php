@@ -88,6 +88,7 @@
         @section("notification-script")
 
             <script>
+                const notifSound = new Audio("/notification.mp3");
                 let lastCount = {{ auth()->user()->unreadNotifications->count() }};
 
                 function fetchNotifications() {
@@ -126,6 +127,7 @@
 
                                 const bellIcon = document.getElementById('bell').firstElementChild;
                                 bellIcon.classList.add('fa-shake', 'text-warning');
+                                notifSound.play();
                                 setTimeout(() => {
                                     bellIcon.classList.remove('fa-shake', 'text-warning');
                                 }, 2000);
@@ -136,8 +138,13 @@
                             console.warn("Polling arrêté :", err.message);
                         });
                 }
-                fetchNotifications();
-                setInterval(fetchNotifications, 15000);
+                
+                window.addEventListener('load', function() {
+                    window.Echo.private(`App.Models.User.{{ auth()->id() }}`)
+                        .notification((notification) => {
+                            fetchNotifications();    
+                        });
+                });
                 
             </script>
         

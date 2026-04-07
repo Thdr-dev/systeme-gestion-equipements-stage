@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -22,8 +23,8 @@ class MaterielNotification extends Notification{
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array{
-        return ['database'];
+    public function via(object $notifiable): array {
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -48,5 +49,13 @@ class MaterielNotification extends Notification{
             'link' => $this->data['link'],
             'type' => $this->data['type'],
         ];
+    }
+
+    public function toBroadcast(object $notifiable): BroadcastMessage {
+        return new BroadcastMessage([
+            'message' => $this->data['message'],
+            'type'    => $this->data['type'],
+            'count'   => $notifiable->unreadNotifications()->count() + 1, // On anticipe le nouveau compte
+        ]);
     }
 }

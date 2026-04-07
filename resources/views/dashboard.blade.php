@@ -87,7 +87,7 @@
                                         @elseif($isToday)
                                             <span class="badge rounded-pill bg-warning">AUJOURD'HUI</span>
                                         @else
-                                            <span class="badge rounded-pill bg-primary">PROCHE</span>
+                                            <span class="badge rounded-pill bg-primary">IMMINENT</span>
                                         @endif
                                     </td>
                                     <td>

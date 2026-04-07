@@ -54,7 +54,7 @@
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold">Date maintenance</label>
-                                        <input id="date_maintenance" type="date" class="form-control" name="date_maintenance" value="{{ old('date_maintenance', $materiel->date_maintenance) }}">
+                                        <input id="date_maintenance" type="date" class="form-control" name="date_maintenance" value="{{ old('date_maintenance', optional($materiel->date_maintenance)->format('Y-m-d')) }}">
                                         @error('date_maintenance')
                                             <div class="form-text text-danger ps-2">{{ $message }}</div>
                                         @enderror

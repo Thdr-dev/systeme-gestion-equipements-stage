@@ -22,17 +22,33 @@ Schedule::call(function () {
                         ->get();
 
     foreach ($proches as $m) {
-        $label = "PROCHE"; $color = "blue";
-        if ($m->date_maintenance->lt($today)) { $label = "RETARD"; $color = "red"; }
-        elseif ($m->date_maintenance->equalTo($today)) { $label = "AUJOURD'HUI"; $color = "orange"; }
+        $label = "IMMINENT";
+        $color = "#17a2b8";
+        
+        if( $m->date_maintenance->lt($today) ) { 
+            $label = "RETARD"; $color = "#dc3545";
+        } elseif ($m->date_maintenance->equalTo($today)) { 
+            $label = "AUJOURD'HUI"; $color = "#fd7e14";
+        }
 
         $data = [
             'message' => "<span class='fw-bold' style='color: $color'>[$label] Maintenance : " . $m->nom . " (Échéance : " . $m->date_maintenance->format('d/m/Y') . ")</span>",
             'link' => route('materiels.show', $m),
-            'type' => 'maintenance'
+            'type' => 'maintenance',
+            'materiel_id' => $m->id
         ];
 
-        foreach ($admins as $admin) { $admin->notify(new MaterielNotification($data)); }
+        foreach ($admins as $admin) {
+            $alreadyNotified = $admin->unreadNotifications()
+                ->where('data->materiel_id', $m->id)
+                ->where('data->type', 'maintenance')
+                ->whereDate('created_at', $today)
+                ->exists();
+
+            if (!$alreadyNotified) {
+                $admin->notify(new MaterielNotification($data));
+            }
+        }
     }
 
     $retardsRetour = Materiel::where('status', 'Maintenance')
@@ -43,10 +59,21 @@ Schedule::call(function () {
         $data = [
             'message' => "<span class='fw-bold' style='color: #dc3545;'>⚠️ RETARD RETOUR : " . $m->nom . " (Prévu le : " . $m->delai_maintenance->format('d/m/Y') . ")</span>",
             'link' => route('materiels.show', $m),
-            'type' => 'retard_maintenance'
+            'type' => 'retard_maintenance',
+            'materiel_id' => $m->id
         ];
 
-        foreach ($admins as $admin) { $admin->notify(new MaterielNotification($data)); }
+        foreach ($admins as $admin) {
+             $alreadyNotified = $admin->unreadNotifications()
+                ->where('data->materiel_id', $m->id)
+                ->where('data->type', 'retard_maintenance')
+                ->whereDate('created_at', $today)
+                ->exists();
+
+            if (!$alreadyNotified) {
+                $admin->notify(new MaterielNotification($data));
+            }
+        }
     }
 
 })->dailyAt('10:00')->timezone("Africa/Casablanca");

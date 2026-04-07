@@ -72,8 +72,21 @@
 
                                     <div class="col-lg-6 mb-3">
                                         <label class="text-uppercase small fw-bold text-muted d-block">Maintenance Préventive</label>
-                                        <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary {{ ($materiel->date_maintenance && $materiel->date_maintenance < now()) ? 'text-danger fw-bold' : '' }}">
-                                            <i class="fas fa-tools text-primary me-2"></i>{{ $materiel->date_maintenance ? $materiel->date_maintenance->format('d/m/Y') : 'Non définie' }}
+                                        
+                                        @php
+                                            $date = $materiel->date_maintenance;
+                                            $statusColor = 'light text-dark';
+                                            if($date) {
+                                                if($date->isPast() && !$date->isToday()) $statusColor = 'danger text-white';
+                                                elseif($date->isToday()) $statusColor = 'warning text-dark';
+                                                elseif($date->diffInDays(now()) <= 7) $statusColor = 'info text-secondary';
+                                                else $statusColor = 'success text-white';
+                                            }
+                                        @endphp
+
+                                        <span class="badge bg-{{ $statusColor }} mt-2 p-2 fs-6 ms-2">
+                                            <i class="fas fa-tools me-2"></i>
+                                            {{ $date ? $date->format('d/m/Y') : 'Non définie' }}
                                         </span>
                                     </div>
 

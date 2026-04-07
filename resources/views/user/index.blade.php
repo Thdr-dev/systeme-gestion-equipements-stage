@@ -34,6 +34,7 @@
                             <th class="bg-primary text-secondary">Nom</th>
                             <th class="bg-primary text-secondary">Prenom</th>
                             <th class="bg-primary text-secondary">Email</th>
+                            <th class="bg-primary text-secondary">Unite</th>
                             <th class="bg-primary text-secondary">Role</th>
                             <th class="bg-primary text-secondary">Actions</th>
                         </tr>
@@ -44,6 +45,7 @@
                                 <td>{{ $user->nom }}</td>
                                 <td>{{ $user->prenom }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td><span class="badge bg-info text-dark">{{ $user->unite->nom }}</span></td>
                                 <td>
                                     <span class="badge py-2 rounded-pill text-bg-{{ $user->isAdmin ? 'success' : 'warning' }}">
                                         {{ $user->isAdmin ? "Admin" : "Operateur" }}

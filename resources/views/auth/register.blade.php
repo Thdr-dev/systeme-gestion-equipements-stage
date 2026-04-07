@@ -62,6 +62,18 @@
                         </div>
 
                         <div class="mb-3">
+                            <label class="form-label">Unite</label>
+                            <select class="form-select" name="unite_id">
+                                @foreach($unites as $unite)
+                                    <option value="{{ $unite->id }}">{{ $unite->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('unite_id')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <input id="checkbox" type="checkbox" name="admin" value="admin" class="form-check-input border-dark" >
                             <label for="checkbox" class="form-check-label">Marque comme admin</label>
                             @error('admin')

@@ -23,10 +23,12 @@ class MaterielController implements HasMiddleware{
     }
 
     public function index(Request $request) {
-        $query = Materiel::with(['unite', 'sousFamille.famille']);
         $user = Auth::user();
+        $query = Materiel::with(['unite', 'sousFamille.famille']);
 
         if (!$user->isAdmin) {
+            $query->where('unite_id', $user->unite_id);
+
             $query->where(function($q) use ($user) {
                 $q->where('status', 'Disponible')
                 ->orWhere(function($sub) use ($user) {
@@ -37,27 +39,26 @@ class MaterielController implements HasMiddleware{
                         });
                 });
             });
-            if ($request->filled('status')) {
-                $query->where('status', $request->status);
-            }
+        }
 
-        } else {
-            if ($request->filled('status')) {
-                $query->where('status', $request->status);
-            }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         if ($request->filled('search')) {
             $query->where('nom', 'like', "%{$request->search}%");
         }
 
-        if ($request->filled('unite_id')) $query->where('unite_id', $request->unite_id);
+        if($user->isAdmin && $request->filled('unite_id')){
+            $query->where('unite_id', $request->unite_id);            
+        }
 
         if ($request->filled('sous_famille_id')) $query->where('sous_famille_id', $request->sous_famille_id);
 
         $materiels = $query->latest()->paginate(10)->appends($request->all());
         
-        $unites = Unite::orderBy("nom")->get();
+        $unites = $user->isAdmin ? Unite::orderBy("nom")->get() : collect([$user->unite]);
+        
         $sousFamilles = SousFamille::with('famille')->orderBy("nomSousFam")->get();
         
         return view('materiels.index', compact('materiels', 'unites', 'sousFamilles'));
@@ -98,6 +99,13 @@ class MaterielController implements HasMiddleware{
     }
 
     public function show(Materiel $materiel){
+        if( !Auth::user()->isAdmin ){
+            if ($materiel->unite_id !== Auth::user()->unite_id) {
+                return redirect()->route('materiels.index')
+                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
+            }
+        }
+        
         $materiel->load(['unite', 'sousFamille.famille']);
         
         return view('materiels.show', compact('materiel'));

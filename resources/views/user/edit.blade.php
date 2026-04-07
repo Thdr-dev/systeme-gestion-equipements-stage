@@ -61,6 +61,18 @@
                         </div>
 
                         <div class="mb-3">
+                            <label class="form-label">Unite</label>
+                            <select class="form-select" name="unite_id">
+                                @foreach($unites as $unite)
+                                    <option value="{{ $unite->id }}" @selected($user->unite_id == $unite->id) >{{ $unite->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('unite_id')
+                                <div class="form-text text-danger ps-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <label class="form-label">Status</label>
                             <select class="form-select" name="status">
                                 <option value="admin" @selected($user->isAdmin === 1)>Admin</option>

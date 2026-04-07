@@ -14,7 +14,6 @@ Artisan::command('inspire', function () {
 
 
 Schedule::call(function () {
-    $admins = User::where('isAdmin', true)->get();
     $today = now()->startOfDay();
 
     $proches = Materiel::whereDate('date_maintenance', '<=', now()->addDays(7)->toDateString())
@@ -22,9 +21,7 @@ Schedule::call(function () {
                         ->get();
 
     foreach ($proches as $m) {
-        $label = "IMMINENT";
-        $color = "#17a2b8";
-        
+        $label = "IMMINENT"; $color = "#17a2b8";
         if( $m->date_maintenance->lt($today) ) { 
             $label = "RETARD"; $color = "#dc3545";
         } elseif ($m->date_maintenance->equalTo($today)) { 
@@ -38,7 +35,11 @@ Schedule::call(function () {
             'materiel_id' => $m->id
         ];
 
-        foreach ($admins as $admin) {
+        $adminsConcernes = User::where('isAdmin', true)
+                                ->where('unite_id', $m->unite_id)
+                                ->get();
+
+        foreach ($adminsConcernes as $admin) {
             $alreadyNotified = $admin->unreadNotifications()
                 ->where('data->materiel_id', $m->id)
                 ->where('data->type', 'maintenance')
@@ -63,7 +64,11 @@ Schedule::call(function () {
             'materiel_id' => $m->id
         ];
 
-        foreach ($admins as $admin) {
+        $adminsConcernes = User::where('isAdmin', true)
+                                ->where('unite_id', $m->unite_id)
+                                ->get();
+
+        foreach ($adminsConcernes as $admin) {
              $alreadyNotified = $admin->unreadNotifications()
                 ->where('data->materiel_id', $m->id)
                 ->where('data->type', 'retard_maintenance')

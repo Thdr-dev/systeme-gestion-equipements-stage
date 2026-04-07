@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unite;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -54,8 +55,9 @@ class AuthController extends Controller{
         ->onlyInput("email", "password");
     }
 
-    public function showRegister() { 
-        return view('auth.register'); 
+    public function showRegister() {
+        $unites = Unite::orderBy('nom')->get();
+        return view('auth.register', compact('unites')); 
     }
 
     public function register(Request $request) {
@@ -72,15 +74,18 @@ class AuthController extends Controller{
                     ->numbers()  
                     ->symbols()  
             ],
-            'admin' => 'nullable'
+            'admin' => 'nullable',
+            'unite_id' => 'required|exists:unites,id'
         ]);
+        
         try{
             User::create([
                 'nom' => $fields['nom'],
                 'prenom' => $fields['prenom'],
                 'email' => $fields['email'],
                 'password' => Hash::make($fields['password']),
-                'isAdmin' => $request->admin === 'admin' 
+                'isAdmin' => $request->admin === 'admin',
+                'unite_id' => $fields['unite_id']
             ]);
 
             return redirect()->route("users.index")->with("message-success", "Le compte est créé !");
@@ -118,7 +123,8 @@ class AuthController extends Controller{
     }
 
     public function editUser(User $user){
-        return view("user.edit", compact("user"));
+        $unites = Unite::orderBy('nom')->get();
+        return view("user.edit", compact("user", "unites"));
     }
 
     public function updateUser(Request $request, User $user) {
@@ -139,7 +145,8 @@ class AuthController extends Controller{
                     ->numbers()  
                     ->symbols()
             ],
-            'status' => 'required|in:admin,operateur'
+            'status' => 'required|in:admin,operateur',
+            'unite_id' => 'required|exists:unites,id'
         ]);
 
         try {
@@ -159,7 +166,7 @@ class AuthController extends Controller{
 
 
             unset($inputFields['status']);
-            
+
             $user->update($inputFields);
 
             return redirect()->route("users.index")

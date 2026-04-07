@@ -26,16 +26,18 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-2 col-md-6">
-                        <select name="unite_id" class="search-input form-select">
-                            <option value="">Toutes les Unités</option>
-                            @foreach($unites as $unite)
-                                <option value="{{ $unite->id }}" @selected(request('unite_id') == $unite->id) >{{ $unite->nom }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if(Auth::user()->isAdmin)
+                        <div class="col-lg-2 col-md-6">
+                            <select name="unite_id" class="search-input form-select">
+                                <option value="">Toutes les Unités</option>
+                                @foreach($unites as $unite)
+                                    <option value="{{ $unite->id }}" @selected(request('unite_id') == $unite->id) >{{ $unite->nom }} {{ Auth::user()->unite_id == $unite->id ? '( Ma Caserne )' : '' }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
 
-                    <div class="col-lg-2 col-md-6">
+                    <div class="{{ Auth::user()->isAdmin ? 'col-lg-2 col-md-6' : 'col-lg-3 col-md-6' }}">
                         <select name="status" class="search-input form-select">
                             @if(Auth::user()->isAdmin)
                                 <option value="">Tous les statuts</option>
@@ -43,14 +45,14 @@
                                     <option value="{{ $status }}" @selected(request('status') == $status)>{{ $status }}</option>
                                 @endforeach
                             @else
-                                <option value="">Tous mes accès</option>
+                                <option value="">Tous les statuts</option>
                                 <option value="Disponible" @selected(request('status') == 'Disponible')>Disponible</option>
                                 <option value="Sorti" @selected(request('status') == 'Sorti')>Sorties</option>
                             @endif
                         </select>
                     </div>
                     
-                    <div class="col-lg-2 col-md-6">
+                    <div class="{{ Auth::user()->isAdmin ? 'col-lg-2 col-md-6' : 'col-lg-3 col-md-6' }}">
                         <select name="sous_famille_id" class="search-input form-select">
                             <option value="">Tous les Categories</option>
                             @foreach($sousFamilles as $sousFam)
@@ -59,7 +61,7 @@
                         </select>
                     </div>
 
-                    <div class="col-lg-2 d-grid">
+                    <div class="{{ Auth::user()->isAdmin ? 'col-lg-2 col-md-6' : 'col-lg-2 col-md-6' }}">
                         <a class="btn btn-secondary m-0 border-0 w-100" href="{{ route("materiels.index") }}">Reset</a>
                     </div>
 

@@ -19,6 +19,10 @@ class MouvementController extends Controller{
     protected function checkUserPermission(Materiel $materiel){
         $user = Auth::user();
         if (!$user->isAdmin) {
+            if ($materiel->unite_id !== Auth::user()->unite_id) {
+                return redirect()->route('materiels.index')
+                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
+            }
             
             if (in_array($materiel->status, ['En panne', 'Maintenance'])) {
                 return redirect()->route('materiels.index')
@@ -149,7 +153,11 @@ class MouvementController extends Controller{
                     'delai_maintenance' => $delaiMaint ? $delaiMaint : $materiel->delai_maintenance,
                 ]);
                 
-                $admins = User::where('isAdmin', true)->get();
+                $admins = User::where('isAdmin', true)
+                        ->where(function($q) use ($destinationId) {
+                            $q->where('unite_id', $destinationId);
+                        })->get();
+                        
                 $newUniteNom = Unite::findOrFail($destinationId)->nom;
 
                 $data = [
@@ -159,7 +167,9 @@ class MouvementController extends Controller{
                 ];
 
                 foreach ($admins as $admin) {
-                    $admin->notify(new MaterielNotification($data));
+                    if ($admin->id !== $user->id) {
+                        $admin->notify(new MaterielNotification($data));
+                    }
                 }
             });
 
@@ -170,4 +180,5 @@ class MouvementController extends Controller{
             ->withErrors(['error' => 'Une erreur est survenue lors de la enregistrement d\'un mouvement. Veuillez réessayer.']);
         }
     }
+    
 }

@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'isAdmin',
+        'unite_id',
     ];
 
     /**
@@ -36,6 +37,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function unite(){
+        return $this->belongsTo(Unite::class);
+    }
 
     /**
      * Get the attributes that should be cast.

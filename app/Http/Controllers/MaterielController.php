@@ -112,10 +112,8 @@ class MaterielController implements HasMiddleware{
     }
 
     public function edit(Materiel $materiel){
-        if($materiel->unite_id != Auth::user()->unite_id){
-            return redirect()->route('materiels.index')
-                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
-        }
+        $check = $this->checkAdminPermission($materiel);
+        if ($check !== true) return $check;
 
         $unites = Unite::all();
         $sousFamilles = SousFamille::all();
@@ -124,10 +122,8 @@ class MaterielController implements HasMiddleware{
     }
 
     public function update(Request $request, Materiel $materiel){
-        if($materiel->unite_id != Auth::user()->unite_id){
-            return redirect()->route('materiels.index')
-                ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
-        }
+        $check = $this->checkAdminPermission($materiel);
+        if ($check !== true) return $check;
         
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
@@ -153,11 +149,9 @@ class MaterielController implements HasMiddleware{
         }
     }
 
-    public function destroy(Materiel $materiel){
-        if($materiel->unite_id != Auth::user()->unite_id){
-            return redirect()->route('materiels.index')
-                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
-        }
+        public function destroy(Materiel $materiel){
+        $check = $this->checkAdminPermission($materiel);
+        if ($check !== true) return $check;
         
         try{
             $materiel->delete(); 
@@ -167,4 +161,12 @@ class MaterielController implements HasMiddleware{
         }
     }
 
+    public function checkAdminPermission(Materiel $materiel){
+        if($materiel->unite_id != Auth::user()->unite_id){
+            return redirect()->route('materiels.index')
+                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
+        }
+        return true;
+    }
+    
 }

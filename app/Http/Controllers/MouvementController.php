@@ -44,33 +44,32 @@ class MouvementController extends Controller{
     }
 
     public function create(Materiel $materiel) {
-        $allowedOrRedirect = $this->checkUserPermission( $materiel );
+        $check = $this->checkUserPermission($materiel);
+        if ($check !== true) return $check;
 
-        if($allowedOrRedirect === true){
-            $unites = Unite::all();
-            return view("mouvement.create", compact('materiel', 'unites'));
-        }
-        return $allowedOrRedirect;
+        $unites = Unite::all();
+        return view("mouvement.create", compact('materiel', 'unites'));
+        
     }
 
     public function declarePanne(Materiel $materiel){
-        $allowedOrRedirect = $this->checkUserPermission( $materiel );
-        
+        $check = $this->checkUserPermission($materiel);
+        if ($check !== true) return $check;
+
         if(Auth::user()->isAdmin){
             if ($materiel->status === 'En panne') {
                     return redirect()->route('materiels.index')
                         ->withErrors(['message-error'=> "Ce matériel est deja {$materiel->status}."]);
             }
         }
-
-        if($allowedOrRedirect === true){
-            $unites = Unite::all();
-            return view("mouvement.declarePanne", compact('materiel', 'unites'));
-        }
-        return $allowedOrRedirect;
+        
+        $unites = Unite::all();
+        return view("mouvement.declarePanne", compact('materiel', 'unites'));
+        
     }
 
     public function store(Request $request){
+        
 
         $request->validate([
             'materiel_id' => 'required|exists:materiels,id',
@@ -82,6 +81,10 @@ class MouvementController extends Controller{
 
         try{
             $materiel = Materiel::findOrFail($request->materiel_id);
+            
+            $check = $this->checkUserPermission($materiel);
+            if ($check !== true) return $check;
+
             $user = Auth::user();
 
             if($user->isAdmin && $request->type !== "Retour"){

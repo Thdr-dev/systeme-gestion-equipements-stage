@@ -12,7 +12,7 @@
         
         <div class="row mb-4 g-2 gy-3">
             <div class="col-md-3">
-                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Disponible', 'unite_id' => Auth::user()->unite_id]) }}">
+                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Disponible']) }}">
                     <div class="card bg-success text-white shadow-sm border-0">
                         <div class="card-body">
                             <h6 class="card-title opacity-75">Disponible</h6>
@@ -22,7 +22,7 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Maintenance', 'unite_id' => Auth::user()->unite_id]) }}">
+                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Maintenance']) }}">
                     <div class="card bg-info text-white shadow-sm border-0">
                         <div class="card-body">
                             <h6 class="card-title opacity-75">En Maintenance</h6>
@@ -32,7 +32,7 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Sorti', 'unite_id' => Auth::user()->unite_id]) }}">
+                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Sorti']) }}">
                     <div class="card bg-warning text-dark shadow-sm border-0">
                         <div class="card-body">
                             <h6 class="card-title opacity-75">Sorti</h6>
@@ -42,7 +42,7 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'En panne', 'unite_id' => Auth::user()->unite_id]) }}">
+                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'En panne']) }}">
                     <div class="card bg-danger text-white shadow-sm border-0">
                         <div class="card-body">
                             <h6 class="card-title opacity-75">En Panne</h6>

@@ -27,7 +27,7 @@
                             <select name="unite_id" class="form-select @error('unite_id') is-invalid @enderror">
                                 <option value="">Choisir...</option>
                                 @foreach($unites as $unite)
-                                    <option value="{{ $unite->id }}">{{ $unite->nom }} ({{ $unite->ville }})</option>
+                                    <option @selected( $unite->id == Auth::user()->unite_id ) value="{{ $unite->id }}">{{ $unite->nom }} ({{ $unite->ville }})</option>
                                 @endforeach
                             </select>
                             @error('unite_id')

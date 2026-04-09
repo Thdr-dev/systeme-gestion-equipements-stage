@@ -7,7 +7,51 @@
     <div class="mt-5">
 
         <div class="d-flex mb-4">
-            <h1 class="display-6 fw-normal text-secondary">Statistiques</h1>
+            <h1 class="display-6 fw-normal text-secondary">Statistiques <span class="fs-2 text-dark"> - {{ Auth::user()->unite->nom }}</span></h1>
+        </div>
+        
+        <div class="row mb-4 g-2 gy-3">
+            <div class="col-md-3">
+                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Disponible', 'unite_id' => Auth::user()->unite_id]) }}">
+                    <div class="card bg-success text-white shadow-sm border-0">
+                        <div class="card-body">
+                            <h6 class="card-title opacity-75">Disponible</h6>
+                            <h3 class="mb-0">{{ $statusDistribution->get('Disponible', 0) }}</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Maintenance', 'unite_id' => Auth::user()->unite_id]) }}">
+                    <div class="card bg-info text-white shadow-sm border-0">
+                        <div class="card-body">
+                            <h6 class="card-title opacity-75">En Maintenance</h6>
+                            <h3 class="mb-0">{{ $enMaintenance }}</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'Sorti', 'unite_id' => Auth::user()->unite_id]) }}">
+                    <div class="card bg-warning text-dark shadow-sm border-0">
+                        <div class="card-body">
+                            <h6 class="card-title opacity-75">Sorti</h6>
+                            <h3 class="mb-0">{{ $statusDistribution->get('Sorti', 0) }}</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn w-100 m-0 p-0 text-start" href="{{ route('materiels.index', ['status' => 'En panne', 'unite_id' => Auth::user()->unite_id]) }}">
+                    <div class="card bg-danger text-white shadow-sm border-0">
+                        <div class="card-body">
+                            <h6 class="card-title opacity-75">En Panne</h6>
+                            <h3 class="mb-0">{{ $enPanne }}</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
         </div>
 
         <div class="card shadow-sm pb-lg-4 pb-5 pt-3">
@@ -15,12 +59,12 @@
 
                 <div class="row gy-4">
                     <div class="col-lg-6" style="position: relative; height: 350px;">
-                        <h2 class="h2 fw-normal text-center text-muted">{{ $totalMateriels }} équipements au total</h2>
+                        <h2 class="h2 fw-normal text-center text-muted">{{ $totalMateriels }} équipements au total dans la Caserne</h2>
                         <canvas id="statusChart" class="mb-4 mb-lg-5"></canvas>
                     </div>
                     <div class="col-lg-6" style="position: relative; height: 350px;">
                         <hr class="d-lg-none">
-                        <h2 class="h2 fw-normal text-center text-muted">{{ $totalUnites }} unites au total</h2>
+                        <h2 class="h2 fw-normal text-center text-muted">{{ $totalUnites }} unites au total ( tout les casernes )</h2>
                         <canvas id="unitesChart" class="mb-5"></canvas>
                     </div>
                 </div>

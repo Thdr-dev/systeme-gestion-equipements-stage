@@ -156,8 +156,8 @@ class MouvementController extends Controller{
                 ]);
                 
                 $admins = User::where('isAdmin', true)
-                        ->where(function($q) use ($destinationId) {
-                            $q->where('unite_id', $destinationId);
+                        ->where(function($q) use ($destinationId, $user) {
+                            $q->where('unite_id', $destinationId)->orWhere('unite_id', $user->unite_id);
                         })->get();
                         
                 $newUniteNom = Unite::findOrFail($destinationId)->nom;

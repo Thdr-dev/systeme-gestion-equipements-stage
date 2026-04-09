@@ -9,7 +9,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="mb-3">
-                    <a href="{{ route('materiels.index', Auth::user()->isAdmin ? ['unite_id' => Auth::user()->unite_id] : []) }}" class="btn btn-outline-secondary shadow-sm">
+                    <a href="{{ route('materiels.index') }}" class="btn btn-outline-secondary shadow-sm">
                         <i class="fas fa-arrow-left me-1"></i> Retour à la liste
                     </a>
                 </div>

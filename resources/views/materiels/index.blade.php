@@ -7,7 +7,7 @@
     <div class="mt-5">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="display-6 fw-normal text-secondary">List du Matériel</h1>
+            <h1 class="display-6 fw-normal text-secondary">List du Matériel  <span class="fs-2 text-dark"> - {{ Auth::user()->unite->nom }}</span></h1>
             @if(Auth::user()->isAdmin)
                 <a class="btn btn-outline-success" href="{{ route('materiels.create') }}">Ajouter un Matériel</a>
             @endif
@@ -26,7 +26,7 @@
                         </div>
                     </div>
 
-                    @if(Auth::user()->isAdmin)
+                    {{-- @if(Auth::user()->isAdmin)
                         <div class="col-lg-2 col-md-6">
                             <select name="unite_id" class="search-input form-select">
                                 <option value="">Toutes les Unités</option>
@@ -35,9 +35,9 @@
                                 @endforeach
                             </select>
                         </div>
-                    @endif
+                    @endif --}}
 
-                    <div class="{{ Auth::user()->isAdmin ? 'col-lg-2 col-md-6' : 'col-lg-3 col-md-6' }}">
+                    <div class="col-lg-3 col-md-6">
                         <select name="status" class="search-input form-select">
                             @if(Auth::user()->isAdmin)
                                 <option value="">Tous les statuts</option>
@@ -52,7 +52,7 @@
                         </select>
                     </div>
                     
-                    <div class="{{ Auth::user()->isAdmin ? 'col-lg-2 col-md-6' : 'col-lg-3 col-md-6' }}">
+                    <div class="col-lg-3 col-md-6">
                         <select name="sous_famille_id" class="search-input form-select">
                             <option value="">Tous les Categories</option>
                             @foreach($sousFamilles as $sousFam)
@@ -61,7 +61,7 @@
                         </select>
                     </div>
 
-                    <div class="{{ Auth::user()->isAdmin ? 'col-lg-2 col-md-6' : 'col-lg-2 col-md-6' }}">
+                    <div class="col-lg-2 col-md-6">
                         <a class="btn btn-secondary m-0 border-0 w-100" href="{{ route("materiels.index") }}">Reset</a>
                     </div>
 
@@ -76,7 +76,6 @@
                         <tr>
                             <th class="bg-primary text-secondary">Image</th>
                             <th class="bg-primary text-secondary">Nom</th>
-                            <th class="bg-primary text-secondary">Unité</th>
                             <th class="bg-primary text-secondary">Statut</th>
                             <th class="bg-primary text-secondary">Catégorie</th>
                             <th class="bg-primary text-secondary">Actions</th>
@@ -98,7 +97,6 @@
                                 <div class="fw-bold">{{ $item->nom }}</div>
                                 <small class="text-muted">{{ Str::limit($item->description, 30) }}</small>
                             </td>
-                            <td><span class="badge bg-info text-dark">{{ $item->unite->nom }}</span></td>
                             <td>
                                 <span class="badge {{ $item->status == 'Disponible' ? 'bg-success' : ($item->status == 'En panne' ? 'bg-danger' : 'bg-warning text-dark') }}">
                                     {{ $item->status }}

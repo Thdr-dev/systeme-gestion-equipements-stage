@@ -41,7 +41,7 @@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Category</label>
+                                        <label class="form-label fw-bold">Sous-Famille</label>
                                         <select name="sous_famille_id" class="form-select">
                                             @foreach($sousFamilles as $sf)
                                                 <option value="{{ $sf->id }}" @selected($materiel->sous_famille_id == $sf->id) >{{ $sf->nomSousFam }}</option>

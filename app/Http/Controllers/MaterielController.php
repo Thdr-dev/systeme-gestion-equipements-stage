@@ -26,8 +26,8 @@ class MaterielController implements HasMiddleware{
         $user = Auth::user();
         $query = Materiel::with(['unite', 'sousFamille.famille']);
 
+        $query->where('unite_id', $user->unite_id);
         if (!$user->isAdmin) {
-            $query->where('unite_id', $user->unite_id);
 
             $query->where(function($q) use ($user) {
                 $q->where('status', 'Disponible')
@@ -49,19 +49,19 @@ class MaterielController implements HasMiddleware{
             $query->where('nom', 'like', "%{$request->search}%");
         }
 
-        if($user->isAdmin && $request->filled('unite_id')){
-            $query->where('unite_id', $request->unite_id);            
-        }
+        // if($user->isAdmin && $request->filled('unite_id')){
+        //     $query->where('unite_id', $request->unite_id);            
+        // }
 
         if ($request->filled('sous_famille_id')) $query->where('sous_famille_id', $request->sous_famille_id);
 
         $materiels = $query->latest()->paginate(10)->appends($request->all());
         
-        $unites = $user->isAdmin ? Unite::orderBy("nom")->get() : collect([$user->unite]);
+        // $unites = $user->isAdmin ? Unite::orderBy("nom")->get() : collect([$user->unite]);
         
         $sousFamilles = SousFamille::with('famille')->orderBy("nomSousFam")->get();
         
-        return view('materiels.index', compact('materiels', 'unites', 'sousFamilles'));
+        return view('materiels.index', compact('materiels', 'sousFamilles'));
     }
 
     
@@ -78,7 +78,6 @@ class MaterielController implements HasMiddleware{
             'description' => 'nullable|string',
             'status' => 'required|in:Disponible,Sorti,En panne,Maintenance',
             'date_maintenance' => 'nullable|date|after:today',
-            'unite_id' => 'required|exists:unites,id',
             'sous_famille_id' => 'required|exists:sous_familles,id',
             'image' => 'nullable|image|max:2048',
         ]);
@@ -87,6 +86,7 @@ class MaterielController implements HasMiddleware{
             if ($request->hasFile('image')) {
                 $validated['image'] = $request->file('image')->store('materiels', 'public');
             }
+            $validated['unite_id'] = Auth::user()->unite_id;
 
             Materiel::create($validated);
 
@@ -112,6 +112,11 @@ class MaterielController implements HasMiddleware{
     }
 
     public function edit(Materiel $materiel){
+        if($materiel->unite_id != Auth::user()->unite_id){
+            return redirect()->route('materiels.index')
+                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
+        }
+
         $unites = Unite::all();
         $sousFamilles = SousFamille::all();
         
@@ -119,6 +124,11 @@ class MaterielController implements HasMiddleware{
     }
 
     public function update(Request $request, Materiel $materiel){
+        if($materiel->unite_id != Auth::user()->unite_id){
+            return redirect()->route('materiels.index')
+                ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
+        }
+        
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -144,6 +154,11 @@ class MaterielController implements HasMiddleware{
     }
 
     public function destroy(Materiel $materiel){
+        if($materiel->unite_id != Auth::user()->unite_id){
+            return redirect()->route('materiels.index')
+                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
+        }
+        
         try{
             $materiel->delete(); 
             return redirect()->route('materiels.index')->with('message-success', 'Matériel archivé.');
@@ -151,4 +166,5 @@ class MaterielController implements HasMiddleware{
             return back()->withErrors(['error' => 'Erreur lors de la suppression.']);
         }
     }
+
 }

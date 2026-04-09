@@ -22,20 +22,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Unité / Centre</label>
-                            <select name="unite_id" class="form-select @error('unite_id') is-invalid @enderror">
-                                <option value="">Choisir...</option>
-                                @foreach($unites as $unite)
-                                    <option @selected( $unite->id == Auth::user()->unite_id ) value="{{ $unite->id }}">{{ $unite->nom }} ({{ $unite->ville }})</option>
-                                @endforeach
-                            </select>
-                            @error('unite_id')
-                                <div class="form-text text-danger ps-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 mb-3">
+                        <div class="mb-3">
                             <label class="form-label fw-bold">Sous-Famille</label>
                             <select name="sous_famille_id" class="form-select @error('sous_famille_id') is-invalid @enderror">
                                 <option value="">Choisir...</option>

@@ -14,7 +14,7 @@
                 <ul class="navbar-nav me-auto">
 
                     <li class="nav-item">
-                        <a class="text-white nav-link {{ request()->routeIs('materiels.*', 'mouvements.*') ? (request()->routeIs('materiels.index') ? 'disabled text-secondary' : 'text-secondary' ) : '' }}" href="{{ route('materiels.index', Auth()->user()->isAdmin ? ["unite_id" => Auth()->user()->unite_id] : [] ) }}">
+                        <a class="text-white nav-link {{ request()->routeIs('materiels.*', 'mouvements.*') ? (request()->routeIs('materiels.index') ? 'disabled text-secondary' : 'text-secondary' ) : '' }}" href="{{ route('materiels.index') }}">
                             Liste Matériels
                         </a>
                     </li>

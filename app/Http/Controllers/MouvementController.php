@@ -19,11 +19,6 @@ class MouvementController extends Controller{
     protected function checkUserPermission(Materiel $materiel){
         $user = Auth::user();
         if (!$user->isAdmin) {
-            if ($materiel->unite_id !== Auth::user()->unite_id) {
-                return redirect()->route('materiels.index')
-                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
-            }
-            
             if (in_array($materiel->status, ['En panne', 'Maintenance'])) {
                 return redirect()->route('materiels.index')
                     ->withErrors(['message-error'=> "Ce matériel est en {$materiel->status}. Seul un administrateur peut modifier son état."]);
@@ -40,6 +35,10 @@ class MouvementController extends Controller{
                         ->withErrors(['message-error'=> "Ce matériel est déjà utilisé par un autre opérateur."]);
                 }
             }
+        }
+        if ($materiel->unite_id !== Auth::user()->unite_id) {
+                return redirect()->route('materiels.index')
+                    ->withErrors(['message-error'=> "Accès refusé : Ce matériel appartient à une autre unité opérationnelle."]);
         }
         return true;
     }

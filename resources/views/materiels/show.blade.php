@@ -9,7 +9,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="mb-3">
-                    <a href="{{ route('materiels.index') }}" class="btn btn-outline-secondary shadow-sm">
+                    <a href="{{ route('materiels.index', Auth::user()->isAdmin ? ['unite_id' => Auth::user()->unite_id] : []) }}" class="btn btn-outline-secondary shadow-sm">
                         <i class="fas fa-arrow-left me-1"></i> Retour à la liste
                     </a>
                 </div>
@@ -55,22 +55,22 @@
 
                                 <div class="row mb-4">
 
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="mb-3">
                                         <label class="text-uppercase small fw-bold text-muted d-block">Localisation (Unité)</label>
                                         <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary"><i class="fas fa-map-marker-alt text-primary me-2"></i>{{ $materiel->unite->nom }}</span>
                                     </div>
                                     
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="mb-3">
                                         <label class="text-uppercase small fw-bold text-muted d-block">Famille parente</label>
                                         <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary"><i class="fa-solid fa-table-cells-large text-primary me-2"></i>{{ $materiel->sousFamille->famille->nomFam }}</span>
                                     </div>
 
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="mb-3">
                                         <label class="text-uppercase small fw-bold text-muted d-block">Catégorie</label>
                                         <span class="ms-2 mt-2 fs-6 badge bg-info text-secondary"><i class="fa-solid fa-layer-group text-primary me-2"></i>{{ $materiel->sousFamille->nomSousFam }}</span>
                                     </div>
 
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="mb-3">
                                         <label class="text-uppercase small fw-bold text-muted d-block">Maintenance Préventive</label>
                                         
                                         @php

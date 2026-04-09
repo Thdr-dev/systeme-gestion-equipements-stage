@@ -65,7 +65,7 @@
                             <label class="form-label">Unite</label>
                             <select class="form-select" name="unite_id">
                                 @foreach($unites as $unite)
-                                    <option value="{{ $unite->id }}">{{ $unite->nom }}</option>
+                                    <option @selected( $unite->id == Auth::user()->unite_id ) value="{{ $unite->id }}">{{ $unite->nom }}</option>
                                 @endforeach
                             </select>
                             @error('unite_id')

@@ -14,21 +14,6 @@ use Illuminate\Support\Facades\Hash;
 class DatabaseSeeder extends Seeder{
 
     public function run(): void{
-        User::create([
-            'nom' => 'Admin',
-            'prenom' => 'System',
-            'email' => 'admin@test.com',
-            'password' => Hash::make('password'),
-            'isAdmin' => true,
-        ]);
-
-        User::create([
-            'nom' => 'User',
-            'prenom' => 'Operateur',
-            'email' => 'user@test.com',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
 
 
         $direction = Unite::create([
@@ -69,6 +54,25 @@ class DatabaseSeeder extends Seeder{
             'parent_id' => $etatMajor->id,
             'description' => 'Formation des agents et officiers'
         ]);
+
+        User::create([
+            'nom' => 'Admin',
+            'prenom' => 'System',
+            'email' => 'admin@test.com',
+            'password' => Hash::make('password'),
+            'isAdmin' => true,
+            'unite_id' => 1
+        ]);
+
+        User::create([
+            'nom' => 'User',
+            'prenom' => 'Operateur',
+            'email' => 'user@test.com',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+            'unite_id' => 1
+        ]);
+
 
 
 
